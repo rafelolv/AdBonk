@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="280" viewBox="0 0 1100 280" role="img" aria-labelledby="title description">
+  <title id="title">AdBonk — Bonk Twitch ads.</title>
+  <desc id="description">A purple banner with the AdBonk wordmark and a cartoon mallet knocking an ad tile sideways.</desc>
+  <defs>
+    <linearGradient id="background" x2="1" y2="1">
+      <stop stop-color="#201334"/>
+      <stop offset="1" stop-color="#38205b"/>
+    </linearGradient>
+    <clipPath id="banner-edge">
+      <rect width="1100" height="280" rx="24"/>
+    </clipPath>
+  </defs>
+  <rect width="1100" height="280" rx="24" fill="url(#background)"/>
+  <g clip-path="url(#banner-edge)">
+    <circle cx="990" cy="220" r="210" fill="#a970ff" opacity=".07"/>
+    <circle cx="970" cy="225" r="140" fill="#a970ff" opacity=".08"/>
+  </g>
+  <path d="M60 66h34" stroke="#b890ff" stroke-width="6" stroke-linecap="round"/>
+  <text x="60" y="149" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="82" font-weight="800" letter-spacing="-3">AdBonk<tspan fill="#ffd66e">.</tspan></text>
+  <text x="64" y="198" fill="#e0d2f5" font-family="Arial, Helvetica, sans-serif" font-size="27">Bonk Twitch ads.</text>
+  <g transform="translate(830 164) rotate(14)">
+    <rect x="-60" y="-38" width="120" height="80" rx="16" fill="#100a1b" opacity=".3" transform="translate(7 9)"/>
+    <rect x="-60" y="-38" width="120" height="80" rx="16" fill="#a970ff" stroke="#d4b6ff" stroke-width="3"/>
+    <text x="0" y="17" text-anchor="middle" fill="#211333" font-family="Arial, Helvetica, sans-serif" font-size="44" font-weight="800">AD</text>
+  </g>
+  <g transform="translate(938 79) rotate(34)">
+    <rect x="-10" y="0" width="20" height="108" rx="8" fill="#dc9b59"/>
+    <rect x="-10" y="8" width="20" height="15" fill="#b8753a"/>
+    <rect x="-58" y="-30" width="116" height="57" rx="12" fill="#ffd66e"/>
+    <rect x="-58" y="-30" width="21" height="57" rx="10" fill="#ffe9a6"/>
+    <rect x="37" y="-30" width="21" height="57" rx="10" fill="#ecb645"/>
+  </g>
+  <g fill="none" stroke="#ffd66e" stroke-width="5" stroke-linecap="round">
+    <path d="M784 89l-13-21M808 80l-2-25M764 109l-23-7"/>
+    <path d="M928 200l15 10M915 221l5 16" opacity=".65"/>
+  </g>
+</svg>
