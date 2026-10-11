@@ -1,46 +1,46 @@
-# TwitchLivre
+# TwitchClear
 
-Continuação independente de [TwitchAdSolutions, por pixeltris](https://github.com/pixeltris/TwitchAdSolutions), com a base atualizada do [fork de ryanbr](https://github.com/ryanbr/TwitchAdSolutions). Mantido por [rafelolv](https://github.com/rafelolv).
+An independent continuation of [TwitchAdSolutions by pixeltris](https://github.com/pixeltris/TwitchAdSolutions), based on the updated [ryanbr fork](https://github.com/ryanbr/TwitchAdSolutions). Maintained by [rafelolv](https://github.com/rafelolv).
 
-O foco inicial é o **vaft estável**: ele intercepta playlists de transmissão da Twitch e procura uma transmissão alternativa sem anúncios. Quando não encontra, pode remover segmentos de anúncios; isso pode causar pausa, buffering ou redução temporária de qualidade.
+The initial focus is **stable vaft**: it intercepts Twitch stream playlists and looks for an alternative stream without ads. If none is available, it may remove ad segments, which can cause pauses, buffering, or temporarily reduced quality.
 
-## Instalar no Tampermonkey
+## Install with Tampermonkey
 
-**Publicação pendente:** os links abaixo funcionarão depois que `rafelolv/TwitchLivre` receber o código. Para testar agora, use a instalação manual.
+**Publication pending:** the links below will work after the code is published to `rafelolv/TwitchClear`. Use manual installation to test locally now.
 
-1. Instale o [Tampermonkey](https://www.tampermonkey.net/) no navegador.
-2. No Chrome 138+ com Tampermonkey 5.3+, habilite **Permitir scripts de usuário** nos detalhes da extensão. O modo de desenvolvedor é uma alternativa; veja a [instrução oficial](https://www.tampermonkey.net/faq.php?q=Q209).
-3. Desative outras soluções específicas de bloqueio de anúncios da Twitch, incluindo scripts antigos e a regra `twitch.tv##+js(twitch-videoad)` se instalada no uBlock Origin. Use apenas uma variante de bloqueio deste projeto por vez.
-4. Após a publicação, abra [Instalar TwitchLivre — vaft estável](https://raw.githubusercontent.com/rafelolv/TwitchLivre/master/vaft/vaft.user.js) e confirme **Instalar**.
-5. Recarregue uma live da Twitch. No console (F12), procure `[AD DEBUG]` para confirmar o carregamento.
+1. Install [Tampermonkey](https://www.tampermonkey.net/) in your browser.
+2. For Chrome 138+ with Tampermonkey 5.3+, enable **Allow User Scripts** in the extension details. Developer Mode is an alternative; see the [official instructions](https://www.tampermonkey.net/faq.php?q=Q209).
+3. Disable other Twitch-specific ad blockers, including older scripts and the `twitch.tv##+js(twitch-videoad)` rule if installed in uBlock Origin. Run only one ad-blocking variant of this project at a time.
+4. After publication, open [Install TwitchClear — stable vaft](https://raw.githubusercontent.com/rafelolv/TwitchClear/master/vaft/vaft.user.js) and select **Install**.
+5. Reload a Twitch live stream. Look for `[AD DEBUG]` in the browser console (F12) to confirm that the script loaded.
 
-**Instalação manual agora:** no painel do Tampermonkey, clique em **Adicionar novo script**, apague o exemplo, cole todo o conteúdo de [`vaft/vaft.user.js`](vaft/vaft.user.js) e salve com Ctrl+S. Deixe o script ativado e recarregue a live. O arquivo termina em `.user.js`; a versão `-ublock-origin.js` não serve para o Tampermonkey. [Documentação oficial de instalação](https://www.tampermonkey.net/faq.php?q=Q102).
+**Manual installation now:** open the Tampermonkey dashboard, select **Add a new script**, delete the example, paste the complete contents of [`vaft/vaft.user.js`](vaft/vaft.user.js), and save with Ctrl+S. Keep the script enabled and reload the stream. Use the `.user.js` file; the `-ublock-origin.js` variant is not for Tampermonkey. See the [official installation documentation](https://www.tampermonkey.net/faq.php?q=Q102).
 
-`@updateURL` e `@downloadURL` apontam para este projeto. O Tampermonkey poderá buscar novas versões após a publicação; você também pode solicitar uma verificação no painel. Alterações locais no editor precisam ser salvas e seguidas de recarga da live.
+`@updateURL` and `@downloadURL` point to this project. Tampermonkey can check for new versions after publication; you can also request an update check from its dashboard. Save local edits and reload the stream to apply them.
 
-## Variantes
+## Variants
 
-| Arquivo | Uso |
+| File | Purpose |
 | --- | --- |
-| `vaft/vaft.user.js` | Principal, estável, ponto de partida para manutenção |
-| `vaft/vaft-ublock-origin.js` | Mesma família de lógica, formato para uBlock Origin |
-| `vaft/vaft_testing.user.js` | Experimental; testar separadamente |
-| `video-swap-new/` | Alternativa legada, preservada para comparação |
-| `strip/strip.user.js` | Estratégia de remoção de segmentos |
-| `vaft/twitch-brave-fix.user.js` | Complemento opcional para Brave; fora da instalação inicial |
+| `vaft/vaft.user.js` | Main stable script and starting point for maintenance |
+| `vaft/vaft-ublock-origin.js` | Corresponding variant for uBlock Origin |
+| `vaft/vaft_testing.user.js` | Experimental; test separately |
+| `video-swap-new/` | Legacy alternative retained for comparison |
+| `strip/strip.user.js` | Ad segment removal strategy |
+| `vaft/twitch-brave-fix.user.js` | Optional Brave companion, excluded from the initial setup |
 
-## Desenvolvimento
+## Development
 
-Requer Node.js 24. Não há dependências npm para validar a base:
+Requires Node.js 24. No npm dependencies are needed to validate the baseline:
 
 ```bash
 npm run check
 ```
 
-O comando verifica a sintaxe de todos os arquivos JavaScript e executa os testes herdados. Os testes do upstream usam cópias de funções e não substituem a validação do script real em uma live.
+This checks the syntax of every JavaScript file and runs the inherited tests. Upstream tests use copied functions and do not replace testing the actual script in a live stream.
 
-Consulte [a comparação da base](docs/BASELINE.md), [manutenção e publicação](docs/MAINTENANCE.md), [changelog histórico](CHANGELOG.md) e [diagnóstico do upstream](DEBUG.md). A [documentação original do ryanbr](docs/README-ryanbr.md) foi preservada como referência histórica; seus links de instalação apontam para o projeto dele.
+See the [baseline comparison](docs/BASELINE.md), [maintenance and publication guide](docs/MAINTENANCE.md), [historical changelog](CHANGELOG.md), and [upstream debugging guide](DEBUG.md). The [original ryanbr documentation](docs/README-ryanbr.md) is retained as a historical reference; its installation links point to that project.
 
-## Créditos e licença
+## Credits and license
 
-Histórico Git e licença MIT preservados. Créditos a pixeltris, ryanbr, cleanlock e demais colaboradores. As mudanças iniciais ajustam identidade, atualização, documentação e automação; o comportamento dos scripts foi importado sem alterações. Veja [LICENSE](LICENSE).
+Git history and the MIT license are preserved. Credit goes to pixeltris, ryanbr, cleanlock, and the other contributors. Initial changes cover project identity, update URLs, documentation, and automation; script behavior was imported unchanged. See [LICENSE](LICENSE).

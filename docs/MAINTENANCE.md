@@ -1,49 +1,49 @@
-# Manutenção e publicação
+# Maintenance and publication
 
-## Organização local
+## Local layout
 
-Na pasta pai há três checkouts completos:
+The parent directory contains three complete checkouts:
 
-- `upstream-pixeltris/`: original arquivado, para referência.
-- `upstream-ryanbr/`: fork consultado, para referência.
-- `TwitchLivre/`: projeto a ser mantido; faça as alterações aqui.
+- `upstream-pixeltris/`: the archived original, retained for reference.
+- `upstream-ryanbr/`: the inspected maintenance fork, retained for reference.
+- `TwitchClear/`: the project to maintain; make changes here.
 
-O TwitchLivre preserva o histórico e a branch `master`. Remotes: `origin` aponta para `git@github.com:rafelolv/TwitchLivre.git`; `ryanbr` e `pixeltris` apontam para as origens públicas. Configurar um remote não cria um repositório no GitHub.
+TwitchClear preserves Git history and the `master` branch. Remotes: `origin` points to `git@github.com:rafelolv/TwitchClear.git`; `ryanbr` and `pixeltris` point to the public source repositories. Configuring a remote does not create a GitHub repository.
 
-## Criar o repositório no GitHub
+## Create the GitHub repository
 
-A chave SSH autenticou como `rafelolv`. SSH autoriza operações Git, mas a criação do repositório exige a API autenticada ou o site. Não há `gh` nem autenticação de API configurada no ambiente inicial.
+The SSH key authenticated as `rafelolv`. SSH authorizes Git operations, but repository creation requires the authenticated API or GitHub website. Neither `gh` nor API authentication was configured in the initial environment.
 
-Opção simples: abra [GitHub — novo repositório](https://github.com/new), proprietário `rafelolv`, nome `TwitchLivre`, visibilidade pública. **Não inicialize README, licença ou .gitignore**: já estão no histórico local. Isso cria um projeto independente com histórico e créditos das origens.
+For an independent repository, open [GitHub — new repository](https://github.com/new), choose owner `rafelolv`, name `TwitchClear`, and public visibility. **Do not initialize a README, license, or .gitignore**: these already exist in local history. This creates an independent project with the source history and credits.
 
-Se preferir que o GitHub o identifique como fork, use [Fork do ryanbr](https://github.com/ryanbr/TwitchAdSolutions/fork), proprietário `rafelolv`, nome `TwitchLivre`. A base local já deriva dele. Depois envie a branch local normalmente.
+If you prefer GitHub to identify it as a fork, use [Fork ryanbr's repository](https://github.com/ryanbr/TwitchAdSolutions/fork), choose owner `rafelolv`, and name it `TwitchClear`. The local baseline already derives from that fork. Then push the local branch normally.
 
-Com o repositório criado, dentro de `TwitchLivre/`:
+Once the repository exists, run inside `TwitchClear/`:
 
 ```bash
 git push -u origin master
 ```
 
-Não envie todas as tags herdadas na primeira publicação. Após confirmar o push, retire o aviso de publicação pendente do README, faça commit e envie essa atualização. O link de instalação será:
+Do not push all inherited tags during the initial publication. After confirming the push, remove the publication-pending notice from the README, commit, and push that update. The installation URL will be:
 
-`https://raw.githubusercontent.com/rafelolv/TwitchLivre/master/vaft/vaft.user.js`
+`https://raw.githubusercontent.com/rafelolv/TwitchClear/master/vaft/vaft.user.js`
 
-## Atualizações e releases
+## Updates and releases
 
-1. Altere o script estável e seu par uBlock quando a mudança afetar a lógica.
-2. Incremente `@version` do userscript; para mudanças de comportamento, incremente também a versão interna de conflito nos dois formatos.
-3. Rode `npm run check` e teste em lives: anúncio inicial e intermediário, troca de canal, qualidade, mute, pausa, aba em segundo plano e fim da transmissão.
-4. Documente o resultado no CHANGELOG.md, faça commit e envie `master`.
-5. Para gerar uma release, envie uma tag `v` seguida da versão estável exata. Para a base inicial, quando estiver pronta para publicação:
+1. Update the stable script and its uBlock counterpart when changing behavior.
+2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in both formats.
+3. Run `npm run check` and test live streams: preroll and midroll ads, channel switching, quality, mute, pause, background tabs, and broadcast end.
+4. Document results in CHANGELOG.md, commit, and push `master`.
+5. To create a release, push a tag containing `v` followed by the exact stable version. For the initial baseline, when ready to publish:
 
 ```bash
-git tag -a v68.5.7.1 -m 'TwitchLivre initial baseline'
+git tag -a v68.5.7.1 -m 'TwitchClear initial baseline'
 git push origin v68.5.7.1
 ```
 
-A automação valida os arquivos e testes, confere a versão da tag e publica os dois arquivos vaft estáveis com a licença. Não faz commits automáticos nem altera links para repositórios de terceiros. Conferir o resultado do Actions após publicar; a execução hospedada ainda não foi validada nesta preparação local.
+Automation validates files and tests, checks the tag version, and publishes the two stable vaft files with the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions after publication; hosted execution has not yet been validated during this local setup.
 
-## Incorporar novidades dos upstreams
+## Incorporate upstream changes
 
 ```bash
 git fetch ryanbr
@@ -52,10 +52,10 @@ git log --oneline master..ryanbr/master
 git diff master...ryanbr/master -- vaft/vaft.user.js vaft/vaft-ublock-origin.js
 ```
 
-Revise os commits e integre numa branch de trabalho. Uma correção pode depender de outras; verifique dependências antes de cherry-pick. Merges podem reintroduzir namespace, URLs, workflows e README do upstream: mantenha a identidade do TwitchLivre e os créditos. Não promova o script testing automaticamente.
+Review commits and integrate them on a working branch. Fixes may depend on other commits; check dependencies before cherry-picking. Merges can reintroduce upstream namespaces, URLs, workflows, and documentation: preserve TwitchClear's identity and author credits. Do not automatically promote experimental scripts to stable.
 
-## Mapa técnico rápido
+## Architecture overview
 
-O userscript inicia em `document-start`, instala hooks de `fetch`/Worker e injeta funções serializadas no worker do player. Elas analisam playlists M3U8, identificam anúncios e tentam obter tokens/playlists de outros tipos de player. A camada da página recebe mensagens do worker, monitora buffering e controla recuperação, recarga e overlays.
+The userscript starts at `document-start`, hooks `fetch` and Worker, and injects serialized functions into the player worker. These analyze M3U8 playlists, identify ads, and try to obtain tokens/playlists for other player types. The page layer receives worker messages, monitors buffering, and handles recovery, reloads, and overlays.
 
-Funções transferidas com `.toString()` precisam ser autossuficientes: uma variável disponível no escopo da página pode não existir dentro do worker. Configurações herdadas usam chaves `twitchAdSolutions_*` no localStorage; elas foram preservadas para compatibilidade. Os logs ainda usam `[AD DEBUG] TwitchAdSolutions` e a versão interna do upstream, enquanto o painel do Tampermonkey mostra TwitchLivre e a versão pública com `.1`.
+Functions transferred with `.toString()` must be self-contained: a variable available in page scope may not exist inside the worker. Inherited settings use `twitchAdSolutions_*` localStorage keys, retained for compatibility. Logs still use `[AD DEBUG] TwitchAdSolutions` and the upstream internal version, while the Tampermonkey dashboard shows TwitchClear and the public version with the `.1` suffix.

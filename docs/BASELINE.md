@@ -1,39 +1,39 @@
-# Base inicial do TwitchLivre
+# TwitchClear initial baseline
 
-Comparação realizada em 11/10/2026 com clones completos, sem alterações nos repositórios de origem.
+Compared on 2026-10-11 using complete clones, without modifying the source repositories.
 
-| Origem | Branch | Commit |
+| Source | Branch | Commit |
 | --- | --- | --- |
 | pixeltris/TwitchAdSolutions | master | `c51ef2fe8f667f9dc9216eb550924cf0d732ce27` |
 | ryanbr/TwitchAdSolutions | master | `e4dfb26755cb440f9ec6a2430a9b131fa1de062a` |
 
-O original foi arquivado em 05/03/2026. O último commit da base consultada do ryanbr é de 27/08/2026. `git rev-list --left-right --count pixeltris/master...ryanbr/master` retornou `0 813`: nenhum commit exclusivo do pixeltris e 813 exclusivos do ryanbr. Por isso, a base adotada é integralmente a do ryanbr; não há correções exclusivas do original para reaplicar nesta fotografia.
+The original was archived on 2026-03-05. The latest commit in the inspected ryanbr baseline is dated 2026-08-27. `git rev-list --left-right --count pixeltris/master...ryanbr/master` returned `0 813`: no commits exclusive to pixeltris and 813 exclusive to ryanbr. The adopted baseline therefore comes entirely from ryanbr; this snapshot contains no original-only fixes to reapply.
 
-O diff entre as duas pontas cobre 20 arquivos, 16.593 inserções e 956 remoções. Inclui mudanças experimentais e documentação; esses números não representam 813 correções distintas.
+The diff between the two tips covers 20 files, 16,593 insertions, and 956 deletions. This includes experimental changes and documentation; the count does not represent 813 distinct fixes.
 
-## Correções e recursos importados
+## Imported fixes and features
 
-- Recuperação de buffering, cooldown e limite de recargas do player.
-- Troca de transmissão alternativa antes da remoção de segmentos, com fallback de qualidade baixa quando necessário.
-- Tratamento de mute, referências antigas do player e elementos de vídeo reaproveitados.
-- Melhorias para codecs AV1/HEVC e ausência de `CODECS` na playlist.
-- Guardas para frames auxiliares, editor de clipes e workers já interceptados.
-- Ocultação de vídeos de anúncios separados quando acessíveis no DOM da página.
-- Logs de anúncios CSAI e timeout no caminho de requisições GQL.
-- Testes, benchmark, diagnóstico e variantes experimentais.
+- Buffering recovery, reload cooldown, and player reload limits.
+- Switching to alternative streams before removing segments, with a low-quality fallback when needed.
+- Handling mute state, stale player references, and recycled video elements.
+- Improvements for AV1/HEVC codecs and missing playlist `CODECS` attributes.
+- Guards for auxiliary frames, the clip editor, and workers already intercepted.
+- Hiding separate video ads when accessible in the page DOM.
+- CSAI ad logging and timeouts in the GQL request path.
+- Tests, benchmarks, debugging documentation, and experimental variants.
 
-Consulte [CHANGELOG.md](../CHANGELOG.md) para detalhes e ressalvas do mantenedor anterior. Isso descreve código importado, não comprova eficácia na Twitch atual.
+See [CHANGELOG.md](../CHANGELOG.md) for the previous maintainer's details and qualifications. These describe imported code; they do not establish effectiveness in current Twitch sessions.
 
-## O que o TwitchLivre muda inicialmente
+## Initial TwitchClear changes
 
-- Nome e namespace próprios nos cinco userscripts.
-- URLs de atualização/download para `rafelolv/TwitchLivre`.
-- Sufixo `.1` nas versões dos userscripts: vaft `68.5.7.1`, testing `678.0.0.1`, video-swap-new `1.87.1`, strip `1.10.1`, Brave fix `1.3.1.1`.
-- Documentação em português, remotes de origem, validação de todos os JS e release por tag.
-- Corpos dos scripts e versões internas de conflito preservados. Créditos de autoria preservados.
+- Project name and namespace in all five userscripts.
+- Update/download URLs pointing to `rafelolv/TwitchClear`.
+- A `.1` suffix on userscript versions: vaft `68.5.7.1`, testing `678.0.0.1`, video-swap-new `1.87.1`, strip `1.10.1`, and Brave fix `1.3.1.1`.
+- English documentation, upstream remotes, validation of all JavaScript files, and releases triggered by tags.
+- Preserved script bodies, internal conflict versions, and author credits.
 
-## Validação e limites
+## Validation and limitations
 
-`npm run check` compila todos os JavaScript sem executar os scripts no navegador e roda os 84 testes herdados. Os testes contêm cópias de funções; não exercitam toda a integração nem todas as alterações recentes. O pipeline não comprova a operação do worker, do player ou de anúncios em uma sessão real.
+`npm run check` compiles every JavaScript file without executing browser code and runs the 84 inherited tests. The tests contain copied functions; they do not exercise the complete integration or every recent change. The pipeline does not establish that workers, the player, or ad handling work in a real session.
 
-Não foi realizada validação em uma live com Tampermonkey. SSAI aparece nas playlists e pode ser tratado por troca/remoção; CSAI pode ocorrer fora das playlists e os hooks de diagnóstico não garantem bloqueio. Vídeos em iframes de outra origem também podem ficar fora do alcance do script. Qualidade reduzida e pausas durante anúncios continuam possíveis.
+No live-stream validation with Tampermonkey has been performed. SSAI appears in playlists and may be handled by switching streams or removing segments; CSAI may occur outside playlists, and diagnostic hooks do not guarantee blocking. Videos in cross-origin iframes may also be inaccessible to the script. Reduced quality and pauses during ads remain possible.

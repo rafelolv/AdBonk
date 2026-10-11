@@ -1,8 +1,8 @@
 {
-  "name": "twitchlivre",
+  "name": "twitchclear",
   "version": "68.5.7-1",
   "private": true,
-  "description": "Continuação independente de TwitchAdSolutions",
+  "description": "Independent continuation of TwitchAdSolutions",
   "license": "MIT",
   "engines": { "node": ">=24" },
   "scripts": {

@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         TwitchLivre (vaft-testing)
-// @namespace    https://github.com/rafelolv/TwitchLivre
+// @name         TwitchClear (vaft-testing)
+// @namespace    https://github.com/rafelolv/TwitchClear
 // @version      678.0.0.1
 // @description  Multiple solutions for blocking Twitch ads (vaft testing variant)
-// @updateURL    https://raw.githubusercontent.com/rafelolv/TwitchLivre/master/vaft/vaft_testing.user.js
-// @downloadURL  https://raw.githubusercontent.com/rafelolv/TwitchLivre/master/vaft/vaft_testing.user.js
+// @updateURL    https://raw.githubusercontent.com/rafelolv/TwitchClear/master/vaft/vaft_testing.user.js
+// @downloadURL  https://raw.githubusercontent.com/rafelolv/TwitchClear/master/vaft/vaft_testing.user.js
 // @author       https://github.com/cleanlock/VideoAdBlockForTwitch#credits
 // @match        *://*.twitch.tv/*
 // @run-at       document-start
