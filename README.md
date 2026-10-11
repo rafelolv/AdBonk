@@ -73,7 +73,7 @@ Use your manager's update checker to get new versions. The script's `@updateURL`
 
 There is also an **AdBonk extension for Chromium and Firefox**. It bundles the same stable blocking script, so you can use it without a userscript manager.
 
-**Firefox:** [Install from Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/adbonk-experimental/). The existing listing URL still contains the original slug; its store version may lag behind the latest GitHub release.
+**Firefox:** [Install from Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/adbonk/). Its store version may lag behind the latest GitHub release.
 
 **Chrome, Brave and Edge:** Keep using the userscript for the standard installation. AdBonk is not published on the Chrome Web Store. Google charges a [$5 one-time developer registration fee](https://developer.chrome.com/docs/webstore/register) to publish there. What a generous way to support people sharing free, useful tools. Embarrassing, Google.
 

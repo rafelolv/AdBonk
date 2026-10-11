@@ -13,7 +13,7 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 
 Release `v1.0.1` includes these packages with stable userscript `1.0.1`. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
 
-**Firefox:** [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk-experimental/) for regular installation. The original URL slug is retained; the store may still show an older name or version until the maintainer submits the update and Mozilla approves it. The GitHub ZIP is unsigned and intended for temporary installation, even though the extension is stable.
+**Firefox:** [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) for regular installation. The store may still show an older version until the maintainer submits the update and Mozilla approves it. The GitHub ZIP is unsigned and intended for temporary installation, even though the extension is stable.
 
 **Chrome, Brave and Edge:** the extension is not on the Chrome Web Store. Use the userscript for the standard setup, or load the Chromium package locally as described below. Google's [$5 one-time registration fee](https://developer.chrome.com/docs/webstore/register) applies to developers publishing in that store; users can install AdBonk's userscript and unpacked extension for free.
 

@@ -27,7 +27,7 @@ Both extensions bundle the stable userscript byte-for-byte. Userscript and exten
 
 - **Userscript:** [install AdBonk](https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js) with a supported userscript manager, or check for updates in your manager. This link follows `main`; the attached file is the release snapshot.
 - **Chromium:** extract the Chromium ZIP and load its folder through Developer mode → Load unpacked. For an existing local installation, replace its files and reload the extension.
-- **Firefox:** use the [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk-experimental/) for regular installation; check the listed version because store updates require separate submission and review. For local testing, extract the unsigned ZIP and load `manifest.json` through `about:debugging` → This Firefox → Load Temporary Add-on. Temporary installation is removed when Firefox restarts.
+- **Firefox:** use the [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) for regular installation; check the listed version because store updates require separate submission and review. For local testing, extract the unsigned ZIP and load `manifest.json` through `about:debugging` → This Firefox → Load Temporary Add-on. Temporary installation is removed when Firefox restarts.
 
 Use one installation method at a time and reload Twitch after updating. See the [extension guide](https://github.com/rafelolv/AdBonk/blob/<tag>/docs/EXTENSION.md). GitHub releases do not update browser-store installations.
 

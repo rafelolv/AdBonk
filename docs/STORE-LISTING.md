@@ -1,6 +1,6 @@
 # Firefox listing update
 
-Update the existing [AdBonk listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk-experimental/) through Mozilla's Developer Hub. Do not create a second add-on: keep `adbonk@rafelolv.github.io` and the existing update identity.
+Update the existing [AdBonk listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) through Mozilla's Developer Hub. Do not create a second add-on: keep `adbonk@rafelolv.github.io` and the existing update identity.
 
 1. Upload `dist/adbonk-firefox-1.0.5.zip` as a new version on the existing listing.
 2. Set the displayed name to **AdBonk**, and remove the listing's experimental flag if it is still selected.
