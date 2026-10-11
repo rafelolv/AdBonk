@@ -48,18 +48,20 @@ Keep `package.json` aligned with the stable userscript. Release tags use the sta
 
 ## Updates and releases
 
+For every release request, follow [Creating an AdBonk release](RELEASING.md) and the [release notes template](RELEASE-TEMPLATE.md).
+
 1. Update the stable userscript when changing behavior. Keep experimental variants separate.
 2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in the affected userscript. For any stable userscript change, align `package.json` and increment `extension/version.json` too, because both extensions bundle that file.
 3. Run `npm run check`, rebuild both extension packages, and follow the synchronization rules below. Test live streams separately with the userscript and each extension: preroll and midroll ads, channel switching, quality, mute, pause, background tabs, and broadcast end. Record any checks that could not be completed.
 4. Document results in CHANGELOG.md, commit, and push `main`.
-5. To create a release, push a tag containing `v` followed by the exact stable version. For the `1.0.0` baseline, when ready to publish:
+5. Write and commit `docs/releases/<tag>.md` before tagging. Push an annotated tag containing `v` followed by the exact stable version at the prepared commit. Use a new tag: `v1.0.0` is already published and must not be reused. For a future stable `1.0.1` release, after updating and validating the appropriate files:
 
 ```bash
-git tag -a v1.0.0 -m 'AdBonk 1.0.0'
-git push origin v1.0.0
+git tag -a v1.0.1 -m 'AdBonk 1.0.1'
+git push origin v1.0.1
 ```
 
-Automation validates files and tests, checks the tag version, and publishes the stable vaft userscript, both extension ZIPs, and the license. Add English release notes at `docs/releases/<tag>.md` to describe versions, installation, and validation limits; otherwise GitHub generates notes from the commit history. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions and attached assets after publication.
+Automation validates files and tests, checks the tag version, requires nonempty English release notes at `docs/releases/<tag>.md`, and publishes the stable vaft userscript, both extension ZIPs, and the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions, release notes, attached assets, and hashes after publication.
 
 ## Incorporate upstream changes
 

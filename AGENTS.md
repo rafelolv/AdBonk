@@ -17,3 +17,7 @@ Independent continuation of TwitchAdSolutions. Read docs/BASELINE.md for provena
 - The maintained branch is `main`. Installation/update URLs must point to rafelolv/AdBonk/main. Historical docs and author credits retain upstream links.
 - Run npm run check after changes. Upstream tests copy functions; report their limits and validate player behavior in the browser.
 - Never claim current live ad-blocking works based only on unit tests.
+
+## Release requests
+
+When the user asks to create a release, follow [docs/RELEASING.md](docs/RELEASING.md) and use [docs/RELEASE-TEMPLATE.md](docs/RELEASE-TEMPLATE.md). Prepare, validate, publish, and verify the release when authorized; do not stop at creating a tag. Write concise English notes for users, with artifact versions and support status, relevant changes, installation/update instructions, and actual validation results and limits. Keep extensions marked experimental until explicitly promoted with supporting evidence. Never reuse a published tag or silently replace published packages. Report the final release URL and attached files.

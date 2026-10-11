@@ -21,19 +21,18 @@ jobs:
         run: |
           VERSION=$(sed -n 's|^// @version[[:space:]]*||p' vaft/vaft.user.js)
           test "$GITHUB_REF_NAME" = "v$VERSION"
-      - name: Find release notes
+      - name: Require release notes
         id: notes
         run: |
           NOTES_PATH="docs/releases/$GITHUB_REF_NAME.md"
-          if test -f "$NOTES_PATH"; then
-            echo "path=$NOTES_PATH" >> "$GITHUB_OUTPUT"
-          fi
+          test -s "$NOTES_PATH" || { echo "Missing release notes: $NOTES_PATH" >&2; exit 1; }
+          echo "path=$NOTES_PATH" >> "$GITHUB_OUTPUT"
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
           name: AdBonk ${{ github.ref_name }}
           body_path: ${{ steps.notes.outputs.path }}
-          generate_release_notes: ${{ steps.notes.outputs.path == '' }}
+          generate_release_notes: false
           fail_on_unmatched_files: true
           files: |
             vaft/vaft.user.js
