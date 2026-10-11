@@ -35,7 +35,13 @@ Choose one manager for AdBonk:
 
 See the [manager compatibility notes](docs/USERSCRIPT-MANAGERS.md) for the evidence behind these statuses and how to report compatibility problems.
 
-## Migrating from the old uBlock Origin integration
+## Why uBlock Origin support was removed
+
+The uBlock Origin integration was removed because of recurring inconsistencies: the script could stop being applied without a known cause. The [original project's README](https://github.com/pixeltris/TwitchAdSolutions#applying-a-script-ublock-origin) documented this behavior and recommended the userscript versions instead.
+
+Maintaining a second integration with unexplained failures is not a worthwhile use of this project's maintenance time. AdBonk therefore focuses on the userscript, which has been the more stable option in the project's experience. This decision concerns the custom Twitch script integration, not uBlock Origin's general ad-blocking capabilities.
+
+### Migrating from the old integration
 
 AdBonk supports userscript managers only. Remove the old `twitch.tv##+js(twitch-videoad)` filter and the upstream script URL from `userResourcesLocation` in uBlock Origin. If it was the only resource URL, restore `userResourcesLocation` to `unset`; otherwise keep your other resource URLs. Also remove any old Brave companion scriptlet filter and resource URL if installed. Restart the browser and install the userscript as described above.
 
