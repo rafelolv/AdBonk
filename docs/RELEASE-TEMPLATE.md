@@ -13,8 +13,8 @@ AdBonk — Bonk Twitch ads.
 | File | Version | Status |
 | --- | --- | --- |
 | `vaft.user.js` | <stable version> | Stable userscript; recommended installation |
-| `adbonk-chromium-<extension version>.zip` | <extension version> | Experimental Chromium extension |
-| `adbonk-firefox-<extension version>.zip` | <extension version> | Experimental, unsigned Firefox extension for temporary installation |
+| `adbonk-chromium-<extension version>.zip` | <extension version> | Stable Chromium extension for local installation |
+| `adbonk-firefox-<extension version>.zip` | <extension version> | Stable Firefox extension; unsigned ZIP for temporary installation |
 
 Both extensions bundle the stable userscript byte-for-byte. Userscript and extension versions advance independently.
 
@@ -27,7 +27,7 @@ Both extensions bundle the stable userscript byte-for-byte. Userscript and exten
 
 - **Userscript:** [install AdBonk](https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js) with a supported userscript manager, or check for updates in your manager. This link follows `main`; the attached file is the release snapshot.
 - **Chromium:** extract the Chromium ZIP and load its folder through Developer mode → Load unpacked. For an existing local installation, replace its files and reload the extension.
-- **Firefox:** extract the unsigned ZIP and load `manifest.json` through `about:debugging` → This Firefox → Load Temporary Add-on. This installation is removed when Firefox restarts; persistent installation requires a Mozilla-signed package.
+- **Firefox:** use the [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk-experimental/) for regular installation; check the listed version because store updates require separate submission and review. For local testing, extract the unsigned ZIP and load `manifest.json` through `about:debugging` → This Firefox → Load Temporary Add-on. Temporary installation is removed when Firefox restarts.
 
 Use one installation method at a time and reload Twitch after updating. See the [extension guide](https://github.com/rafelolv/AdBonk/blob/<tag>/docs/EXTENSION.md). GitHub releases do not update browser-store installations.
 
@@ -35,6 +35,6 @@ Use one installation method at a time and reload Twitch after updating. See the 
 
 ## Validation and known limitations
 
-<Checks actually performed, their results, and material scenarios not tested. Identify maintainer reports separately from automated checks. Keep experimental status accurate.>
+<Checks actually performed, their results, and material scenarios not tested. Identify maintainer reports separately from automated checks. Keep each artifact's support status accurate.>
 
 [Report a problem](https://github.com/rafelolv/AdBonk/issues) with your browser, installation method, version, and what happened. Fixes and pull requests are welcome.

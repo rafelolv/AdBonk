@@ -1,10 +1,10 @@
-name: Experimental extension bug
+name: Extension bug
 description: Report a problem with the Chromium or Firefox extension.
 title: "[Extension] "
 body:
   - type: markdown
     attributes:
-      value: "The extension is experimental. See [the setup guide](https://github.com/rafelolv/AdBonk/blob/main/docs/EXTENSION.md) before reporting."
+      value: "See [the setup guide](https://github.com/rafelolv/AdBonk/blob/main/docs/EXTENSION.md) before reporting."
   - type: checkboxes
     attributes:
       label: Setup

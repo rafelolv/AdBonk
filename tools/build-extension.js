@@ -59,8 +59,8 @@ for (const browser of ['chromium', 'firefox']) {
     fs.copyFileSync(path.join(root, 'LICENSE'), path.join(directory, 'LICENSE'));
     fs.writeFileSync(path.join(directory, 'startup.js'), `// Build-generated public metadata; no secrets or settings.\nwindow.__adbonkExtensionStartup = { previousVersion: window.twitchAdSolutionsVersion, expectedVersion: ${internalVersion}, version: ${JSON.stringify(extensionVersion)} };\n`);
     const manifest = {
-        manifest_version: 3, name: 'AdBonk (Experimental)', version: extensionVersion,
-        description: 'Bonk Twitch ads. Experimental extension using the AdBonk stable userscript.',
+        manifest_version: 3, name: 'AdBonk', version: extensionVersion,
+        description: 'Bonk Twitch ads. Browser extension using the AdBonk stable userscript.',
         homepage_url: 'https://github.com/rafelolv/AdBonk',
         host_permissions: ['*://*.twitch.tv/*'],
         icons: { 16: 'icons/16.png', 32: 'icons/32.png', 48: 'icons/48.png', 128: 'icons/128.png' },

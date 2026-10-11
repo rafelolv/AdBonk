@@ -5,7 +5,7 @@ Independent continuation of TwitchAdSolutions. Read docs/BASELINE.md for provena
 - Use English for all project documentation, comments, user-facing text, metadata, and commit messages.
 - Preserve MIT license, author credits, and Git history.
 - Main supported entry point: vaft/vaft.user.js. Keep stable and experimental variants separate.
-- Support userscript managers and the experimental Chromium/Firefox extension packages. Keep the stable userscript as the single blocking source; extension builds must copy it byte-for-byte. Do not restore uBlock Origin resources, scriptlets, installation options, or release artifacts.
+- Support userscript managers and the stable Chromium/Firefox extension packages. The maintainer promoted the extension after reported successful local use in Firefox and Chrome. Keep the stable userscript as the single blocking source; extension builds must copy it byte-for-byte. Do not restore uBlock Origin resources, scriptlets, installation options, or release artifacts.
 - Worker functions are serialized with `.toString()`. They must not capture window-scope variables. See CLAUDE.md for imported architectural notes.
 - Do not merge testing features into stable automatically.
 - Update userscript @version for published changes. Bump the internal conflict version in the affected userscript for behavior changes. Initial metadata-only changes leave internal versions unchanged.
@@ -20,4 +20,4 @@ Independent continuation of TwitchAdSolutions. Read docs/BASELINE.md for provena
 
 ## Release requests
 
-When the user asks to create a release, follow [docs/RELEASING.md](docs/RELEASING.md) and use [docs/RELEASE-TEMPLATE.md](docs/RELEASE-TEMPLATE.md). Prepare, validate, publish, and verify the release when authorized; do not stop at creating a tag. Write concise English notes for users, with artifact versions and support status, relevant changes, installation/update instructions, and actual validation results and limits. Keep extensions marked experimental until explicitly promoted with supporting evidence. Never reuse a published tag or silently replace published packages. Report the final release URL and attached files.
+When the user asks to create a release, follow [docs/RELEASING.md](docs/RELEASING.md) and use [docs/RELEASE-TEMPLATE.md](docs/RELEASE-TEMPLATE.md). Prepare, validate, publish, and verify the release when authorized; do not stop at creating a tag. Write concise English notes for users, with artifact versions and support status, relevant changes, installation/update instructions, and actual validation results and limits. Extensions are stable; experimental userscript variants remain experimental. Store availability and signing are separate from release stability. Never reuse a published tag or silently replace published packages. Report the final release URL and attached files.

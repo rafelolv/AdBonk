@@ -1,4 +1,4 @@
-# AdBonk experimental extension
+# AdBonk browser extension
 
 Install AdBonk directly as a browser extension, without a userscript manager. The extension is a secondary installation option. The userscript remains the primary supported entry point.
 
@@ -8,12 +8,14 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 
 | Browser | Package | Minimum version |
 | --- | --- | --- |
-| Chromium browsers | `adbonk-chromium-1.0.4.zip` | Chromium 111; real-browser checks used Chrome 154. |
-| Firefox desktop | `adbonk-firefox-1.0.4.zip` | Firefox 140; real-browser checks used Firefox 157. |
+| Chromium browsers | `adbonk-chromium-1.0.5.zip` | Chromium 111; real-browser checks used Chrome 154. |
+| Firefox desktop | `adbonk-firefox-1.0.5.zip` | Firefox 140; real-browser checks used Firefox 157. |
 
-These filenames describe builds from the current source, bundling stable userscript `1.0.1`. The published `v1.0.0` release contains extension `1.0.1` and userscript `1.0.0`; it does not include the new quality preference. Build locally for the updated packages until the next release is published.
+Release `v1.0.1` includes these packages with stable userscript `1.0.1`. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
 
-These are development packages, not published store listings. The Firefox ZIP is unsigned and is intended for temporary installation. The maintainer reports successful local use in Firefox and Chrome, but detailed ad-break scenarios have not been recorded. Chromium variants such as Brave and Edge have not been tested individually.
+**Firefox:** [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk-experimental/) for regular installation. The original URL slug is retained; the store may still show an older name or version until the maintainer submits the update and Mozilla approves it. The GitHub ZIP is unsigned and intended for temporary installation, even though the extension is stable.
+
+**Chrome, Brave and Edge:** the extension is not on the Chrome Web Store. Use the userscript for the standard setup, or load the Chromium package locally as described below. Google's [$5 one-time registration fee](https://developer.chrome.com/docs/webstore/register) applies to developers publishing in that store; users can install AdBonk's userscript and unpacked extension for free.
 
 Use either the extension or the userscript, and disable other Twitch-specific ad blockers. After installing or updating the extension, reload existing Twitch tabs.
 
@@ -84,4 +86,4 @@ Real Chrome 154 and Firefox 157 checks passed for early MAIN-world hooks, page s
 
 Store publication remains a separate step: supply store descriptions/screenshots, privacy disclosures, signing credentials, and pass browser/store review. The adapter does not fetch AdBonk code from GitHub at runtime; it bundles the core. The inherited core still reads and evaluates Twitch's own worker code as part of worker injection. This behavior requires explicit review during store submission; packaging does not establish store approval.
 
-Before promoting the extension, test real preroll and midroll ads, channel changes, VOD navigation, pause/mute, quality, background tabs, and PiP in both browsers. Report findings using the extension issue form.
+For future changes, test real preroll and midroll ads, channel changes, VOD navigation, pause/mute, quality, background tabs, and PiP in both browsers. Report findings using the extension issue form. Stable status reflects the maintainer's release decision, not a guarantee against future Twitch changes.

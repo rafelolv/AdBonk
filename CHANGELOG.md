@@ -1,6 +1,9 @@
-## Unreleased
+## v1.0.1 (2026-10-11)
+
+Stable userscript `1.0.1` and stable browser extensions `1.0.5`. The maintainer promoted the extension after reporting successful local use in Firefox and Chrome; experimental userscript variants retain their status.
 
 ### Changed
+- Removed the Experimental label from the extension manifests, popup, and current setup instructions. Added the existing Mozilla Add-ons link and documented the Chrome Web Store publication fee and local installation option.
 - Experimental extension `1.0.4` uses a transparent, simplified mascot head and mallet icon instead of a square scene. The popup displays the mark at 48 pixels for better visibility; the full mascot illustration remains in the README. Stable userscript `1.0.1` is unchanged.
 - Experimental extension `1.0.3` replaces the abstract mallet icon with a purple mascot bonking an AD tile. The README banner uses the same artwork, and small toolbar icons use a closer face framing. Stable userscript `1.0.1` and its blocking logic are unchanged by this visual update.
 - Stable userscript `1.0.1` (internal `96`) disables fast-autoplay-first by default. Each new backup search can try higher-quality alternatives even when the preceding break required 360p. The low-quality fallback, same-break contamination ordering, and reload safeguards remain available.
@@ -8,6 +11,7 @@
 - Experimental extensions `1.0.2` bundle stable userscript `1.0.1` byte-for-byte. Store packages and the existing GitHub release are separate from these new local builds.
 
 ### Validation
+- Release packages `1.0.5` pass all 148 tests and Chrome/Firefox extension fixture checks. Stable metadata, preserved Firefox identity, transparent icons, ZIP integrity, and bundled core equality were verified.
 - Added six regression cases against the shipped playlist processor with simulated Twitch responses, covering clean higher-quality selection, fallback order, successive ad breaks, disabled low-quality fallback, and explicit fast-autoplay opt-in. Four fail with the previous default.
 - All 148 automated tests pass. Chrome and Firefox extension fixture checks pass for the rebuilt `1.0.2` packages; each bundled blocker matches stable userscript `1.0.1` byte-for-byte.
 - Real Twitch quality transitions and ad delivery require maintainer testing; simulated responses do not establish live-stream compatibility.
