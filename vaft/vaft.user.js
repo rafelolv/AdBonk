@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (vaft)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.0.0
+// @version      1.0.1
 // @description  Bonk Twitch ads (vaft)
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
@@ -47,7 +47,7 @@
         }
     }
     'use strict';
-    const ourTwitchAdSolutionsVersion = 95;// Used to prevent conflicts with outdated versions of the scripts
+    const ourTwitchAdSolutionsVersion = 96;// Used to prevent conflicts with outdated versions of the scripts
     console.log('[AD DEBUG] TwitchAdSolutions vaft v' + ourTwitchAdSolutionsVersion + ' loading');
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] CONFLICT: vaft v' + ourTwitchAdSolutionsVersion + ' skipped — another script already active (v' + window.twitchAdSolutionsVersion + '). Remove duplicate scripts.');
@@ -91,7 +91,7 @@
         scope.FallbackPlayerType = 'site';// was 'embed' — site is more reliable when all Source types end up ad-laden
         scope.ForceAccessTokenPlayerType = 'popout';
         scope.PreferLowQualityBackup = true;// Hybrid safety net for SSAI-heavy breaks: sticky escape hatch (fires after ~8s stuck in all-stripped state) + autoplay (360p) as last-resort backup when all Source types are ad-laden. Default on; set twitchAdSolutions_preferLowQualityBackup=false to disable.
-        scope.FastAutoplayFirstTry = true;// When the prior break committed autoplay-via-escape-hatch, prepend autoplay (360p) to position 0 of playerTypesToTry on the next break — autoplay wins on first probe (~340ms) instead of cycling through 4 Source types (~1.5-2s). Auto-resets when a Source-tier type wins (channel recovered), so quality returns to full automatically if Twitch ever brings back non-ad-laden Source backups. Default on as of v67.1.0 — field data (project_all_channels_csai_only_marked) confirms every observed channel exhausts Source-tier on every break. Opt-out via localStorage twitchAdSolutions_fastAutoplayFirstTry=false.
+        scope.FastAutoplayFirstTry = false;// Prefer higher-quality backups on each new break, even when the previous break required autoplay (360p). Keep autoplay as the last resort. Users who prefer the faster low-quality path can opt in with twitchAdSolutions_fastAutoplayFirstTry=true.
         scope.BackupSwapFirst = true;// On ad detect, immediately swap to a backup player-type m3u8 (TTV-AB-style). Avoids MediaSource mixing from strip activity — fewer loading circles in field. Cost: extra fetches on every ad break. Default on; set twitchAdSolutions_backupSwapFirst=false to disable.
         scope.DisableAdSpoofing = true;// Default OFF (was ON through v68.2.0). The always-100%-watched + audible + visible spoof beacon pattern may itself fingerprint as anomalous and trigger detection escalation (CSAI reaching the committed backup) — observed correlation in field + TTV-AB maintainer hypothesis. Spoof-accepted (no GQL rejection) does NOT prove not-fingerprinted; Twitch can 200-OK while using the beacon pattern as silent detection input. Opt in by setting twitchAdSolutions_disableAdSpoofing=false to re-enable the GQL ad-tracking beacons (video_ad_impression, video_ad_quartile_complete x 4, video_ad_pod_complete).
         scope.RecoverFromSilentMute = true;// On hard reload, if the element is already muted but vaft has successfully unmuted at any point earlier this session, treat it as a silent Twitch re-mute and recover via the backstop. Default on; set twitchAdSolutions_recoverFromSilentMute=false to disable (useful for users who deliberately mute mid-session).
@@ -1408,7 +1408,8 @@
             // iteration falls through to the rest of playerTypesToTry as normal. If a
             // Source-tier type wins (channel recovered), the "Source committed" branch
             // below resets LastBreakUsedEscapeHatch so the next break does normal iteration.
-            // Default on as of v67.1.0. Opt-out via twitchAdSolutions_fastAutoplayFirstTry=false.
+            // Opt-in only: twitchAdSolutions_fastAutoplayFirstTry=true. The default
+            // rechecks higher-quality backups before accepting another 360p fallback.
             //
             // Periodic re-probe: every Nth consecutive fast-autoplay win, force a full
             // Source-tier probe to catch channel recovery (e.g., Twitch reverses universal
@@ -3062,9 +3063,9 @@
             console.log('[AD DEBUG] PreferLowQualityBackup disabled via localStorage — sticky CSAI path only, no autoplay fallback or escape hatch');
         }
         const lsFastAutoplay = localStorage.getItem('twitchAdSolutions_fastAutoplayFirstTry');
-        if (lsFastAutoplay === 'false') {
-            FastAutoplayFirstTry = false;
-            console.log('[AD DEBUG] FastAutoplayFirstTry disabled via localStorage — full Source-tier probe on every break (no autoplay fast-path)');
+        if (lsFastAutoplay === 'false' || lsFastAutoplay === 'true') {
+            FastAutoplayFirstTry = lsFastAutoplay === 'true';
+            console.log('[AD DEBUG] FastAutoplayFirstTry ' + (FastAutoplayFirstTry ? 'enabled via localStorage — prefer faster 360p fallback after an exhausted Source-tier break' : 'disabled via localStorage — full Source-tier probe on every break (no autoplay fast-path)'));
         }
         const lsBackupSwapFirst = localStorage.getItem('twitchAdSolutions_backupSwapFirst');
         if (lsBackupSwapFirst === 'false') {

@@ -1,3 +1,15 @@
+## Unreleased
+
+### Changed
+- Stable userscript `1.0.1` (internal `96`) disables fast-autoplay-first by default. Each new backup search can try higher-quality alternatives even when the preceding break required 360p. The low-quality fallback, same-break contamination ordering, and reload safeguards remain available.
+- The faster 360p-first behavior is an explicit opt-in through `twitchAdSolutions_fastAutoplayFirstTry=true`; `false` keeps the new default. Higher-quality probes can add buffering time, and quality depends on the clean streams Twitch provides.
+- Experimental extensions `1.0.2` bundle stable userscript `1.0.1` byte-for-byte. Store packages and the existing GitHub release are separate from these new local builds.
+
+### Validation
+- Added six regression cases against the shipped playlist processor with simulated Twitch responses, covering clean higher-quality selection, fallback order, successive ad breaks, disabled low-quality fallback, and explicit fast-autoplay opt-in. Four fail with the previous default.
+- All 148 automated tests pass. Chrome and Firefox extension fixture checks pass for the rebuilt `1.0.2` packages; each bundled blocker matches stable userscript `1.0.1` byte-for-byte.
+- Real Twitch quality transitions and ad delivery require maintainer testing; simulated responses do not establish live-stream compatibility.
+
 ## v1.0.0 release packages (2026-10-11)
 
 This first GitHub release includes stable userscript `1.0.0` and experimental extensions `1.0.1`. Extension versions advance independently of the userscript.

@@ -30,11 +30,13 @@ You need a **userscript manager**: a browser extension that runs AdBonk on Twitc
 
 Use **one manager and one AdBonk variant** at a time. The install link above always points to the stable script on `main`.
 
-> **Already installed an earlier AdBonk version?** AdBonk's own version sequence starts at **1.0.0**. If your manager shows an older release with a higher number, such as `68.5.7.5`, open the install link again and confirm replacement with `1.0.0`. If the manager refuses the lower version, back up any local edits, remove the old AdBonk script, and install again. Keep only one copy enabled. The update checker won't treat this version reset as an upgrade; future updates follow the new sequence.
+> **Already installed an earlier AdBonk version?** AdBonk's own version sequence starts at **1.0.0**. If your manager shows an older release with a higher number, such as `68.5.7.5`, open the install link again and confirm replacement with the current version. If the manager refuses the lower version, back up any local edits, remove the old AdBonk script, and install again. Keep only one copy enabled. The update checker won't treat this version reset as an upgrade; future updates follow the new sequence.
 
 ### What to expect
 
 During detected ad breaks, the player shows **“AdBonk is blocking ads”**. The script looks for an alternative stream without ads; when none is available, it may remove ad segments. This can cause pauses, buffering, or a temporary drop in quality.
+
+By default, a previous 360p fallback does not make the next ad break start with 360p again: AdBonk checks higher-quality alternatives first. The search can add some buffering time, and 360p remains available when better clean streams cannot be found.
 
 To check that the script loaded, open the browser console (**F12**) and look for `[AD DEBUG]`. Technical details stay in the console.
 
@@ -128,7 +130,7 @@ Requires **Node.js 24**. No npm dependencies are needed:
 npm run check
 ```
 
-This checks every JavaScript file's syntax and runs 84 inherited tests, 30 player regression tests, 15 network regression tests, and 13 extension tests. The inherited tests use copied functions; the regression tests extract functions from the shipped scripts. They check player recovery with mocked browser/player objects, plus playlist failures and response timeouts in isolated window/worker contexts.
+This checks every JavaScript file's syntax and runs 84 inherited tests, 30 player regression tests, 15 network regression tests, 6 quality regression tests, and 13 extension tests. The inherited tests use copied functions; the regression tests extract functions from the shipped scripts. They check player recovery with mocked browser/player objects, plus backup selection, playlist failures, and response timeouts in isolated window/worker contexts.
 
 Passing these tests does not establish that ad blocking works on a live stream. Test player behavior in the browser too. See the [issue audit](docs/ISSUE-AUDIT.md) for findings and remaining limitations.
 

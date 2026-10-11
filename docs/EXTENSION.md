@@ -8,8 +8,10 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 
 | Browser | Package | Minimum version |
 | --- | --- | --- |
-| Chromium browsers | `adbonk-chromium-1.0.1.zip` | Chromium 111; real-browser checks used Chrome 154. |
-| Firefox desktop | `adbonk-firefox-1.0.1.zip` | Firefox 140; real-browser checks used Firefox 157. |
+| Chromium browsers | `adbonk-chromium-1.0.2.zip` | Chromium 111; real-browser checks used Chrome 154. |
+| Firefox desktop | `adbonk-firefox-1.0.2.zip` | Firefox 140; real-browser checks used Firefox 157. |
+
+These filenames describe builds from the current source, bundling stable userscript `1.0.1`. The published `v1.0.0` release contains extension `1.0.1` and userscript `1.0.0`; it does not include the new quality preference. Build locally for the updated packages until the next release is published.
 
 These are development packages, not published store listings. The Firefox ZIP is unsigned and is intended for temporary installation. The maintainer reports successful local use in Firefox and Chrome, but detailed ad-break scenarios have not been recorded. Chromium variants such as Brave and Edge have not been tested individually.
 
@@ -27,7 +29,7 @@ No npm installation or dependency download is required. Packages and unpacked di
 
 ## Chromium: load the unpacked extension
 
-1. Extract `adbonk-chromium-1.0.1.zip` into a folder. If you built locally, use `dist/chromium` directly.
+1. Extract the Chromium ZIP into a folder. If you built locally, use `dist/chromium` directly.
 2. Open `chrome://extensions` (or your browser's extensions page) and enable **Developer mode**.
 3. Choose **Load unpacked** and select the folder containing `manifest.json`.
 4. Disable the AdBonk userscript and other Twitch-specific ad blockers. Allow the extension to run on Twitch, then reload a live stream.
@@ -37,7 +39,7 @@ Keep that folder on disk. To update an unpacked extension, replace its files, cl
 
 ## Firefox: load a temporary add-on
 
-1. Extract `adbonk-firefox-1.0.1.zip`. If you built locally, use `dist/firefox` directly.
+1. Extract the Firefox ZIP. If you built locally, use `dist/firefox` directly.
 2. Open `about:debugging`, choose **This Firefox**, and click **Load Temporary Add-on**.
 3. Select `manifest.json` inside the Firefox package.
 4. Allow access to Twitch if prompted, disable the AdBonk userscript and other Twitch-specific ad blockers, then reload the stream.

@@ -76,7 +76,7 @@ Review commits and integrate them on a working branch. Fixes may depend on other
 
 ## Experimental extension builds
 
-The stable userscript remains the single blocking source. `npm run build:extension` copies it verbatim into Chromium and Firefox packages under `dist/`; do not edit generated copies. Change adapters and popup files under `extension/` separately. The extension version is independent and lives in `extension/version.json`. Increment it for interface or adapter changes so browser stores accept the update; do not bump the userscript for extension-only changes. The current extension is `1.0.1`, while the unchanged stable userscript is `1.0.0`.
+The stable userscript remains the single blocking source. `npm run build:extension` copies it verbatim into Chromium and Firefox packages under `dist/`; do not edit generated copies. Change adapters and popup files under `extension/` separately. The extension version is independent and lives in `extension/version.json`. Increment it for interface or adapter changes so browser stores accept the update; do not bump the userscript for extension-only changes. The current source builds extension `1.0.2` with stable userscript `1.0.1`; the published `v1.0.0` release remains a snapshot of earlier versions.
 
 Run `npm run check` after changes. When browsers are available, `npm run test:extension:browser` checks actual extension installation and integration on loopback fixtures. Follow [the extension guide](EXTENSION.md) for limitations, temporary installation, and store publication. Release automation attaches both ZIPs to tagged releases; it does not sign or submit extensions to browser stores.
 
