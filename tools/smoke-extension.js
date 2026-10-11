@@ -94,7 +94,7 @@ async function runChecks(browser, navigate, evaluate, extensionUrl) {
     const bridge = await evaluate(`(async()=>{const api=globalThis.browser||globalThis.chrome;const tabs=await api.tabs.query({});const tab=tabs.find(tab=>tab.url===${JSON.stringify(base + '/channel')});return await api.tabs.sendMessage(tab.id,{type:'adbonk-status'},{frameId:0});})()`);
     assert.equal(bridge.initialized, true);
     assert.equal(bridge.conflict, false);
-    assert.equal(await evaluate("document.getElementById('version').textContent"), require('../package.json').version);
+    assert.equal(await evaluate("document.getElementById('version').textContent"), require('../extension/version.json').version);
     console.log(`${browser}: PASS — early MAIN-world hooks, page status, clip skip, auxiliary-frame skip, embed-frame injection, duplicate detection, isolated bridge, popup version`);
 }
 async function chromium() {
@@ -141,7 +141,8 @@ async function chromium() {
         const result = await rpc.command('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true }, popupSession);
         assert.ok(!result.exceptionDetails, JSON.stringify(result)); return result.result.value;
     }, `chrome-extension://${id}/popup/popup.html`);
-    const screenshot = await rpc.command('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: 354, height: 400, scale: 1 } }, popupSession);
+    const dimensions = await rpc.command('Runtime.evaluate', { expression: 'Math.ceil(document.body.getBoundingClientRect().height)', returnByValue: true }, popupSession);
+    const screenshot = await rpc.command('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: 354, height: dimensions.result.value, scale: 1 } }, popupSession);
     fs.writeFileSync(path.join(work, 'popup.png'), Buffer.from(screenshot.data, 'base64'));
     browser.kill();
 }
@@ -175,7 +176,7 @@ async function firefox() {
                 const popup = tree.contexts.find(tab => tab.url === url);
                 if (popup) {
                     current = popup.context;
-                    const ready = await evaluate(`document.readyState === 'complete' && typeof globalThis.browser === 'object' && document.getElementById('version')?.textContent === ${JSON.stringify(require('../package.json').version)}`);
+                    const ready = await evaluate(`document.readyState === 'complete' && typeof globalThis.browser === 'object' && document.getElementById('version')?.textContent === ${JSON.stringify(require('../extension/version.json').version)}`);
                     if (ready) return;
                 }
                 await new Promise(resolve => setTimeout(resolve, 25));

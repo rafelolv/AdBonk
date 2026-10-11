@@ -1,5 +1,9 @@
 ## Unreleased
 
+### Changed
+- Refreshed the extension popup with a quieter layout, shorter status messages, and a direct GitHub project link. Setup and bug-report links remain available.
+- Extension version is now `1.0.1`, tracked independently in `extension/version.json`. The stable userscript remains `1.0.0`; blocking logic is unchanged.
+
 ### Added
 - Experimental Manifest V3 extension packages for Chromium and Firefox, with a shared popup and a read-only status bridge. `npm run build:extension` generates both unpacked directories and ZIP archives without npm dependencies.
 - The packages copy the stable userscript byte-for-byte. Blocking logic, userscript metadata, internal counters, and the public userscript URL are unchanged.

@@ -8,17 +8,17 @@
         if (!tab || typeof tab.id !== 'number') throw new Error('No active tab');
         const status = await api.tabs.sendMessage(tab.id, { type: 'adbonk-status' }, { frameId: 0 });
         if (status?.conflict) {
-            title.textContent = 'Another blocker is already loaded';
-            detail.textContent = 'Disable the AdBonk userscript or other TwitchAdSolutions scripts, then reload the page.';
+            title.textContent = 'Another script is running';
+            detail.textContent = 'Turn off your other Twitch ad-blocking script, then reload the stream.';
         } else if (status?.initialized) {
-            title.textContent = 'AdBonk is loaded';
-            detail.textContent = 'The script hooks are installed on this page. During detected ad breaks, look for the notice in the player.';
+            title.textContent = 'Ready on this page';
+            detail.textContent = 'AdBonk has loaded. When it detects ads, a notice appears in the player.';
         } else {
-            title.textContent = 'AdBonk did not initialize';
-            detail.textContent = 'Reload the Twitch page and check site permissions. Clips and auxiliary frames are skipped.';
+            title.textContent = 'Not loaded on this page';
+            detail.textContent = 'Allow access to Twitch and reload the page. AdBonk skips clips.';
         }
     } catch {
         title.textContent = 'Open a Twitch live stream';
-        detail.textContent = 'AdBonk runs on Twitch. If you just installed it, allow access to Twitch and reload the page.';
+        detail.textContent = 'Open a live stream to use AdBonk. If this is already Twitch, check site access and reload.';
     }
 })();

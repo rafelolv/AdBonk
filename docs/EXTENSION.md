@@ -8,8 +8,8 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 
 | Browser | Package | Minimum version |
 | --- | --- | --- |
-| Chromium browsers | `adbonk-chromium-1.0.0.zip` | Chromium 111; real-browser checks used Chrome 154. |
-| Firefox desktop | `adbonk-firefox-1.0.0.zip` | Firefox 140; real-browser checks used Firefox 157. |
+| Chromium browsers | `adbonk-chromium-1.0.1.zip` | Chromium 111; real-browser checks used Chrome 154. |
+| Firefox desktop | `adbonk-firefox-1.0.1.zip` | Firefox 140; real-browser checks used Firefox 157. |
 
 These are development packages, not published store listings. The Firefox ZIP is unsigned and is intended for temporary installation. Chromium variants such as Brave and Edge have not been tested individually. Live Twitch ad breaks have not been validated with the extension yet.
 
@@ -27,7 +27,7 @@ No npm installation or dependency download is required. Packages and unpacked di
 
 ## Chromium: load the unpacked extension
 
-1. Extract `adbonk-chromium-1.0.0.zip` into a folder. If you built locally, use `dist/chromium` directly.
+1. Extract `adbonk-chromium-1.0.1.zip` into a folder. If you built locally, use `dist/chromium` directly.
 2. Open `chrome://extensions` (or your browser's extensions page) and enable **Developer mode**.
 3. Choose **Load unpacked** and select the folder containing `manifest.json`.
 4. Disable the AdBonk userscript and other Twitch-specific ad blockers. Allow the extension to run on Twitch, then reload a live stream.
@@ -37,7 +37,7 @@ Keep that folder on disk. To update an unpacked extension, replace its files, cl
 
 ## Firefox: load a temporary add-on
 
-1. Extract `adbonk-firefox-1.0.0.zip`. If you built locally, use `dist/firefox` directly.
+1. Extract `adbonk-firefox-1.0.1.zip`. If you built locally, use `dist/firefox` directly.
 2. Open `about:debugging`, choose **This Firefox**, and click **Load Temporary Add-on**.
 3. Select `manifest.json` inside the Firefox package.
 4. Allow access to Twitch if prompted, disable the AdBonk userscript and other Twitch-specific ad blockers, then reload the stream.
@@ -46,14 +46,16 @@ The temporary add-on is removed when Firefox restarts. Regular persistent instal
 
 ## What the popup means
 
-- **AdBonk is loaded:** the expected main-page fetch and Worker hooks initialized. This is not proof that an ad was blocked or that a live stream works.
-- **Another blocker is already loaded:** an equal/newer TwitchAdSolutions conflict counter was present before the extension ran. Disable the duplicate and reload the page.
-- **AdBonk did not initialize:** check site permissions and reload. Clips and auxiliary frames are intentionally skipped by the unchanged core.
+- **Ready on this page:** the expected main-page fetch and Worker hooks initialized. This is not proof that an ad was blocked or that a live stream works.
+- **Another script is running:** an equal/newer TwitchAdSolutions conflict counter was present before the extension ran. Disable the duplicate and reload the page.
+- **Not loaded on this page:** check site permissions and reload. Clips and auxiliary frames are intentionally skipped by the unchanged core.
 - **Open a Twitch live stream:** the active tab has no reachable extension status bridge. Open Twitch or reload an existing Twitch tab after installation.
 
 The popup reads status only. It does not change player settings or capture authentication headers, playlist URLs, or viewing history. It sends no telemetry. The blocker still makes its normal Twitch requests and uses Twitch's existing page state, as it does in the userscript.
 
 ## Architecture and permissions
+
+The extension version is tracked separately in `extension/version.json`; changing its interface does not require a userscript update.
 
 `tools/build-extension.js` copies the stable script and packages the shared adapters and popup into separate Manifest V3 builds. It adds only:
 
