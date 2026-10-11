@@ -59,7 +59,7 @@ git tag -a v1.0.0 -m 'AdBonk 1.0.0'
 git push origin v1.0.0
 ```
 
-Automation validates files and tests, checks the tag version, and publishes the stable vaft userscript with the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions after publication; hosted execution has not yet been validated during this local setup.
+Automation validates files and tests, checks the tag version, and publishes the stable vaft userscript, both extension ZIPs, and the license. Add English release notes at `docs/releases/<tag>.md` to describe versions, installation, and validation limits; otherwise GitHub generates notes from the commit history. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions and attached assets after publication.
 
 ## Incorporate upstream changes
 

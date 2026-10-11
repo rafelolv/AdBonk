@@ -1,4 +1,9 @@
-## Unreleased
+## v1.0.0 release packages (2026-10-11)
+
+This first GitHub release includes stable userscript `1.0.0` and experimental extensions `1.0.1`. Extension versions advance independently of the userscript.
+
+### Validation
+- The maintainer reports successful local extension use in Firefox and Chrome. Detailed live-ad scenarios and long viewing sessions have not been recorded; extensions remain experimental.
 
 ### Changed
 - Refreshed the extension popup with a quieter layout, shorter status messages, and a direct GitHub project link. Setup and bug-report links remain available.
@@ -7,7 +12,7 @@
 ### Added
 - Experimental Manifest V3 extension packages for Chromium and Firefox, with a shared popup and a read-only status bridge. `npm run build:extension` generates both unpacked directories and ZIP archives without npm dependencies.
 - The packages copy the stable userscript byte-for-byte. Blocking logic, userscript metadata, internal counters, and the public userscript URL are unchanged.
-- Added 13 extension regression tests and optional real-browser smoke checks. Chrome 154 and Firefox 157 passed installation and local fixture checks; real Twitch ads and store acceptance remain unverified.
+- Added 13 extension regression tests and optional real-browser smoke checks. Chrome 154 and Firefox 157 passed installation and local fixture checks; these automated checks do not validate real Twitch ads or store acceptance.
 - Tagged-release automation now includes both extension ZIPs alongside the stable userscript and license. Added an extension installation guide and dedicated issue form.
 
 ## v1.0.0 (2026-10-11)

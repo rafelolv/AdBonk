@@ -11,13 +11,13 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 | Chromium browsers | `adbonk-chromium-1.0.1.zip` | Chromium 111; real-browser checks used Chrome 154. |
 | Firefox desktop | `adbonk-firefox-1.0.1.zip` | Firefox 140; real-browser checks used Firefox 157. |
 
-These are development packages, not published store listings. The Firefox ZIP is unsigned and is intended for temporary installation. Chromium variants such as Brave and Edge have not been tested individually. Live Twitch ad breaks have not been validated with the extension yet.
+These are development packages, not published store listings. The Firefox ZIP is unsigned and is intended for temporary installation. The maintainer reports successful local use in Firefox and Chrome, but detailed ad-break scenarios have not been recorded. Chromium variants such as Brave and Edge have not been tested individually.
 
 Use either the extension or the userscript, and disable other Twitch-specific ad blockers. After installing or updating the extension, reload existing Twitch tabs.
 
 ## Get the packages
 
-Published GitHub releases will include the two ZIP files when a maintainer tags a version. Until a release is available, build them locally with Node.js 24:
+Download the ZIP files from [GitHub Releases](https://github.com/rafelolv/AdBonk/releases). You can also build them locally with Node.js 24:
 
 ```bash
 npm run build:extension

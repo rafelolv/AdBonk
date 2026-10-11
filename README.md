@@ -73,7 +73,7 @@ There is also an **experimental AdBonk extension for Chromium and Firefox**. It 
 
 These are development packages; store listings and a signed Firefox build are not available yet. Use one installation method at a time.
 
-**[Extension installation guide →](docs/EXTENSION.md)**
+**[Download extension packages →](https://github.com/rafelolv/AdBonk/releases)** · [Installation guide](docs/EXTENSION.md)
 
 ## Having trouble?
 
