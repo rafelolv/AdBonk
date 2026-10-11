@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (video-swap-new)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.87.2
+// @version      1.87.3
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/video-swap-new/video-swap-new.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/video-swap-new/video-swap-new.user.js
 // @description  Bonk Twitch ads (video-swap-new)
@@ -47,7 +47,7 @@
         }
     }
     'use strict';
-    const ourTwitchAdSolutionsVersion = 55;// Used to prevent conflicts with outdated versions of the scripts
+    const ourTwitchAdSolutionsVersion = 56;// Used to prevent conflicts with outdated versions of the scripts
     console.log('[AD DEBUG] TwitchAdSolutions video-swap-new v' + ourTwitchAdSolutionsVersion + ' loading');
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] CONFLICT: video-swap-new v' + ourTwitchAdSolutionsVersion + ' skipped — another script already active (v' + window.twitchAdSolutionsVersion + '). Remove duplicate scripts.');
@@ -1384,6 +1384,7 @@
             console.log('Could not find player state');
             return;
         }
+        if (playerState.props?.content?.type !== 'live') return;
         if (player.isPaused() || player.core?.paused) {
             return;
         }
@@ -1526,16 +1527,28 @@
         // extensions that key off real visibility (e.g. BetterTTV "Mute Invisible Player").
         // Resume-on-focus alone is enough to keep playback alive across hidden→visible
         // transitions during ads. Sync'd with TTV-AB v6.5.0.
-        let wasVideoPlaying = true;
+        let wasVideoPlaying = false;
+        let hiddenVideo = null;
         const visibilityChange = () => {
-            const videos = document.getElementsByTagName('video');
-            if (videos.length === 0) return;
-            if (document.hidden) {
-                wasVideoPlaying = !videos[0].paused && !videos[0].ended;
+            const playerAndState = getPlayerAndState();
+            const isLive = playerAndState?.state?.props?.content?.type === 'live';
+            const video = isLive ? playerAndState.player?.getHTMLVideoElement?.() : null;
+            if (!video) {
+                wasVideoPlaying = false;
+                hiddenVideo = null;
                 return;
             }
-            if (wasVideoPlaying && !videos[0].ended && videos[0].paused) {
-                videos[0].play()?.catch?.(() => {});
+            if (document.hidden) {
+                hiddenVideo = video;
+                wasVideoPlaying = !video.paused && !video.ended;
+                return;
+            }
+            // Never transfer resume permission to a VOD, a replacement video, or an ad element.
+            const shouldResume = wasVideoPlaying && video === hiddenVideo;
+            wasVideoPlaying = false;
+            hiddenVideo = null;
+            if (shouldResume && !video.ended && video.paused) {
+                video.play()?.catch?.(() => {});
             }
         };
         document.addEventListener('visibilitychange', visibilityChange);

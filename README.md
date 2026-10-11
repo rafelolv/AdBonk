@@ -48,7 +48,7 @@ Requires Node.js 24. No npm dependencies are needed to validate the baseline:
 npm run check
 ```
 
-This checks the syntax of every JavaScript file and runs the inherited tests. Upstream tests use copied functions and do not replace testing the actual script in a live stream.
+This checks the syntax of every JavaScript file and runs the inherited tests. The 84 inherited upstream tests use copied functions. The 30 regression tests extract functions from the shipped userscripts and exercise visibility changes, VOD guards, PiP recovery, and monitor scheduling with mocked browser/player objects. Neither suite replaces testing the actual script in a live stream. See the [upstream issue audit](docs/ISSUE-AUDIT.md) for findings and remaining limitations.
 
 See the [baseline comparison](docs/BASELINE.md), [maintenance and publication guide](docs/MAINTENANCE.md), [historical changelog](CHANGELOG.md), and [upstream debugging guide](DEBUG.md). The [original ryanbr documentation](https://github.com/ryanbr/TwitchAdSolutions#readme) remains available upstream as a historical reference.
 

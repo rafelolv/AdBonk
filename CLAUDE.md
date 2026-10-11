@@ -32,7 +32,7 @@ Only userscript managers are supported.
 
 ## Versions
 
-Bump `@version` (userscript header) and `ourTwitchAdSolutionsVersion` together for functional changes. Current: vaft 68.5.7/93, video-swap-new 1.87/55, strip 1.10/27. Testing: vaft 678.0.0/678. The upstream experimental video-swap-new resource was removed.
+Bump `@version` (userscript header) and `ourTwitchAdSolutionsVersion` together for functional changes. Current AdBonk: vaft 68.5.7.3/94, video-swap-new 1.87.3/56, strip 1.10.2/27. Experimental vaft: 678.0.0.3/679.
 
 ## localStorage Config
 

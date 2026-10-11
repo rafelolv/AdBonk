@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (vaft-testing)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      678.0.0.2
+// @version      678.0.0.3
 // @description  Bonk Twitch ads (vaft testing variant)
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft_testing.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft_testing.user.js
@@ -48,7 +48,7 @@
         }
     }
     'use strict';
-    const ourTwitchAdSolutionsVersion = 678;// Used to prevent conflicts with outdated versions of the scripts
+    const ourTwitchAdSolutionsVersion = 679;// Used to prevent conflicts with outdated versions of the scripts
     console.log('[AD DEBUG] TwitchAdSolutions vaft-testing v' + ourTwitchAdSolutionsVersion + ' loading');
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] CONFLICT: vaft-testing v' + ourTwitchAdSolutionsVersion + ' skipped — another script already active (v' + window.twitchAdSolutionsVersion + '). Remove duplicate scripts.');
@@ -1957,6 +1957,8 @@
         backgroundResumeState.timers = [];
     }
     function scheduleBackgroundResume(video) {
+        const current = getPlayerAndState();
+        if (current?.state?.props?.content?.type !== 'live' || current.player?.getHTMLVideoElement?.() !== video) return;
         if (backgroundResumeState.chains >= BackgroundResumeMaxChains) {
             if (!backgroundResumeState.loggedGiveUp) {
                 backgroundResumeState.loggedGiveUp = true;
@@ -1972,14 +1974,23 @@
         for (const delay of BackgroundResumeRetryDelaysMs) {
             backgroundResumeState.timers.push(setTimeout(() => {
                 if (!document.hidden) return;// the tab-focus handler owns the visible side
+                const current = getPlayerAndState();
+                if (current?.state?.props?.content?.type !== 'live' || current.player?.getHTMLVideoElement?.() !== video) return;
                 if (video.isConnected && video.paused && !video.ended) {
                     playPlayer(video, 'hidden-tab resume retry');
                 }
             }, delay));
         }
     }
+    // A focus event replaces the pending monitor tick; it must not start another loop.
+    function schedulePlayerBufferingCheck(delay) {
+        clearTimeout(monitorPlayerBuffering.timeoutId);
+        monitorPlayerBuffering.timeoutId = setTimeout(monitorPlayerBuffering, delay);
+    }
     // Poll the player state to detect and fix buffering caused by ad stream switching
     function monitorPlayerBuffering() {
+        clearTimeout(monitorPlayerBuffering.timeoutId);
+        monitorPlayerBuffering.timeoutId = null;
         // Always reschedule the next tick, even if the body throws — a single unexpected
         // exception (e.g. a Twitch-side player-shape change) would otherwise silently kill
         // every stall / frozen-playhead / mute recovery for the rest of the session.
@@ -2385,9 +2396,8 @@
         if (typeof document !== 'undefined' && !monitorPlayerBuffering.visibilityHooked) {
             monitorPlayerBuffering.visibilityHooked = true;
             document.addEventListener('visibilitychange', () => {
-                if (!document.hidden && !monitorPlayerBuffering.pendingTick) {
-                    monitorPlayerBuffering.pendingTick = true;
-                    setTimeout(() => { monitorPlayerBuffering.pendingTick = false; monitorPlayerBuffering(); }, 100);
+                if (!document.hidden) {
+                    schedulePlayerBufferingCheck(100);
                 }
             });
         }
@@ -2405,7 +2415,7 @@
         const shouldThrottle = typeof document !== 'undefined' && document.hidden && !document.pictureInPictureElement && !playerBufferState.inAdBreak;
         rescheduleDelay = shouldThrottle ? PlayerBufferingDelay * 3 : PlayerBufferingDelay;
         } finally {
-            setTimeout(monitorPlayerBuffering, rescheduleDelay);
+            schedulePlayerBufferingCheck(rescheduleDelay);
         }
     }
     // Hide Twitch's ad break / Turbo promo / stream display ad overlays when we're already blocking ads
@@ -2598,6 +2608,7 @@
             console.log('Could not find player state');
             return;
         }
+        if (playerState.props?.content?.type !== 'live') return;
         const wasPaused = player.isPaused() || player.core?.paused;
         // iOS/iPadOS anti-churn (restores the pixeltris-era "bail if paused" reload guard, scoped to
         // Apple touch): a reload re-instantiates the media element, which needs a user gesture to resume
@@ -2633,6 +2644,15 @@
             player.pause();
             playPlayer(player, 'pause/play fix');
             playerBufferState.weJustPaused = Date.now();
+            return;
+        }
+        if (isReload && document.pictureInPictureElement) {
+            // Match stable: replacing the media instance closes standard browser PiP.
+            if (wasPaused) return;
+            playerBufferState.weJustPaused = Date.now();
+            player.pause();
+            playPlayer(player, 'PiP recovery');
+            console.log('[AD DEBUG] Downgraded reload to pause/play to preserve PiP');
             return;
         }
         if (isReload) {
@@ -2972,15 +2992,27 @@
         // Issue #255 hardening: the hidden side now has its own resume guard (see
         // scheduleBackgroundResume), and the focus-side resume is verified — a rejected play()
         // here used to strand the player paused ("still frozen when I come back").
-        let wasVideoPlaying = true;
+        let wasVideoPlaying = false;
+        let hiddenVideo = null;
         const focusResumeTimers = [];
         const visibilityChange = () => {
-            const videos = document.getElementsByTagName('video');
-            if (videos.length === 0) return;
-            if (document.hidden) {
-                wasVideoPlaying = !videos[0].paused && !videos[0].ended;
+            const playerAndState = getPlayerAndState();
+            const isLive = playerAndState?.state?.props?.content?.type === 'live';
+            const video = isLive ? playerAndState.player?.getHTMLVideoElement?.() : null;
+            if (!video) {
+                wasVideoPlaying = false;
+                hiddenVideo = null;
                 return;
             }
+            if (document.hidden) {
+                hiddenVideo = video;
+                wasVideoPlaying = !video.paused && !video.ended;
+                return;
+            }
+            // Never transfer resume permission to a VOD, a replacement video, or an ad element.
+            const shouldResume = wasVideoPlaying && video === hiddenVideo;
+            wasVideoPlaying = false;
+            hiddenVideo = null;
             // Back to visible: the hidden-side guard is done — reset its strike budget
             backgroundResumeState.chains = 0;
             backgroundResumeState.loggedGiveUp = false;
@@ -2990,16 +3022,17 @@
             if (!playerBufferState.hasStreamStarted) {
                 playerBufferState.hasStreamStarted = true;
             }
-            if (wasVideoPlaying && !videos[0].ended && videos[0].paused) {
+            if (shouldResume && !video.ended && video.paused) {
                 // It was playing when the tab went away, so the pause isn't the user's — clear
                 // any misclassified intent before resuming
                 playerBufferState.userPauseIntent = false;
-                console.log('[AD DEBUG] Tab focused with the video paused — resuming (muted: ' + videos[0].muted + ')');
-                playPlayer(videos[0], 'tab focus');
+                console.log('[AD DEBUG] Tab focused with the video paused — resuming (muted: ' + video.muted + ')');
+                playPlayer(video, 'tab focus');
                 for (const delay of [400, 1500]) {
                     focusResumeTimers.push(setTimeout(() => {
-                        const v = document.getElementsByTagName('video')[0];
-                        if (v && !document.hidden && v.paused && !v.ended && !playerBufferState.userPauseIntent) {
+                        const current = getPlayerAndState();
+                        const v = current?.state?.props?.content?.type === 'live' ? current.player?.getHTMLVideoElement?.() : null;
+                        if (v === video && v && !document.hidden && v.paused && !v.ended && !playerBufferState.userPauseIntent) {
                             playPlayer(v, 'tab-focus resume retry');
                         }
                     }, delay));

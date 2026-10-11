@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (vaft)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      68.5.7.2
+// @version      68.5.7.3
 // @description  Bonk Twitch ads (vaft)
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
@@ -47,7 +47,7 @@
         }
     }
     'use strict';
-    const ourTwitchAdSolutionsVersion = 93;// Used to prevent conflicts with outdated versions of the scripts
+    const ourTwitchAdSolutionsVersion = 94;// Used to prevent conflicts with outdated versions of the scripts
     console.log('[AD DEBUG] TwitchAdSolutions vaft v' + ourTwitchAdSolutionsVersion + ' loading');
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] CONFLICT: vaft v' + ourTwitchAdSolutionsVersion + ' skipped — another script already active (v' + window.twitchAdSolutionsVersion + '). Remove duplicate scripts.');
@@ -2002,8 +2002,15 @@
         inAdBreak: false,
         vaftEverUnmuted: false
     };
+    // A focus event replaces the pending monitor tick; it must not start another loop.
+    function schedulePlayerBufferingCheck(delay) {
+        clearTimeout(monitorPlayerBuffering.timeoutId);
+        monitorPlayerBuffering.timeoutId = setTimeout(monitorPlayerBuffering, delay);
+    }
     // Poll the player state to detect and fix buffering caused by ad stream switching
     function monitorPlayerBuffering() {
+        clearTimeout(monitorPlayerBuffering.timeoutId);
+        monitorPlayerBuffering.timeoutId = null;
         // Fresh player lookup every tick (avoids stale ref when Twitch restarts its own player)
         playerForMonitoringBuffering = null;
         {
@@ -2321,9 +2328,8 @@
         if (typeof document !== 'undefined' && !monitorPlayerBuffering.visibilityHooked) {
             monitorPlayerBuffering.visibilityHooked = true;
             document.addEventListener('visibilitychange', () => {
-                if (!document.hidden && !monitorPlayerBuffering.pendingTick) {
-                    monitorPlayerBuffering.pendingTick = true;
-                    setTimeout(() => { monitorPlayerBuffering.pendingTick = false; monitorPlayerBuffering(); }, 100);
+                if (!document.hidden) {
+                    schedulePlayerBufferingCheck(100);
                 }
             });
         }
@@ -2340,7 +2346,7 @@
         // background media deprioritization is browser-level. Negligible cost — only polls faster while hidden + in-break.
         const shouldThrottle = typeof document !== 'undefined' && document.hidden && !document.pictureInPictureElement && !playerBufferState.inAdBreak;
         const nextDelay = shouldThrottle ? PlayerBufferingDelay * 3 : PlayerBufferingDelay;
-        setTimeout(monitorPlayerBuffering, nextDelay);
+        schedulePlayerBufferingCheck(nextDelay);
     }
     // document.querySelector('video') returns the first <video> in the DOM, which since
     // July 2026 can be a separate Twitch ad element beside the player or in chat (#249).
@@ -2555,6 +2561,7 @@
             console.log('Could not find player state');
             return;
         }
+        if (playerState.props?.content?.type !== 'live') return;
         const wasPaused = player.isPaused() || player.core?.paused;
         if (wasPaused) {
             // User deliberately paused — respect their intent, don't auto-resume
@@ -2951,19 +2958,31 @@
         // visibility (e.g. BetterTTV "Mute Invisible Player"). Resume-on-focus alone is
         // enough to keep playback alive across hidden→visible transitions during ads.
         // Sync'd with TTV-AB v6.5.0.
-        let wasVideoPlaying = true;
+        let wasVideoPlaying = false;
+        let hiddenVideo = null;
         const visibilityChange = () => {
-            const videos = document.getElementsByTagName('video');
-            if (videos.length === 0) return;
-            if (document.hidden) {
-                wasVideoPlaying = !videos[0].paused && !videos[0].ended;
+            const playerAndState = getPlayerAndState();
+            const isLive = playerAndState?.state?.props?.content?.type === 'live';
+            const video = isLive ? playerAndState.player?.getHTMLVideoElement?.() : null;
+            if (!video) {
+                wasVideoPlaying = false;
+                hiddenVideo = null;
                 return;
             }
+            if (document.hidden) {
+                hiddenVideo = video;
+                wasVideoPlaying = !video.paused && !video.ended;
+                return;
+            }
+            // Never transfer resume permission to a VOD, a replacement video, or an ad element.
+            const shouldResume = wasVideoPlaying && video === hiddenVideo;
+            wasVideoPlaying = false;
+            hiddenVideo = null;
             if (!playerBufferState.hasStreamStarted) {
                 playerBufferState.hasStreamStarted = true;
             }
-            if (wasVideoPlaying && !videos[0].ended && videos[0].paused) {
-                videos[0].play()?.catch?.(() => {});
+            if (shouldResume && !video.ended && video.paused) {
+                video.play()?.catch?.(() => {});
             }
         };
         document.addEventListener('visibilitychange', visibilityChange);

@@ -43,8 +43,8 @@ If you installed a version whose update URL points to `master`, reinstall from t
 5. To create a release, push a tag containing `v` followed by the exact stable version. For the initial baseline, when ready to publish:
 
 ```bash
-git tag -a v68.5.7.2 -m 'AdBonk initial baseline'
-git push origin v68.5.7.2
+git tag -a v68.5.7.3 -m 'AdBonk initial baseline'
+git push origin v68.5.7.3
 ```
 
 Automation validates files and tests, checks the tag version, and publishes the stable vaft userscript with the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions after publication; hosted execution has not yet been validated during this local setup.

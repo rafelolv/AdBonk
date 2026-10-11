@@ -1,6 +1,6 @@
 {
   "name": "adbonk",
-  "version": "68.5.7-2",
+  "version": "68.5.7-3",
   "private": true,
   "description": "Bonk Twitch ads. Independent continuation of TwitchAdSolutions.",
   "license": "MIT",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "validate": "node tools/validate.js",
-    "test": "node tests/test.js",
+    "test": "node tests/test.js && node tests/regressions.test.js",
     "check": "npm run validate && npm test"
   }
 }

@@ -38,6 +38,6 @@ AdBonk supports userscript managers only. All five inherited uBlock Origin resou
 
 ## Validation and limitations
 
-`npm run check` compiles every JavaScript file without executing browser code and runs the 84 inherited tests. The tests contain copied functions; they do not exercise the complete integration or every recent change. The pipeline does not establish that workers, the player, or ad handling work in a real session.
+`npm run check` compiles every JavaScript file without executing browser code and runs the 84 inherited tests plus 30 regression tests added during the [upstream issue audit](ISSUE-AUDIT.md). The regression suite extracts functions from the current userscripts and runs them with mocked browser/player objects. The tests contain copied functions; they do not exercise the complete integration or every recent change. The pipeline does not establish that workers, the player, or ad handling work in a real session.
 
 No live-stream validation with Tampermonkey has been performed. SSAI appears in playlists and may be handled by switching streams or removing segments; CSAI may occur outside playlists, and diagnostic hooks do not guarantee blocking. Videos in cross-origin iframes may also be inaccessible to the script. Reduced quality and pauses during ads remain possible.
