@@ -1,6 +1,7 @@
 ## Unreleased
 
 ### Changed
+- Migrated the maintained branch and installation/update URLs to `main`. Incremented userscript metadata versions from suffix `.1` to `.2`; runtime behavior is unchanged.
 - Renamed the project to AdBonk with the tagline "Bonk Twitch ads." Updated userscript names, namespaces, update URLs, package metadata, and documentation.
 
 ### Removed

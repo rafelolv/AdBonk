@@ -9,7 +9,7 @@ body:
       options:
         - label: I am using the latest version (not a permalink)
         - label: I have restarted my browser and checked that the userscript is enabled
-        - label: I have checked [Known Extension Conflicts](https://github.com/rafelolv/AdBonk/blob/master/README.md#extension-conflicts) — 7TV, TTV-AB, Purple AdBlock, and TwitchNoSub are known to cause issues
+        - label: I have checked [Known Extension Conflicts](https://github.com/rafelolv/AdBonk/blob/main/README.md#extension-conflicts) — 7TV, TTV-AB, Purple AdBlock, and TwitchNoSub are known to cause issues
 
   - type: dropdown
     id: script

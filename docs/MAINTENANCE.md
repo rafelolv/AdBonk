@@ -8,9 +8,11 @@ The parent directory contains three complete checkouts:
 - `upstream-ryanbr/`: the inspected maintenance fork, retained for reference.
 - `AdBonk/`: the project to maintain; make changes here.
 
-AdBonk preserves Git history and the `master` branch. Remotes: `origin` points to `git@github.com:rafelolv/AdBonk.git`; `ryanbr` and `pixeltris` point to the public source repositories. Configuring a remote does not create a GitHub repository.
+AdBonk preserves Git history and uses the `main` branch. Remotes: `origin` points to `git@github.com:rafelolv/AdBonk.git`; `ryanbr` and `pixeltris` point to the public source repositories. Configuring a remote does not create a GitHub repository.
 
-## Create the GitHub repository
+## GitHub repository
+
+The repository is published at [rafelolv/AdBonk](https://github.com/rafelolv/AdBonk). Its default branch is `main`. The initial GitHub README commit was merged with the imported project history during the branch migration. The instructions below are retained for creating a new copy.
 
 The SSH key authenticated as `rafelolv`. SSH authorizes Git operations, but repository creation requires the authenticated API or GitHub website. Neither `gh` nor API authentication was configured in the initial environment.
 
@@ -21,24 +23,28 @@ If you prefer GitHub to identify it as a fork, use [Fork ryanbr's repository](ht
 Once the repository exists, run inside `AdBonk/`:
 
 ```bash
-git push -u origin master
+git push -u origin main
 ```
 
-Do not push all inherited tags during the initial publication. After confirming the push, remove the publication-pending notice from the README, commit, and push that update. The installation URL will be:
+Do not push all inherited tags during the initial publication. The installation URL will be:
 
-`https://raw.githubusercontent.com/rafelolv/AdBonk/master/vaft/vaft.user.js`
+`https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js`
+
+## Migrating an existing installation
+
+If you installed a version whose update URL points to `master`, reinstall from the current `main` installation link in the README. Version `68.5.7.2` updates the stable script metadata to the new branch without changing runtime behavior. Other userscript variants also increment their metadata version suffix from `.1` to `.2`.
 
 ## Updates and releases
 
 1. Update the stable userscript when changing behavior. Keep experimental variants separate.
 2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in the affected userscript.
 3. Run `npm run check` and test live streams: preroll and midroll ads, channel switching, quality, mute, pause, background tabs, and broadcast end.
-4. Document results in CHANGELOG.md, commit, and push `master`.
+4. Document results in CHANGELOG.md, commit, and push `main`.
 5. To create a release, push a tag containing `v` followed by the exact stable version. For the initial baseline, when ready to publish:
 
 ```bash
-git tag -a v68.5.7.1 -m 'AdBonk initial baseline'
-git push origin v68.5.7.1
+git tag -a v68.5.7.2 -m 'AdBonk initial baseline'
+git push origin v68.5.7.2
 ```
 
 Automation validates files and tests, checks the tag version, and publishes the stable vaft userscript with the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions after publication; hosted execution has not yet been validated during this local setup.
@@ -48,8 +54,8 @@ Automation validates files and tests, checks the tag version, and publishes the 
 ```bash
 git fetch ryanbr
 git fetch pixeltris
-git log --oneline master..ryanbr/master
-git diff master...ryanbr/master -- vaft/vaft.user.js
+git log --oneline main..ryanbr/master
+git diff main...ryanbr/master -- vaft/vaft.user.js
 ```
 
 Review commits and integrate them on a working branch. Fixes may depend on other commits; check dependencies before cherry-picking. Merges can reintroduce upstream namespaces, URLs, workflows, and documentation: preserve AdBonk's identity and author credits. Do not automatically promote experimental scripts to stable or reintroduce the removed uBlock Origin integration.

@@ -1,6 +1,6 @@
 # TwitchAdSolutions
 
-AdBonk continuation. Remotes: `origin` = rafelolv/AdBonk (publication pending), `pixeltris` = archived original, `ryanbr` = maintenance fork. See AGENTS.md and docs/BASELINE.md. Historical version details below refer to the imported baseline.
+AdBonk continuation. Remotes: `origin` = rafelolv/AdBonk (`main`), `pixeltris` = archived original, `ryanbr` = maintenance fork. See AGENTS.md and docs/BASELINE.md. Historical version details below refer to the imported baseline.
 
 ## Worker Blob Serialization (CRITICAL)
 
@@ -86,7 +86,7 @@ All logs use `[AD DEBUG]` prefix. Logs in `.toString()` functions must use `cons
 
 ## Testing
 
-Testing files include experimental features (ad completion spoofing, lower thresholds, removed pruneStreamInfos). Don't apply to main scripts without explicit request. Testing-script-only changes commit directly to master; PRs are for release scripts.
+Testing files include experimental features (ad completion spoofing, lower thresholds, removed pruneStreamInfos). Don't apply to main scripts without explicit request. Testing-script-only changes commit directly to main; PRs are for release scripts.
 
 ## Backup Player Types
 

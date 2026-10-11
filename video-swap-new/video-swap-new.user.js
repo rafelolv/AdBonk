@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         AdBonk (video-swap-new)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.87.1
-// @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/master/video-swap-new/video-swap-new.user.js
-// @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/master/video-swap-new/video-swap-new.user.js
+// @version      1.87.2
+// @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/video-swap-new/video-swap-new.user.js
+// @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/video-swap-new/video-swap-new.user.js
 // @description  Bonk Twitch ads (video-swap-new)
 // @author       pixeltris (original), ryanbr (fork)
 // @match        *://*.twitch.tv/*
