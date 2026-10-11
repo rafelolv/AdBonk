@@ -8,8 +8,8 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 
 | Browser | Package | Minimum version |
 | --- | --- | --- |
-| Chromium browsers | `adbonk-chromium-1.0.3.zip` | Chromium 111; real-browser checks used Chrome 154. |
-| Firefox desktop | `adbonk-firefox-1.0.3.zip` | Firefox 140; real-browser checks used Firefox 157. |
+| Chromium browsers | `adbonk-chromium-1.0.4.zip` | Chromium 111; real-browser checks used Chrome 154. |
+| Firefox desktop | `adbonk-firefox-1.0.4.zip` | Firefox 140; real-browser checks used Firefox 157. |
 
 These filenames describe builds from the current source, bundling stable userscript `1.0.1`. The published `v1.0.0` release contains extension `1.0.1` and userscript `1.0.0`; it does not include the new quality preference. Build locally for the updated packages until the next release is published.
 
