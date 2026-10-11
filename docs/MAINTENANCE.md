@@ -30,8 +30,8 @@ Do not push all inherited tags during the initial publication. After confirming 
 
 ## Updates and releases
 
-1. Update the stable script and its uBlock counterpart when changing behavior.
-2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in both formats.
+1. Update the stable userscript when changing behavior. Keep experimental variants separate.
+2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in the affected userscript.
 3. Run `npm run check` and test live streams: preroll and midroll ads, channel switching, quality, mute, pause, background tabs, and broadcast end.
 4. Document results in CHANGELOG.md, commit, and push `master`.
 5. To create a release, push a tag containing `v` followed by the exact stable version. For the initial baseline, when ready to publish:
@@ -41,7 +41,7 @@ git tag -a v68.5.7.1 -m 'TwitchClear initial baseline'
 git push origin v68.5.7.1
 ```
 
-Automation validates files and tests, checks the tag version, and publishes the two stable vaft files with the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions after publication; hosted execution has not yet been validated during this local setup.
+Automation validates files and tests, checks the tag version, and publishes the stable vaft userscript with the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions after publication; hosted execution has not yet been validated during this local setup.
 
 ## Incorporate upstream changes
 
@@ -49,10 +49,10 @@ Automation validates files and tests, checks the tag version, and publishes the 
 git fetch ryanbr
 git fetch pixeltris
 git log --oneline master..ryanbr/master
-git diff master...ryanbr/master -- vaft/vaft.user.js vaft/vaft-ublock-origin.js
+git diff master...ryanbr/master -- vaft/vaft.user.js
 ```
 
-Review commits and integrate them on a working branch. Fixes may depend on other commits; check dependencies before cherry-picking. Merges can reintroduce upstream namespaces, URLs, workflows, and documentation: preserve TwitchClear's identity and author credits. Do not automatically promote experimental scripts to stable.
+Review commits and integrate them on a working branch. Fixes may depend on other commits; check dependencies before cherry-picking. Merges can reintroduce upstream namespaces, URLs, workflows, and documentation: preserve TwitchClear's identity and author credits. Do not automatically promote experimental scripts to stable or reintroduce the removed uBlock Origin integration.
 
 ## Architecture overview
 

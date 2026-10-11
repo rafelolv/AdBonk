@@ -13,7 +13,7 @@
 (function() {
     // Skip injection in nested frames that aren't legitimate Twitch embed contexts.
     // Twitch's main channel page has 5+ hidden cross-origin iframes (auth, analytics,
-    // ad SDK, etc.) and userscript managers / uBO inject into all matching ones. Each
+    // ad SDK, etc.) and userscript managers inject into all matching ones. Each
     // becomes a racing instance that fights for player control. Only the top frame
     // hosts the player on twitch.tv/CHANNEL; nested auxiliary frames are noise.
     // Allow-list for nested-frame injection: Twitch's three documented embed contexts

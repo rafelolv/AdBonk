@@ -33,7 +33,7 @@
 [AD DEBUG] New stream session — channel: <channel>, API: v2
 ```
 
-If you don't see `vaft v<number> loading`, the script isn't running. Check your userscript manager or uBO resource override.
+If you don't see `vaft v<number> loading`, the script isn't running. Check that the script is enabled in your userscript manager and that it has permission to run on Twitch.
 
 ### Normal Ad Break (CSAI-only, most common)
 
@@ -114,7 +114,7 @@ Best case — no backup stream switch, no rebuffer gap. The main stream plays un
 When reporting an issue, include:
 
 1. **Script version** — the `vaft v<number>` from the first console line
-2. **Browser and install method** — e.g. Chrome + Tampermonkey, Firefox + uBO
+2. **Browser and install method** — e.g. Chrome + Tampermonkey, Firefox + Violentmonkey
 3. **Console log** — copy the full `[AD DEBUG]` output. Use a paste service like [logpasta.com](https://logpasta.com) for long logs
 4. **What happened** — describe what you saw (loading circle, video pause, ad shown, etc.)
 5. **Channel** — which Twitch channel you were watching

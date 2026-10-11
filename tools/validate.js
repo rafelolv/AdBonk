@@ -1,4 +1,4 @@
-// Compile without executing browser code. uBlock resources carry a non-JS first line.
+// Compile JavaScript without executing browser code.
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -12,8 +12,7 @@ function validateDirectory(directory) {
         if (entry.isDirectory()) {
             validateDirectory(filename);
         } else if (entry.name.endsWith('.js')) {
-            const source = fs.readFileSync(filename, 'utf8')
-                .replace(/^[^\r\n]+ text\/javascript\r?\n/, '\n');
+            const source = fs.readFileSync(filename, 'utf8');
             new vm.Script(source, { filename: path.relative(root, filename) });
             count++;
         }

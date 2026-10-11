@@ -1,5 +1,10 @@
 ## Unreleased
 
+### Removed
+- Removed the uBlock Origin integration. TwitchClear now supports userscript managers only; resource files, installation instructions, bug-report options, and release artifacts were removed. See the README for migration steps.
+
+The entries below describe the imported upstream history.
+
 ## v68.5.7 (2026-08-27)
 
 ### Debug Logging

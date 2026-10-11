@@ -30,7 +30,11 @@ See [CHANGELOG.md](../CHANGELOG.md) for the previous maintainer's details and qu
 - Update/download URLs pointing to `rafelolv/TwitchClear`.
 - A `.1` suffix on userscript versions: vaft `68.5.7.1`, testing `678.0.0.1`, video-swap-new `1.87.1`, strip `1.10.1`, and Brave fix `1.3.1.1`.
 - English documentation, upstream remotes, validation of all JavaScript files, and releases triggered by tags.
-- Preserved script bodies, internal conflict versions, and author credits.
+- Preserved runtime logic, internal conflict versions, and author credits.
+
+## Removed integration
+
+TwitchClear supports userscript managers only. All five inherited uBlock Origin resource files, their installation instructions, bug-report choices, and release artifacts were removed. The validator now compiles ordinary JavaScript directly. Upstream historical changelog entries retain their original references; they do not describe supported installation methods.
 
 ## Validation and limitations
 

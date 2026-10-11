@@ -2,7 +2,7 @@
 
 ## Neither script works
 
-If you're using the uBlock Origin version of the script you need to make sure that it's set up correctly based on the instructions in the README. Check the script is active by opening your browsers developer console, refreshing a stream, and searching for `hookWorkerFetch (vaft)` / `hookWorkerFetch (video-swap-new)`. If you don't see this, then the script isn't being injected and you need to find the reason why.
+Check that the script is installed and enabled in your userscript manager using the instructions in the README. Open the browser developer console, reload a stream, and look for `[AD DEBUG]` messages. If the script does not log anything, check its permissions and matching URLs.
 
 If you're using Chrome with a Manifest V3 based userscript manager (e.g. Tampermonkey) you need to manually enable user script permissions in the extension settings:
 

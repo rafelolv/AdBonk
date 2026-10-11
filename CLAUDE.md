@@ -12,14 +12,14 @@ Functions serialized via `.toString()` into the Web Worker blob CANNOT reference
 
 ## Files
 
-Synced pairs (same logic, different format):
-- `vaft/vaft.user.js` + `vaft/vaft-ublock-origin.js`
-- `vaft/vaft_testing.user.js` + `vaft/vaft-testing-ublock-origin.js`
-- `video-swap-new/video-swap-new.user.js` + `video-swap-new/video-swap-new-ublock-origin.js`
-- `video-swap-new/video-swap-new-ublock-origin-testing.js` (testing only)
+Supported userscripts:
+- `vaft/vaft.user.js` (stable)
+- `vaft/vaft_testing.user.js` (experimental)
+- `video-swap-new/video-swap-new.user.js` (legacy alternative)
 - `strip/strip.user.js` (standalone)
+- `vaft/twitch-brave-fix.user.js` (optional Brave companion)
 
-uBlock files have `twitch-videoad.js text/javascript` as line 1 (not valid JS â€” uBlock resource header).
+Only userscript managers are supported.
 
 ## Naming Differences
 
@@ -32,7 +32,7 @@ uBlock files have `twitch-videoad.js text/javascript` as line 1 (not valid JS â€
 
 ## Versions
 
-Bump `@version` (userscript header) and `ourTwitchAdSolutionsVersion` together for functional changes. Current: vaft 68.5.7/93, video-swap-new 1.87/55, strip 1.10/27. Testing: vaft 678.0.0/678, video-swap-new -/621.
+Bump `@version` (userscript header) and `ourTwitchAdSolutionsVersion` together for functional changes. Current: vaft 68.5.7/93, video-swap-new 1.87/55, strip 1.10/27. Testing: vaft 678.0.0/678. The upstream experimental video-swap-new resource was removed.
 
 ## localStorage Config
 
@@ -82,7 +82,7 @@ All logs use `[AD DEBUG]` prefix. Logs in `.toString()` functions must use `cons
 
 ## Validation
 
-`npx acorn --ecma2022 file.js` (skip line 1 for uBlock files: `tail -n +2 file.js | npx acorn --ecma2022`). GitHub Actions validates on push/PR.
+`npm run check` validates every JavaScript file and runs the inherited unit tests. GitHub Actions validates on push/PR.
 
 ## Testing
 
