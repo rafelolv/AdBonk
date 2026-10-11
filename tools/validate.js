@@ -7,7 +7,7 @@ let count = 0;
 
 function validateDirectory(directory) {
     for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
-        if (entry.name === '.git' || entry.name === 'node_modules') continue;
+        if (entry.name === '.git' || entry.name === 'node_modules' || entry.name === 'dist') continue;
         const filename = path.join(directory, entry.name);
         if (entry.isDirectory()) {
             validateDirectory(filename);

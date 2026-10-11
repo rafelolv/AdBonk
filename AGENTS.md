@@ -5,7 +5,7 @@ Independent continuation of TwitchAdSolutions. Read docs/BASELINE.md for provena
 - Use English for all project documentation, comments, user-facing text, metadata, and commit messages.
 - Preserve MIT license, author credits, and Git history.
 - Main supported entry point: vaft/vaft.user.js. Keep stable and experimental variants separate.
-- Support userscript managers only. Do not restore uBlock Origin resources, scriptlets, installation options, or release artifacts.
+- Support userscript managers and the experimental Chromium/Firefox extension packages. Keep the stable userscript as the single blocking source; extension builds must copy it byte-for-byte. Do not restore uBlock Origin resources, scriptlets, installation options, or release artifacts.
 - Worker functions are serialized with `.toString()`. They must not capture window-scope variables. See CLAUDE.md for imported architectural notes.
 - Do not merge testing features into stable automatically.
 - Update userscript @version for published changes. Bump the internal conflict version in the affected userscript for behavior changes. Initial metadata-only changes leave internal versions unchanged.

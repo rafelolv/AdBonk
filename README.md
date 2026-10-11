@@ -67,6 +67,14 @@ Use your manager's update checker to get new versions. The script's `@updateURL`
 
 </details>
 
+## Prefer a standalone extension?
+
+There is also an **experimental AdBonk extension for Chromium and Firefox**. It bundles the same stable blocking script, so you can use it without a userscript manager.
+
+These are development packages; store listings and a signed Firefox build are not available yet. Use one installation method at a time.
+
+**[Extension installation guide →](docs/EXTENSION.md)**
+
 ## Having trouble?
 
 Check that the script is enabled and that your manager has permission to run it. Reload the stream after changing settings.
@@ -120,7 +128,7 @@ Requires **Node.js 24**. No npm dependencies are needed:
 npm run check
 ```
 
-This checks every JavaScript file's syntax and runs 84 inherited tests, 30 player regression tests, and 15 network regression tests. The inherited tests use copied functions; the regression tests extract functions from the shipped scripts. They check player recovery with mocked browser/player objects, plus playlist failures and response timeouts in isolated window/worker contexts.
+This checks every JavaScript file's syntax and runs 84 inherited tests, 30 player regression tests, 15 network regression tests, and 13 extension tests. The inherited tests use copied functions; the regression tests extract functions from the shipped scripts. They check player recovery with mocked browser/player objects, plus playlist failures and response timeouts in isolated window/worker contexts.
 
 Passing these tests does not establish that ad blocking works on a live stream. Test player behavior in the browser too. See the [issue audit](docs/ISSUE-AUDIT.md) for findings and remaining limitations.
 

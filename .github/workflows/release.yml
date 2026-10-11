@@ -16,6 +16,7 @@ jobs:
         with:
           node-version: '24'
       - run: npm run check
+      - run: npm run build:extension
       - name: Check stable version matches tag
         run: |
           VERSION=$(sed -n 's|^// @version[[:space:]]*||p' vaft/vaft.user.js)
@@ -27,3 +28,5 @@ jobs:
           files: |
             vaft/vaft.user.js
             LICENSE
+            dist/adbonk-chromium-*.zip
+            dist/adbonk-firefox-*.zip

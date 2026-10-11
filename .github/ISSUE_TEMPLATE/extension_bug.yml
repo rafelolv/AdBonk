@@ -1,0 +1,36 @@
+name: Experimental extension bug
+description: Report a problem with the Chromium or Firefox extension.
+title: "[Extension] "
+body:
+  - type: markdown
+    attributes:
+      value: "The extension is experimental. See [the setup guide](https://github.com/rafelolv/AdBonk/blob/main/docs/EXTENSION.md) before reporting."
+  - type: checkboxes
+    attributes:
+      label: Setup
+      options:
+        - label: I disabled the AdBonk userscript and other Twitch-specific ad blockers, then reloaded Twitch.
+          required: true
+  - type: input
+    attributes:
+      label: Browser and extension versions
+      placeholder: "Firefox 157, AdBonk extension 1.0.0"
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Installation method
+      placeholder: "Chromium unpacked / Firefox temporary add-on"
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: "Include steps, expected behavior, popup status, and whether the same problem occurs with the userscript."
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Relevant console logs
+      description: "Paste relevant [AD DEBUG] messages. Remove authentication headers and private tokens."
+      render: text

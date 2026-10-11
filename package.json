@@ -9,7 +9,9 @@
   },
   "scripts": {
     "validate": "node tools/validate.js",
-    "test": "node tests/test.js && node tests/regressions.test.js && node tests/network.test.js",
-    "check": "npm run validate && npm test"
+    "test": "node tests/test.js && node tests/regressions.test.js && node tests/network.test.js && node tests/extension.test.js",
+    "check": "npm run validate && npm test",
+    "build:extension": "node tools/build-extension.js",
+    "test:extension:browser": "npm run build:extension && node tools/smoke-extension.js"
   }
 }
