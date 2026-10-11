@@ -30,6 +30,8 @@ You need a **userscript manager**: a browser extension that runs AdBonk on Twitc
 
 Use **one manager and one AdBonk variant** at a time. The install link above always points to the stable script on `main`.
 
+> **Already installed an earlier AdBonk version?** AdBonk's own version sequence starts at **1.0.0**. If your manager shows an older release with a higher number, such as `68.5.7.5`, open the install link again and confirm replacement with `1.0.0`. If the manager refuses the lower version, back up any local edits, remove the old AdBonk script, and install again. Keep only one copy enabled. The update checker won't treat this version reset as an upgrade; future updates follow the new sequence.
+
 ### What to expect
 
 During detected ad breaks, the player shows **“AdBonk is blocking ads”**. The script looks for an alternative stream without ads; when none is available, it may remove ad segments. This can cause pauses, buffering, or a temporary drop in quality.

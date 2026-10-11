@@ -26,8 +26,8 @@ body:
     id: version
     attributes:
       label: Script version
-      description: "Open the browser console (F12) — the script logs it at load, e.g. `[AD DEBUG] TwitchAdSolutions vaft v86 loading`. Check your userscript manager for the public version."
-      placeholder: "e.g. vaft v86 (68.5.0)"
+      description: "Check your userscript manager for the public AdBonk version. You can also include the internal counter from the browser console (F12); it is separate from the public version."
+      placeholder: "e.g. AdBonk (vaft) 1.0.0; internal counter 95"
     validations:
       required: true
 

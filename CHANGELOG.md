@@ -1,4 +1,11 @@
-## Unreleased
+## v1.0.0 (2026-10-11)
+
+### Changed
+- Restarted AdBonk's public version sequence at `1.0.0` in the package and all five userscripts. Stable, experimental, legacy, and companion scripts retain their existing support status and behavior.
+- Documented a one-time manual reinstall for existing installations, because userscript update checks do not treat the lower public version as an upgrade. Future versions use three-part semantic versioning.
+- Preserved internal conflict counters, Git history, upstream credits, and historical version references. This version reset changes metadata and documentation only.
+
+## AdBonk before the version reset
 
 ### Fixed
 - Stable vaft now propagates media and master playlist processing/read failures to the intercepted fetch request instead of leaving it pending with an unhandled rejection.

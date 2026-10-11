@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (vaft)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      68.5.7.5
+// @version      1.0.0
 // @description  Bonk Twitch ads (vaft)
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js

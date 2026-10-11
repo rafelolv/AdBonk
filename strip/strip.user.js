@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (strip) - BAD, DON'T USE THIS
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.10.3
+// @version      1.0.0
 // @description  Bonk Twitch ads (strip)
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/strip/strip.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/strip/strip.user.js

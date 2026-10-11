@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (twitch-brave-fix)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.3.1.2
+// @version      1.0.0
 // @description  Bypass Brave fingerprint detection on Twitch GQL/integrity requests by retrying via GM_xmlHttpRequest with header spoofs (Sec-Ch-Ua brand rewrite from Brave to Google Chrome with synthetic fallback when userAgentData hidden, Sec-Ch-Ua-Platform, Sec-Ch-Ua-Mobile, Firefox User-Agent, explicit Origin/Referer/Host, Accept-Language). Also hides navigator.brave and rebrands navigator.userAgentData.brands / getHighEntropyValues from "Brave" to "Google Chrome" so Twitch JS can't preemptively flag the session. Per-request retry: each interceptable request goes native first, sniffs for `errors` in the response body, and retries that specific request via GM xhr if needed — fixes occasional fingerprint-driven failures (e.g. Brave login on www.twitch.tv) without paying the GM xhr tax on every successful request. Companion to vaft / video-swap-new.
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/twitch-brave-fix.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/twitch-brave-fix.user.js
