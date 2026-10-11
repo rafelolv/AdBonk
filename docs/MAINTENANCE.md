@@ -49,8 +49,8 @@ Keep `package.json` aligned with the stable userscript. Release tags use the sta
 ## Updates and releases
 
 1. Update the stable userscript when changing behavior. Keep experimental variants separate.
-2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in the affected userscript.
-3. Run `npm run check` and test live streams: preroll and midroll ads, channel switching, quality, mute, pause, background tabs, and broadcast end.
+2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in the affected userscript. For any stable userscript change, align `package.json` and increment `extension/version.json` too, because both extensions bundle that file.
+3. Run `npm run check`, rebuild both extension packages, and follow the synchronization rules below. Test live streams separately with the userscript and each extension: preroll and midroll ads, channel switching, quality, mute, pause, background tabs, and broadcast end. Record any checks that could not be completed.
 4. Document results in CHANGELOG.md, commit, and push `main`.
 5. To create a release, push a tag containing `v` followed by the exact stable version. For the `1.0.0` baseline, when ready to publish:
 
@@ -77,6 +77,21 @@ Review commits and integrate them on a working branch. Fixes may depend on other
 The stable userscript remains the single blocking source. `npm run build:extension` copies it verbatim into Chromium and Firefox packages under `dist/`; do not edit generated copies. Change adapters and popup files under `extension/` separately. The extension version is independent and lives in `extension/version.json`. Increment it for interface or adapter changes so browser stores accept the update; do not bump the userscript for extension-only changes. The current extension is `1.0.1`, while the unchanged stable userscript is `1.0.0`.
 
 Run `npm run check` after changes. When browsers are available, `npm run test:extension:browser` checks actual extension installation and integration on loopback fixtures. Follow [the extension guide](EXTENSION.md) for limitations, temporary installation, and store publication. Release automation attaches both ZIPs to tagged releases; it does not sign or submit extensions to browser stores.
+
+### Keep the userscript and extensions synchronized
+
+| Change | Required versions and packages |
+| --- | --- |
+| Stable `vaft/vaft.user.js`, including metadata | Increment the stable public version and matching package version, plus the extension version. Increment the internal conflict counter for behavior changes. Rebuild both extensions from the updated stable file. |
+| Extension popup, adapter, or packaging | Increment the extension version and rebuild both packages. Keep the stable userscript and its version unchanged unless it also requires a fix. |
+| Experimental or legacy userscript | Increment only the affected variant's version and behavior counter as appropriate. Do not automatically promote it into stable or the extension. |
+| Documentation only | No runtime version bump is required. Run the required checks. |
+
+For shared changes, run `npm run check` and `npm run test:extension:browser`. The unit checks rebuild both packages and verify that each bundled blocker matches the stable source byte-for-byte. The browser checks validate extension integration; they do not replace testing real streams with the userscript and both extensions, one installation method at a time. If a browser or live-ad scenario is unavailable, record that limitation explicitly.
+
+Before distributing a ZIP, verify its `build-info.json`: `userscriptVersion` must match the intended stable public version, and `coreSha256` must match the stable source. Record the userscript and extension versions together in the changelog. Never edit a generated core copy or reuse an extension version after changing its bundled code.
+
+Publishing to GitHub does not update store installations. Submit rebuilt packages through the existing Chrome and Firefox listings, using their new extension version, and track review/signing status separately. Keep the last approved store version distinct from the latest GitHub build until review completes.
 
 ## Architecture overview
 
