@@ -1,7 +1,10 @@
 ## Unreleased
 
+### Changed
+- Renamed the project to AdBonk with the tagline "Bonk Twitch ads." Updated userscript names, namespaces, update URLs, package metadata, and documentation.
+
 ### Removed
-- Removed the uBlock Origin integration. TwitchClear now supports userscript managers only; resource files, installation instructions, bug-report options, and release artifacts were removed. See the README for migration steps.
+- Removed the uBlock Origin integration. AdBonk now supports userscript managers only; resource files, installation instructions, bug-report options, and release artifacts were removed. See the README for migration steps.
 
 The entries below describe the imported upstream history.
 

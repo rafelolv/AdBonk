@@ -1,4 +1,6 @@
-# TwitchClear
+# AdBonk
+
+**Bonk Twitch ads.**
 
 An independent continuation of [TwitchAdSolutions by pixeltris](https://github.com/pixeltris/TwitchAdSolutions), based on the updated [ryanbr fork](https://github.com/ryanbr/TwitchAdSolutions). Maintained by [rafelolv](https://github.com/rafelolv).
 
@@ -6,12 +8,12 @@ The initial focus is **stable vaft**: it intercepts Twitch stream playlists and 
 
 ## Install with Tampermonkey
 
-**Publication pending:** the links below will work after the code is published to `rafelolv/TwitchClear`. Use manual installation to test locally now.
+**Publication pending:** the links below will work after the code is published to `rafelolv/AdBonk`. Use manual installation to test locally now.
 
 1. Install [Tampermonkey](https://www.tampermonkey.net/) in your browser.
 2. For Chrome 138+ with Tampermonkey 5.3+, enable **Allow User Scripts** in the extension details. Developer Mode is an alternative; see the [official instructions](https://www.tampermonkey.net/faq.php?q=Q209).
 3. Disable other Twitch-specific ad blockers, including older scripts. Run only one ad-blocking variant of this project at a time.
-4. After publication, open [Install TwitchClear — stable vaft](https://raw.githubusercontent.com/rafelolv/TwitchClear/master/vaft/vaft.user.js) and select **Install**.
+4. After publication, open [Install AdBonk — stable vaft](https://raw.githubusercontent.com/rafelolv/AdBonk/master/vaft/vaft.user.js) and select **Install**.
 5. Reload a Twitch live stream. Look for `[AD DEBUG]` in the browser console (F12) to confirm that the script loaded.
 
 **Manual installation now:** open the Tampermonkey dashboard, select **Add a new script**, delete the example, paste the complete contents of [`vaft/vaft.user.js`](vaft/vaft.user.js), and save with Ctrl+S. Keep the script enabled and reload the stream. Use the `.user.js` file. See the [official installation documentation](https://www.tampermonkey.net/faq.php?q=Q102).
@@ -20,7 +22,7 @@ The initial focus is **stable vaft**: it intercepts Twitch stream playlists and 
 
 ## Migrating from the old uBlock Origin integration
 
-TwitchClear supports userscript managers only. Remove the old `twitch.tv##+js(twitch-videoad)` filter and the upstream script URL from `userResourcesLocation` in uBlock Origin. If it was the only resource URL, restore `userResourcesLocation` to `unset`; otherwise keep your other resource URLs. Also remove any old Brave companion scriptlet filter and resource URL if installed. Restart the browser and install the userscript as described above.
+AdBonk supports userscript managers only. Remove the old `twitch.tv##+js(twitch-videoad)` filter and the upstream script URL from `userResourcesLocation` in uBlock Origin. If it was the only resource URL, restore `userResourcesLocation` to `unset`; otherwise keep your other resource URLs. Also remove any old Brave companion scriptlet filter and resource URL if installed. Restart the browser and install the userscript as described above.
 
 ## Extension conflicts
 

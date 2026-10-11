@@ -1,4 +1,4 @@
-# TwitchClear
+# AdBonk
 
 Independent continuation of TwitchAdSolutions. Read docs/BASELINE.md for provenance and docs/MAINTENANCE.md for the workflow.
 
@@ -9,6 +9,6 @@ Independent continuation of TwitchAdSolutions. Read docs/BASELINE.md for provena
 - Worker functions are serialized with `.toString()`. They must not capture window-scope variables. See CLAUDE.md for imported architectural notes.
 - Do not merge testing features into stable automatically.
 - Update userscript @version for published changes. Bump the internal conflict version in the affected userscript for behavior changes. Initial metadata-only changes leave internal versions unchanged.
-- Installation/update URLs must point to rafelolv/TwitchClear. Historical docs and author credits retain upstream links.
+- Installation/update URLs must point to rafelolv/AdBonk. Historical docs and author credits retain upstream links.
 - Run npm run check after changes. Upstream tests copy functions; report their limits and validate player behavior in the browser.
 - Never claim current live ad-blocking works based only on unit tests.

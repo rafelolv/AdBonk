@@ -1,6 +1,6 @@
 # TwitchAdSolutions
 
-TwitchClear continuation. Remotes: `origin` = rafelolv/TwitchClear (publication pending), `pixeltris` = archived original, `ryanbr` = maintenance fork. See AGENTS.md and docs/BASELINE.md. Historical version details below refer to the imported baseline.
+AdBonk continuation. Remotes: `origin` = rafelolv/AdBonk (publication pending), `pixeltris` = archived original, `ryanbr` = maintenance fork. See AGENTS.md and docs/BASELINE.md. Historical version details below refer to the imported baseline.
 
 ## Worker Blob Serialization (CRITICAL)
 

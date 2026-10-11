@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         TwitchClear (vaft)
-// @namespace    https://github.com/rafelolv/TwitchClear
+// @name         AdBonk (vaft)
+// @namespace    https://github.com/rafelolv/AdBonk
 // @version      68.5.7.1
-// @description  Multiple solutions for blocking Twitch ads (vaft)
-// @updateURL    https://raw.githubusercontent.com/rafelolv/TwitchClear/master/vaft/vaft.user.js
-// @downloadURL  https://raw.githubusercontent.com/rafelolv/TwitchClear/master/vaft/vaft.user.js
+// @description  Bonk Twitch ads (vaft)
+// @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/master/vaft/vaft.user.js
+// @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/master/vaft/vaft.user.js
 // @author       https://github.com/cleanlock/VideoAdBlockForTwitch#credits
 // @match        *://*.twitch.tv/*
 // @run-at       document-start

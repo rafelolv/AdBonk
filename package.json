@@ -1,10 +1,12 @@
 {
-  "name": "twitchclear",
+  "name": "adbonk",
   "version": "68.5.7-1",
   "private": true,
-  "description": "Independent continuation of TwitchAdSolutions",
+  "description": "Bonk Twitch ads. Independent continuation of TwitchAdSolutions.",
   "license": "MIT",
-  "engines": { "node": ">=24" },
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
     "validate": "node tools/validate.js",
     "test": "node tests/test.js",

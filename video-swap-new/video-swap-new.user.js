@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         TwitchClear (video-swap-new)
-// @namespace    https://github.com/rafelolv/TwitchClear
+// @name         AdBonk (video-swap-new)
+// @namespace    https://github.com/rafelolv/AdBonk
 // @version      1.87.1
-// @updateURL    https://raw.githubusercontent.com/rafelolv/TwitchClear/master/video-swap-new/video-swap-new.user.js
-// @downloadURL  https://raw.githubusercontent.com/rafelolv/TwitchClear/master/video-swap-new/video-swap-new.user.js
-// @description  Multiple solutions for blocking Twitch ads (video-swap-new)
+// @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/master/video-swap-new/video-swap-new.user.js
+// @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/master/video-swap-new/video-swap-new.user.js
+// @description  Bonk Twitch ads (video-swap-new)
 // @author       pixeltris (original), ryanbr (fork)
 // @match        *://*.twitch.tv/*
 // @run-at       document-start

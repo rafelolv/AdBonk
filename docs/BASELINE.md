@@ -1,4 +1,4 @@
-# TwitchClear initial baseline
+# AdBonk initial baseline
 
 Compared on 2026-10-11 using complete clones, without modifying the source repositories.
 
@@ -24,17 +24,17 @@ The diff between the two tips covers 20 files, 16,593 insertions, and 956 deleti
 
 See [CHANGELOG.md](../CHANGELOG.md) for the previous maintainer's details and qualifications. These describe imported code; they do not establish effectiveness in current Twitch sessions.
 
-## Initial TwitchClear changes
+## Initial AdBonk changes
 
 - Project name and namespace in all five userscripts.
-- Update/download URLs pointing to `rafelolv/TwitchClear`.
+- Update/download URLs pointing to `rafelolv/AdBonk`.
 - A `.1` suffix on userscript versions: vaft `68.5.7.1`, testing `678.0.0.1`, video-swap-new `1.87.1`, strip `1.10.1`, and Brave fix `1.3.1.1`.
 - English documentation, upstream remotes, validation of all JavaScript files, and releases triggered by tags.
 - Preserved runtime logic, internal conflict versions, and author credits.
 
 ## Removed integration
 
-TwitchClear supports userscript managers only. All five inherited uBlock Origin resource files, their installation instructions, bug-report choices, and release artifacts were removed. The validator now compiles ordinary JavaScript directly. Upstream historical changelog entries retain their original references; they do not describe supported installation methods.
+AdBonk supports userscript managers only. All five inherited uBlock Origin resource files, their installation instructions, bug-report choices, and release artifacts were removed. The validator now compiles ordinary JavaScript directly. Upstream historical changelog entries retain their original references; they do not describe supported installation methods.
 
 ## Validation and limitations
 
