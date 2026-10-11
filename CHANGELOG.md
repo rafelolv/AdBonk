@@ -1,6 +1,7 @@
 ## Unreleased
 
 ### Changed
+- Experimental extension `1.0.3` replaces the abstract mallet icon with a purple mascot bonking an AD tile. The README banner uses the same artwork, and small toolbar icons use a closer face framing. Stable userscript `1.0.1` and its blocking logic are unchanged by this visual update.
 - Stable userscript `1.0.1` (internal `96`) disables fast-autoplay-first by default. Each new backup search can try higher-quality alternatives even when the preceding break required 360p. The low-quality fallback, same-break contamination ordering, and reload safeguards remain available.
 - The faster 360p-first behavior is an explicit opt-in through `twitchAdSolutions_fastAutoplayFirstTry=true`; `false` keeps the new default. Higher-quality probes can add buffering time, and quality depends on the clean streams Twitch provides.
 - Experimental extensions `1.0.2` bundle stable userscript `1.0.1` byte-for-byte. Store packages and the existing GitHub release are separate from these new local builds.
