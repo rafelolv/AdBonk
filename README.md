@@ -4,6 +4,8 @@
 
 An independent continuation of [TwitchAdSolutions by pixeltris](https://github.com/pixeltris/TwitchAdSolutions), based on the updated [ryanbr fork](https://github.com/ryanbr/TwitchAdSolutions). Maintained by [rafelolv](https://github.com/rafelolv).
 
+A huge thank you to [pixeltris](https://github.com/pixeltris) for starting TwitchAdSolutions and sharing it with the community. In my experience, it remains the best Twitch ad blocker, and even though the original project has been discontinued, it still works well today. AdBonk builds on that work with gratitude and aims to keep it going.
+
 My background is in DevOps/SRE, and software development is not the main focus of my work. I'll do my best to maintain AdBonk and keep it working. Contributions, fixes, and pull requests are always welcome!
 
 The initial focus is **stable vaft**: it intercepts Twitch stream playlists and looks for an alternative stream without ads. If none is available, it may remove ad segments, which can cause pauses, buffering, or temporarily reduced quality.
