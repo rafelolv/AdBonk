@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (vaft)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      68.5.7.4
+// @version      68.5.7.5
 // @description  Bonk Twitch ads (vaft)
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
@@ -47,7 +47,7 @@
         }
     }
     'use strict';
-    const ourTwitchAdSolutionsVersion = 94;// Used to prevent conflicts with outdated versions of the scripts
+    const ourTwitchAdSolutionsVersion = 95;// Used to prevent conflicts with outdated versions of the scripts
     console.log('[AD DEBUG] TwitchAdSolutions vaft v' + ourTwitchAdSolutionsVersion + ' loading');
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] CONFLICT: vaft v' + ourTwitchAdSolutionsVersion + ' skipped — another script already active (v' + window.twitchAdSolutionsVersion + '). Remove duplicate scripts.');
@@ -579,7 +579,8 @@
                             }
                         };
                         realFetch(url, options).then(function(response) {
-                            processAfter(response);
+                            // Return processing so body/parser failures reach the request's catch.
+                            return processAfter(response);
                         })['catch'](function(err) {
                             reject(err);
                         });
@@ -715,7 +716,8 @@
                             }
                         };
                         realFetch(url, options).then(function(response) {
-                            processAfter(response);
+                            // Master playlist processing must propagate failures too.
+                            return processAfter(response);
                         })['catch'](function(err) {
                             reject(err);
                         });
@@ -2858,7 +2860,6 @@
                 ...fetchRequest.options,
                 signal: controller.signal
             });
-            clearTimeout(timeoutId);
             const responseBody = await response.text();
             const responseObject = {
                 id: fetchRequest.id,
@@ -2873,11 +2874,13 @@
             };
             return responseObject;
         } catch (error) {
-            clearTimeout(timeoutId);
             return {
                 id: fetchRequest.id,
                 error: error.name === 'AbortError' ? 'GQL fetch timeout (' + (timeoutMs / 1000) + 's)' : error.message
             };
+        } finally {
+            // Keep the deadline active through body consumption, including slow streams.
+            clearTimeout(timeoutId);
         }
     }
     // Hook fetch() in the window scope to capture auth headers and modify player type requests

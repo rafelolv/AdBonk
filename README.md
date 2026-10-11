@@ -118,7 +118,7 @@ Requires **Node.js 24**. No npm dependencies are needed:
 npm run check
 ```
 
-This checks every JavaScript file's syntax and runs 84 inherited tests plus 30 regression tests. The inherited tests use copied functions; the regression tests extract functions from the shipped scripts and use mocked browser/player objects to check visibility changes, VOD guards, PiP recovery, and monitor scheduling.
+This checks every JavaScript file's syntax and runs 84 inherited tests, 30 player regression tests, and 15 network regression tests. The inherited tests use copied functions; the regression tests extract functions from the shipped scripts. They check player recovery with mocked browser/player objects, plus playlist failures and response timeouts in isolated window/worker contexts.
 
 Passing these tests does not establish that ad blocking works on a live stream. Test player behavior in the browser too. See the [issue audit](docs/ISSUE-AUDIT.md) for findings and remaining limitations.
 

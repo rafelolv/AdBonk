@@ -1,12 +1,16 @@
 ## Unreleased
 
 ### Fixed
+- Stable vaft now propagates media and master playlist processing/read failures to the intercepted fetch request instead of leaving it pending with an unhandled rejection.
+- Stable vaft's GQL timeout now covers response body consumption as well as waiting for headers. Timer cleanup runs in `finally` after success, failure, or cancellation.
 - Restricted focus-triggered resume and worker-triggered player recovery to live content. VODs and unknown content types no longer receive these recovery actions (ryanbr #245; related pixeltris #473). Focus recovery now targets the player-owned video and only resumes the same video that was playing before the tab was hidden.
 - Fixed accumulating monitor loops after tab focus in stable and experimental vaft. Focus events now replace the pending tick instead of creating an additional recurring timer. This removes a reproducible source of extra background work; it does not establish the cause of the historical browser-freeze report (pixeltris #278).
 - Restored standard browser PiP protection in experimental vaft: reload recovery uses pause/play instead of replacing the media instance (ryanbr #262). Native Firefox PiP remains unverified.
 - Restricted experimental background/focus resume retries to the same live player so navigation cannot transfer recovery actions to a VOD or replacement video.
 
 ### Validation
+- Added 15 stable network regression tests against extracted userscript functions. Six cases fail before these network fixes and all 15 pass afterwards. Stable vaft version: `68.5.7.5` (internal `95`). Experimental and legacy variants are unchanged by these fixes.
+- Chrome passed five isolated network checks, including cancellation of a native HTTP response body at the real five-second deadline. No live Twitch ad break was tested for these changes.
 - Added 30 regression tests against functions extracted from the shipped scripts, alongside the 84 inherited tests. Live Twitch and extension-specific behavior still require browser validation.
 - Stable vaft version: `68.5.7.3` (internal `94`); experimental vaft: `678.0.0.3` (internal `679`); legacy video-swap-new: `1.87.3` (internal `56`).
 
