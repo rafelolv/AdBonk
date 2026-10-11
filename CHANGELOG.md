@@ -11,6 +11,7 @@
 - Stable vaft version: `68.5.7.3` (internal `94`); experimental vaft: `678.0.0.3` (internal `679`); legacy video-swap-new: `1.87.3` (internal `56`).
 
 ### Changed
+- Generalized installation instructions to userscript managers, listed Violentmonkey and ScriptCat alongside Tampermonkey, documented the current Greasemonkey compatibility limitation, and expanded compatibility reporting fields.
 - Migrated the maintained branch and installation/update URLs to `main`. Incremented userscript metadata versions from suffix `.1` to `.2`; runtime behavior is unchanged.
 - Renamed the project to AdBonk with the tagline "Bonk Twitch ads." Updated userscript names, namespaces, update URLs, package metadata, and documentation.
 

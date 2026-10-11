@@ -52,7 +52,18 @@ body:
       options:
         - Tampermonkey
         - Violentmonkey
+        - ScriptCat
+        - Greasemonkey (compatibility report; currently unsupported)
         - Other
+    validations:
+      required: true
+
+  - type: input
+    id: manager-version
+    attributes:
+      label: Userscript manager version
+      description: Include the extension version so compatibility reports can be reproduced.
+      placeholder: "e.g. Violentmonkey 2.x or ScriptCat 1.x"
     validations:
       required: true
 

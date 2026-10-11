@@ -10,19 +10,30 @@ My background is in DevOps/SRE, and software development is not the main focus o
 
 The initial focus is **stable vaft**: it intercepts Twitch stream playlists and looks for an alternative stream without ads. If none is available, it may remove ad segments, which can cause pauses, buffering, or temporarily reduced quality.
 
-## Install with Tampermonkey
+## Install with a userscript manager
 
 The maintained branch is `main`. Install from the link below or use manual installation to test local changes.
 
-1. Install [Tampermonkey](https://www.tampermonkey.net/) in your browser.
-2. For Chrome 138+ with Tampermonkey 5.3+, enable **Allow User Scripts** in the extension details. Developer Mode is an alternative; see the [official instructions](https://www.tampermonkey.net/faq.php?q=Q209).
+Choose one manager for AdBonk:
+
+| Manager | AdBonk compatibility |
+| --- | --- |
+| [Tampermonkey](https://www.tampermonkey.net/) | Standard installation option inherited from TwitchAdSolutions. |
+| [Violentmonkey](https://violentmonkey.github.io/) | Alternative installation option inherited from TwitchAdSolutions. |
+| [ScriptCat](https://scriptcat.org/) | Additional option to try: its documented execution mode matches the main script's requirements. Live Twitch compatibility has not yet been validated. |
+| [Greasemonkey](https://www.greasespot.net/) | Not currently supported by the main ad-blocking script. It requires a separate compatibility adaptation. |
+
+1. Install your chosen manager. Use Tampermonkey or Violentmonkey for the standard setup; ScriptCat is available for compatibility testing.
+2. Enable the manager's required userscript permissions. For Chrome 138+ with Tampermonkey 5.3+, enable **Allow User Scripts** in the extension details. Developer Mode is an alternative; see the [official instructions](https://www.tampermonkey.net/faq.php?q=Q209).
 3. Disable other Twitch-specific ad blockers, including older scripts. Run only one ad-blocking variant of this project at a time.
 4. Open [Install AdBonk — stable vaft](https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js) and select **Install**.
 5. Reload a Twitch live stream. Look for `[AD DEBUG]` in the browser console (F12) to confirm that the script loaded.
 
-**Manual installation now:** open the Tampermonkey dashboard, select **Add a new script**, delete the example, paste the complete contents of [`vaft/vaft.user.js`](vaft/vaft.user.js), and save with Ctrl+S. Keep the script enabled and reload the stream. Use the `.user.js` file. See the [official installation documentation](https://www.tampermonkey.net/faq.php?q=Q102).
+**Manual installation:** open your manager's dashboard/editor, create a new script, delete the example, paste the complete contents of [`vaft/vaft.user.js`](vaft/vaft.user.js), and save. Keep the script enabled and reload the stream. Use the `.user.js` file. Exact menu names vary by manager; see the [Tampermonkey instructions](https://www.tampermonkey.net/faq.php?q=Q102) or [Violentmonkey instructions](https://violentmonkey.github.io/guide/creating-a-userscript/).
 
-`@updateURL` and `@downloadURL` point to this project. Tampermonkey can check for new versions after publication; you can also request an update check from its dashboard. Save local edits and reload the stream to apply them.
+`@updateURL` and `@downloadURL` point to this project. Use your manager's update checker to obtain new versions. Save local edits and reload the stream to apply them. Install AdBonk in only one manager at a time to avoid duplicate hooks.
+
+See the [manager compatibility notes](docs/USERSCRIPT-MANAGERS.md) for the evidence behind these statuses and how to report compatibility problems.
 
 ## Migrating from the old uBlock Origin integration
 
