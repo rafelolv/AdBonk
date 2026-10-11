@@ -1,0 +1,13 @@
+{
+  "name": "twitchlivre",
+  "version": "68.5.7-1",
+  "private": true,
+  "description": "Continuação independente de TwitchAdSolutions",
+  "license": "MIT",
+  "engines": { "node": ">=24" },
+  "scripts": {
+    "validate": "node tools/validate.js",
+    "test": "node tests/test.js",
+    "check": "npm run validate && npm test"
+  }
+}

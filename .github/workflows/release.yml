@@ -1,70 +1,30 @@
-name: Create Release
+name: Release
 
 on:
-  workflow_dispatch:
+  push:
+    tags: ['v*']
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+permissions:
+  contents: write
 
 jobs:
-  create-release:
-    permissions:
-      contents: write
-    name: Create Release
+  release:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: Install acorn
-      run: npm install -g acorn
-
-    - name: Validate userscripts
-      run: |
-        for f in vaft/vaft.user.js vaft/vaft_testing.user.js video-swap-new/video-swap-new.user.js strip/strip.user.js; do
-          echo "Validating $f..."
-          acorn --ecma2022 "$f" > /dev/null
-        done
-
-    - name: Validate uBlock scripts
-      run: |
-        for f in vaft/vaft-ublock-origin.js vaft/vaft-testing-ublock-origin.js video-swap-new/video-swap-new-ublock-origin.js video-swap-new/video-swap-new-ublock-origin-testing.js; do
-          echo "Validating $f..."
-          tail -n +2 "$f" | acorn --ecma2022 > /dev/null
-        done
-
-    - name: Get version from script
-      id: version
-      run: |
-        VERSION=$(grep -m1 '@version' vaft/vaft.user.js | sed 's/.*@version\s*//')
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-    - name: Set up Git user
-      run: |
-        git config user.name "github-actions[bot]"
-        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-    - name: Update permalink hashes in README
-      run: |
-        CURRENT_HASH=$(git rev-parse HEAD)
-        sed -i "s|/ryanbr/TwitchAdSolutions/[a-f0-9]\{40\}/|/ryanbr/TwitchAdSolutions/${CURRENT_HASH}/|g" README.md
-        git add README.md
-
-    - name: Create version commit and tag
-      run: |
-        git commit -m "v${{ steps.version.outputs.version }}"
-        git tag -a "v${{ steps.version.outputs.version }}" -m "Release v${{ steps.version.outputs.version }}"
-        git push origin master
-        git push origin "v${{ steps.version.outputs.version }}"
-
-    - name: Create Release
-      uses: softprops/action-gh-release@v2
-      with:
-        tag_name: "v${{ steps.version.outputs.version }}"
-        name: "Release v${{ steps.version.outputs.version }}"
-        body_path: CHANGELOG.md
-        draft: false
-        prerelease: false
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm run check
+      - name: Check stable version matches tag
+        run: |
+          VERSION=$(sed -n 's|^// @version[[:space:]]*||p' vaft/vaft.user.js)
+          test "$GITHUB_REF_NAME" = "v$VERSION"
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            vaft/vaft.user.js
+            vaft/vaft-ublock-origin.js
+            LICENSE

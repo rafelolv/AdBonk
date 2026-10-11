@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         TwitchAdSolutions (strip) - BAD, DON'T USE THIS
-// @namespace    https://github.com/ryanbr/TwitchAdSolutions
-// @version      1.10
+// @name         TwitchLivre (strip) - BAD, DON'T USE THIS
+// @namespace    https://github.com/rafelolv/TwitchLivre
+// @version      1.10.1
 // @description  Multiple solutions for blocking Twitch ads (strip)
-// @updateURL    https://github.com/ryanbr/TwitchAdSolutions/raw/master/strip/strip.user.js
-// @downloadURL  https://github.com/ryanbr/TwitchAdSolutions/raw/master/strip/strip.user.js
+// @updateURL    https://raw.githubusercontent.com/rafelolv/TwitchLivre/master/strip/strip.user.js
+// @downloadURL  https://raw.githubusercontent.com/rafelolv/TwitchLivre/master/strip/strip.user.js
 // @author       pixeltris (original), ryanbr (fork)
 // @match        *://*.twitch.tv/*
 // @run-at       document-start

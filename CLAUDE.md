@@ -1,6 +1,6 @@
 # TwitchAdSolutions
 
-Fork of pixeltris/TwitchAdSolutions (archived). Remote `origin` = pixeltris, remote `master` = ryanbr.
+TwitchLivre continuation. Remotes: `origin` = rafelolv/TwitchLivre (publication pending), `pixeltris` = archived original, `ryanbr` = maintenance fork. See AGENTS.md and docs/BASELINE.md. Historical version details below refer to the imported baseline.
 
 ## Worker Blob Serialization (CRITICAL)
 

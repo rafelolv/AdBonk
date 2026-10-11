@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         TwitchAdSolutions (vaft)
-// @namespace    https://github.com/ryanbr/TwitchAdSolutions
-// @version      68.5.7
+// @name         TwitchLivre (vaft)
+// @namespace    https://github.com/rafelolv/TwitchLivre
+// @version      68.5.7.1
 // @description  Multiple solutions for blocking Twitch ads (vaft)
-// @updateURL    https://github.com/ryanbr/TwitchAdSolutions/raw/master/vaft/vaft.user.js
-// @downloadURL  https://github.com/ryanbr/TwitchAdSolutions/raw/master/vaft/vaft.user.js
+// @updateURL    https://raw.githubusercontent.com/rafelolv/TwitchLivre/master/vaft/vaft.user.js
+// @downloadURL  https://raw.githubusercontent.com/rafelolv/TwitchLivre/master/vaft/vaft.user.js
 // @author       https://github.com/cleanlock/VideoAdBlockForTwitch#credits
 // @match        *://*.twitch.tv/*
 // @run-at       document-start

@@ -1,5 +1,5 @@
 name: Bug Report
-description: Report an issue with TwitchAdSolutions
+description: Report an issue with TwitchLivre
 labels: ["bug"]
 body:
   - type: checkboxes
@@ -9,7 +9,7 @@ body:
       options:
         - label: I am using the latest version (not a permalink)
         - label: I have restarted my browser / disabled and re-enabled uBlock Origin
-        - label: I have checked [Known Extension Conflicts](https://github.com/ryanbr/TwitchAdSolutions/blob/master/README.md#known-extension-conflicts) — 7TV, TTV-AB, Purple AdBlock, and TwitchNoSub are known to cause issues
+        - label: I have checked [Known Extension Conflicts](https://github.com/rafelolv/TwitchLivre/blob/master/docs/README-ryanbr.md#known-extension-conflicts) — 7TV, TTV-AB, Purple AdBlock, and TwitchNoSub are known to cause issues
 
   - type: dropdown
     id: script
