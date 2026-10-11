@@ -27,7 +27,7 @@ Choose one manager for AdBonk:
 2. Enable the manager's required userscript permissions. For Chrome 138+ with Tampermonkey 5.3+, enable **Allow User Scripts** in the extension details. Developer Mode is an alternative; see the [official instructions](https://www.tampermonkey.net/faq.php?q=Q209).
 3. Disable other Twitch-specific ad blockers, including older scripts. Run only one ad-blocking variant of this project at a time.
 4. Open [Install AdBonk — stable vaft](https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js) and select **Install**.
-5. Reload a Twitch live stream. Look for `[AD DEBUG]` in the browser console (F12) to confirm that the script loaded.
+5. Reload a Twitch live stream. Look for `[AD DEBUG]` in the browser console (F12) to confirm that the script loaded. During detected ad breaks, the player displays **AdBonk is blocking ads**; technical details stay in the console logs.
 
 **Manual installation:** open your manager's dashboard/editor, create a new script, delete the example, paste the complete contents of [`vaft/vaft.user.js`](vaft/vaft.user.js), and save. Keep the script enabled and reload the stream. Use the `.user.js` file. Exact menu names vary by manager; see the [Tampermonkey instructions](https://www.tampermonkey.net/faq.php?q=Q102) or [Violentmonkey instructions](https://violentmonkey.github.io/guide/creating-a-userscript/).
 

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (strip) - BAD, DON'T USE THIS
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.10.2
+// @version      1.10.3
 // @description  Bonk Twitch ads (strip)
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/strip/strip.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/strip/strip.user.js
@@ -153,7 +153,7 @@
                         }
                         if (adBlockDiv != null) {
                             if (e.data.isStrippingAdSegments) {
-                                adBlockDiv.P.textContent = 'Stripping' + (e.data.isMidroll ? ' midroll' : '') + ' ads' + (e.data.numStrippedAdSegments > 0 ? ` (${e.data.numStrippedAdSegments})` : '');
+                                adBlockDiv.P.textContent = 'AdBonk is blocking ads';
                                 adBlockDiv.style.display = 'block';
                             } else {
                                 adBlockDiv.style.display = 'none';

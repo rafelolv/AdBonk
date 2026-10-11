@@ -17,7 +17,7 @@ This needs to be fixed but currently the exact cause is unknown. https://github.
 
 ## The player shows a loading wheel for a long time
 
-If it says `Blocking ads (stripping)` in the top left of the stream then it's actively removing the ad segments but doesn't have a backup stream to show you. If it doesn't say `Blocking ads (stripping)` provide additional information in https://github.com/pixeltris/TwitchAdSolutions/issues/474
+If the player displays `AdBonk is blocking ads` while playback pauses, the script may be removing ad segments without an available clean backup stream. The simplified banner does not distinguish recovery modes; use the `[AD DEBUG]` console logs to diagnose backup selection and segment stripping. If the player freezes without the banner, include console errors when reporting the issue.
 
 ## The script don't work on mobile (m.twitch.tv)
 

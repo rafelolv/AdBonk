@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (video-swap-new)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.87.3
+// @version      1.87.4
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/video-swap-new/video-swap-new.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/video-swap-new/video-swap-new.user.js
 // @description  Bonk Twitch ads (video-swap-new)
@@ -1296,7 +1296,7 @@
                     twitchPlayerAndState = getPlayerAndState();
                 }
                 const isLive = twitchPlayerAndState?.state?.props?.content?.type === 'live';
-                adBlockDiv.P.textContent = 'Blocking' + (data.isMidroll ? ' midroll' : '') + ' ads' + (data.isStrippingAdSegments ? ' (stripping)' : '') + (data.activeBackupPlayerType ? ' (' + data.activeBackupPlayerType + ')' : '');
+                adBlockDiv.P.textContent = 'AdBonk is blocking ads';
                 adBlockDiv.style.display = data.hasAds && isLive ? 'block' : 'none';
             }
         }

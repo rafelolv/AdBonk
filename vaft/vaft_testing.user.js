@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk (vaft-testing)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      678.0.0.3
+// @version      678.0.0.4
 // @description  Bonk Twitch ads (vaft testing variant)
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft_testing.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft_testing.user.js
@@ -2496,7 +2496,7 @@
             }
             if (adBlockDiv != null) {
                 isActivelyStrippingAds = data.isStrippingAdSegments;
-                adBlockDiv.P.textContent = 'Blocking' + (data.isMidroll ? ' midroll' : '') + ' ads' + (data.isStrippingAdSegments ? ' (stripping)' : '') + (data.activeBackupPlayerType ? ' (' + data.activeBackupPlayerType + ')' : '');
+                adBlockDiv.P.textContent = 'AdBonk is blocking ads';
                 adBlockDiv.style.display = data.hasAds && playerBufferState.isLive ? 'block' : 'none';
             }
             if (data.hasAds) {
