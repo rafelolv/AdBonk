@@ -94,7 +94,7 @@ async function runChecks(browser, navigate, evaluate, extensionUrl) {
     const bridge = await evaluate(`(async()=>{const api=globalThis.browser||globalThis.chrome;const tabs=await api.tabs.query({});const tab=tabs.find(tab=>tab.url===${JSON.stringify(base + '/channel')});return await api.tabs.sendMessage(tab.id,{type:'adbonk-status'},{frameId:0});})()`);
     assert.equal(bridge.initialized, true);
     assert.equal(bridge.conflict, false);
-    assert.equal(await evaluate("document.getElementById('version').textContent"), require('../extension/version.json').version);
+    assert.equal(await evaluate("document.getElementById('version').textContent"), require('../package.json').version);
     console.log(`${browser}: PASS — early MAIN-world hooks, page status, clip skip, auxiliary-frame skip, embed-frame injection, duplicate detection, isolated bridge, popup version`);
 }
 async function chromium() {
@@ -176,7 +176,7 @@ async function firefox() {
                 const popup = tree.contexts.find(tab => tab.url === url);
                 if (popup) {
                     current = popup.context;
-                    const ready = await evaluate(`document.readyState === 'complete' && typeof globalThis.browser === 'object' && document.getElementById('version')?.textContent === ${JSON.stringify(require('../extension/version.json').version)}`);
+                    const ready = await evaluate(`document.readyState === 'complete' && typeof globalThis.browser === 'object' && document.getElementById('version')?.textContent === ${JSON.stringify(require('../package.json').version)}`);
                     if (ready) return;
                 }
                 await new Promise(resolve => setTimeout(resolve, 25));

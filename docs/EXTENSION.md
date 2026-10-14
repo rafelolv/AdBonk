@@ -8,10 +8,10 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 
 | Browser | Package | Minimum version |
 | --- | --- | --- |
-| Chromium browsers | `adbonk-chromium-1.0.6.zip` | Chromium 111; real-browser checks used Chrome 154. |
-| Firefox desktop | `adbonk-firefox-1.0.6.zip` | Firefox 140; real-browser checks used Firefox 157. |
+| Chromium browsers | `adbonk-chromium-1.0.7.zip` | Chromium 111; real-browser checks used Chrome 154. |
+| Firefox desktop | `adbonk-firefox-1.0.7.zip` | Firefox 140; real-browser checks used Firefox 157. |
 
-Current source builds extension `1.0.6` with stable userscript `1.0.2`. The published `v1.0.1` release contains extension `1.0.5` with userscript `1.0.1`; build locally for the new icons until the next release. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
+Current source builds the userscript and both extensions as version `1.0.7`. This shared sequence replaces independent extension versioning and stays above previous extension builds so updates remain possible. The published `v1.0.1` release contains extension `1.0.5` with userscript `1.0.1`; build locally for the new icons until the next release. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
 
 **Firefox:** [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) for regular installation. The store may still show an older version until the maintainer submits the update and Mozilla approves it. The GitHub ZIP is unsigned and intended for temporary installation, even though the extension is stable.
 
@@ -59,7 +59,7 @@ The popup reads status only. It does not change player settings or capture authe
 
 ## Architecture and permissions
 
-The extension version is tracked separately in `extension/version.json`; changing its interface does not require a userscript update.
+The shared version comes from `package.json`. It must match stable userscript `@version`; both extension manifests and build-info version fields use the same number. Even interface-only changes advance the userscript metadata version, while its runtime stays unchanged.
 
 `tools/build-extension.js` copies the stable script and packages the shared adapters and popup into separate Manifest V3 builds. It adds only:
 

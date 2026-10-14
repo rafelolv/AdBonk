@@ -1,9 +1,10 @@
 ## Unreleased
 
 ### Changed
+- Unified the stable userscript, package, and both extension versions at `1.0.7`, above previous extension builds. `package.json` is now the single version source; removed the separate extension version file. Extension-only releases also advance userscript metadata, while behavior counters change only for runtime fixes. Historical releases keep their original versions.
 - Reorganized the README around installation choices, with direct userscript and Firefox links, short browser-specific steps, and collapsible update, migration, manager, and local-installation details. Credits, maintainer introduction, compatibility limits, and the Chrome Web Store fee note are retained.
-- Added `@icon` and `@icon64` metadata to stable userscript `1.0.2`. Its runtime body and internal conflict counter `96` are unchanged.
-- Extension `1.0.6` bundles that userscript and adds a simplified transparent mascot head for 16px and 32px icons. The existing banner and larger mascot-and-mallet icons are retained.
+- Added `@icon` and `@icon64` metadata to stable userscript `1.0.7`. Its runtime body and internal conflict counter `96` are unchanged.
+- Extension `1.0.7` bundles that userscript and adds a simplified transparent mascot head for 16px and 32px icons. The existing banner and larger mascot-and-mallet icons are retained.
 
 ### Validation
 - All 148 tests and Chrome/Firefox extension fixture checks pass. The userscript body, internal conflict counter, banner, and 48px/128px icons match the previous commit. Both extension packages contain the updated userscript byte-for-byte.

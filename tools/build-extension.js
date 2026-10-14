@@ -4,8 +4,6 @@ const path = require('node:path');
 const { createHash } = require('node:crypto');
 const root = path.resolve(__dirname, '..');
 const version = require('../package.json').version;
-const extensionVersion = require('../extension/version.json').version;
-if (!/^\d+\.\d+\.\d+$/.test(extensionVersion)) throw new Error('Invalid extension version');
 const core = fs.readFileSync(path.join(root, 'vaft/vaft.user.js'));
 const publicVersion = core.toString().match(/^\/\/ @version\s+(\S+)/m)?.[1];
 const internalVersion = Number(core.toString().match(/const ourTwitchAdSolutionsVersion = (\d+)/)?.[1]);
@@ -57,9 +55,9 @@ for (const browser of ['chromium', 'firefox']) {
     fs.cpSync(path.join(root, 'extension'), directory, { recursive: true });
     fs.writeFileSync(path.join(directory, 'blocker.js'), core);
     fs.copyFileSync(path.join(root, 'LICENSE'), path.join(directory, 'LICENSE'));
-    fs.writeFileSync(path.join(directory, 'startup.js'), `// Build-generated public metadata; no secrets or settings.\nwindow.__adbonkExtensionStartup = { previousVersion: window.twitchAdSolutionsVersion, expectedVersion: ${internalVersion}, version: ${JSON.stringify(extensionVersion)} };\n`);
+    fs.writeFileSync(path.join(directory, 'startup.js'), `// Build-generated public metadata; no secrets or settings.\nwindow.__adbonkExtensionStartup = { previousVersion: window.twitchAdSolutionsVersion, expectedVersion: ${internalVersion}, version: ${JSON.stringify(version)} };\n`);
     const manifest = {
-        manifest_version: 3, name: 'AdBonk', version: extensionVersion,
+        manifest_version: 3, name: 'AdBonk', version: version,
         description: 'Bonk Twitch ads. Browser extension using the AdBonk stable userscript.',
         homepage_url: 'https://github.com/rafelolv/AdBonk',
         host_permissions: ['*://*.twitch.tv/*'],
@@ -74,7 +72,7 @@ for (const browser of ['chromium', 'firefox']) {
     else manifest.browser_specific_settings = { gecko: { id: 'adbonk@rafelolv.github.io', strict_min_version: '140.0', data_collection_permissions: { required: ['none'] } } };
     fs.writeFileSync(path.join(directory, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
     const digest = createHash('sha256').update(core).digest('hex');
-    fs.writeFileSync(path.join(directory, 'build-info.json'), JSON.stringify({ version: extensionVersion, userscriptVersion: version, source: 'vaft/vaft.user.js', coreSha256: digest }, null, 2) + '\n');
-    zipDirectory(directory, path.join(root, 'dist', `adbonk-${browser}-${extensionVersion}.zip`));
-    console.log(`Built ${browser} ${extensionVersion}; stable core SHA-256 ${digest}`);
+    fs.writeFileSync(path.join(directory, 'build-info.json'), JSON.stringify({ version: version, userscriptVersion: version, source: 'vaft/vaft.user.js', coreSha256: digest }, null, 2) + '\n');
+    zipDirectory(directory, path.join(root, 'dist', `adbonk-${browser}-${version}.zip`));
+    console.log(`Built ${browser} ${version}; stable core SHA-256 ${digest}`);
 }

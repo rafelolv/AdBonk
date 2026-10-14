@@ -74,7 +74,7 @@ AdBonk checks higher-quality alternatives before repeating a previous 360p fallb
 - **Firefox store extension:** Firefox handles store updates after Mozilla approves them.
 - **Locally loaded extension:** replace its files with the new package, reload the extension, and reload Twitch. GitHub doesn't update local installations automatically.
 
-Keep one AdBonk installation enabled. Back up local script edits before updating, because updates can replace them.
+The stable userscript and extensions now share the same version number. Store approval can still delay an extension update. Keep one AdBonk installation enabled, and back up local script edits before updating because updates can replace them.
 
 </details>
 

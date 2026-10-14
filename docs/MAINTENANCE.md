@@ -38,27 +38,27 @@ If you installed a version whose update URL points to `master`, reinstall from t
 
 ## Version policy
 
-The package and all five userscripts start the AdBonk version sequence at `1.0.0`. This does not change their support status: stable, experimental, legacy, and companion scripts remain separate. Each variant increments its public version when it changes; unchanged variants do not need a bump.
+The package and all five userscripts start the AdBonk version sequence at `1.0.0`. This does not change their support status: stable, experimental, legacy, and companion scripts remain separate. The stable userscript and both extensions now share a single version; experimental, legacy, and companion variants advance independently when changed.
 
 - Patch (`1.0.1`): fixes and small compatible updates.
 - Minor (`1.1.0`): new compatible features.
 - Major (`2.0.0`): breaking changes or changes that require users to migrate.
 
-Keep `package.json` aligned with the stable userscript. Release tags use the stable public version, such as `v1.0.0`. The runtime conflict counters (`95` in stable vaft at this reset) are separate from public versions and must never be reset for branding. Keep historical version references in the changelog and provenance documents.
+Use `package.json` as the canonical shared version for the stable userscript and both extension manifests. The stable userscript `@version` must match it. Even extension-only releases bump both the package and stable metadata; preserve runtime and conflict counters when behavior is unchanged. Release tags use the stable public version, such as `v1.0.0`. The runtime conflict counters (`95` in stable vaft at this reset) are separate from public versions and must never be reset for branding. Keep historical version references in the changelog and provenance documents.
 
 ## Updates and releases
 
 For every release request, follow [Creating an AdBonk release](RELEASING.md) and the [release notes template](RELEASE-TEMPLATE.md).
 
 1. Update the stable userscript when changing behavior. Keep experimental variants separate.
-2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in the affected userscript. For any stable userscript change, align `package.json` and increment `extension/version.json` too, because both extensions bundle that file.
+2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in the affected userscript. For any stable-script or extension change, align `package.json` and stable `@version` to the same new version and rebuild both extensions. No separate extension version file is used.
 3. Run `npm run check`, rebuild both extension packages, and follow the synchronization rules below. Test live streams separately with the userscript and each extension: preroll and midroll ads, channel switching, quality, mute, pause, background tabs, and broadcast end. Record any checks that could not be completed.
 4. Document results in CHANGELOG.md, commit, and push `main`.
-5. Write and commit `docs/releases/<tag>.md` before tagging. Push an annotated tag containing `v` followed by the exact stable version at the prepared commit. Use a new tag: `v1.0.0` is already published and must not be reused. For a future stable `1.0.1` release, after updating and validating the appropriate files:
+5. Write and commit `docs/releases/<tag>.md` before tagging. Push an annotated tag containing `v` followed by the exact stable version at the prepared commit. Use a new tag: `v1.0.0` and `v1.0.1` are already published and must not be reused. For a future shared `1.0.7` release, after updating and validating the appropriate files:
 
 ```bash
-git tag -a v1.0.1 -m 'AdBonk 1.0.1'
-git push origin v1.0.1
+git tag -a v1.0.7 -m 'AdBonk 1.0.7'
+git push origin v1.0.7
 ```
 
 Automation validates files and tests, checks the tag version, requires nonempty English release notes at `docs/releases/<tag>.md`, and publishes the stable vaft userscript, both extension ZIPs, and the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions, release notes, attached assets, and hashes after publication.
@@ -76,18 +76,18 @@ Review commits and integrate them on a working branch. Fixes may depend on other
 
 ## Extension builds
 
-The stable userscript remains the single blocking source. `npm run build:extension` copies it verbatim into Chromium and Firefox packages under `dist/`; do not edit generated copies. Change adapters and popup files under `extension/` separately. The extension version is independent and lives in `extension/version.json`. Increment it for interface or adapter changes so browser stores accept the update; do not bump the userscript for extension-only changes. Release `v1.0.1` bundles stable extension `1.0.5` with stable userscript `1.0.1`.
+The stable userscript remains the single blocking source. `npm run build:extension` copies it verbatim into Chromium and Firefox packages under `dist/`; do not edit generated copies. Change adapters and popup files under `extension/` separately. The shared version is read from `package.json`; the build validates the stable userscript metadata against it. Interface or adapter changes advance the same version in package and userscript metadata, even when the blocking runtime is unchanged. Release `v1.0.1` bundles stable extension `1.0.5` with stable userscript `1.0.1`.
 
 Run `npm run check` after changes. When browsers are available, `npm run test:extension:browser` checks actual extension installation and integration on loopback fixtures. Follow [the extension guide](EXTENSION.md) for limitations, temporary installation, and store publication. Release automation attaches both ZIPs to tagged releases; it does not sign or submit extensions to browser stores.
 
-The current source builds extension `1.0.6` with userscript `1.0.2`. This update adds userscript icon metadata and smaller toolbar artwork; the stable script body and internal conflict counter are unchanged. The existing release and approved store versions are separate snapshots.
+The current source builds both extensions and userscript as `1.0.7`. This shared baseline is higher than earlier independent extension versions, preserving the update path. This update adds userscript icon metadata and smaller toolbar artwork; the stable script body and internal conflict counter are unchanged. The existing release and approved store versions are separate snapshots.
 
 ### Keep the userscript and extensions synchronized
 
 | Change | Required versions and packages |
 | --- | --- |
-| Stable `vaft/vaft.user.js`, including metadata | Increment the stable public version and matching package version, plus the extension version. Increment the internal conflict counter for behavior changes. Rebuild both extensions from the updated stable file. |
-| Extension popup, adapter, or packaging | Increment the extension version and rebuild both packages. Keep the stable userscript and its version unchanged unless it also requires a fix. |
+| Stable `vaft/vaft.user.js`, including metadata | Increment the shared package and stable userscript version together. Increment the internal conflict counter for behavior changes. Rebuild both extensions from the updated stable file. |
+| Extension popup, adapter, or packaging | Increment the shared package and stable userscript metadata version, then rebuild both packages. Keep the blocking runtime and conflict counter unchanged unless behavior also changes. |
 | Experimental or legacy userscript | Increment only the affected variant's version and behavior counter as appropriate. Do not automatically promote it into stable or the extension. |
 | Documentation only | No runtime version bump is required. Run the required checks. |
 

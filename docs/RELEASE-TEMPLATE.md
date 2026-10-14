@@ -12,11 +12,11 @@ AdBonk — Bonk Twitch ads.
 
 | File | Version | Status |
 | --- | --- | --- |
-| `vaft.user.js` | <stable version> | Stable userscript; recommended installation |
-| `adbonk-chromium-<extension version>.zip` | <extension version> | Stable Chromium extension for local installation |
-| `adbonk-firefox-<extension version>.zip` | <extension version> | Stable Firefox extension; unsigned ZIP for temporary installation |
+| `vaft.user.js` | <version> | Stable userscript; recommended installation |
+| `adbonk-chromium-<version>.zip` | <version> | Stable Chromium extension for local installation |
+| `adbonk-firefox-<version>.zip` | <version> | Stable Firefox extension; unsigned ZIP for temporary installation |
 
-Both extensions bundle the stable userscript byte-for-byte. Userscript and extension versions advance independently.
+The stable userscript and both extensions share the same version. Both extensions bundle the userscript byte-for-byte.
 
 ## Changes
 

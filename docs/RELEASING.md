@@ -5,10 +5,10 @@ A release request means preparing a complete, readable GitHub release with downl
 ## Choose the version and scope
 
 - Review changes since the previous release and the working tree. Preserve unrelated local changes.
-- Follow the [version and synchronization policy](MAINTENANCE.md#version-policy). Do not bump the userscript merely to make its version match the extension.
+- Follow the [version and synchronization policy](MAINTENANCE.md#version-policy). Stable userscript, package, and extensions must share one version, including releases that only change the extension interface or packaging.
 - Stable releases use `v<stable-userscript-version>` and the title `AdBonk v<version>`. The tag must match `package.json` and the stable script's `@version`.
 - Never reuse, move, or delete a published tag to ship new code. Never silently replace published packages. A code or packaging correction requires a new relevant version and release.
-- The current workflow publishes stable-version tags only. For an extension-only release after a stable tag has already been published, add and validate a separate extension-tag workflow before publication; do not invent a stable-script change or overwrite the existing release.
+- Extension-only updates use the same shared release sequence: bump `package.json` and stable userscript metadata, rebuild both extensions, and publish a new `v<version>` tag. Preserve the userscript runtime and conflict counter when behavior is unchanged.
 - A stable userscript release can include experimental extensions. Mark each artifact's status clearly; this does not promote the extensions. Use a GitHub prerelease for an actual preview of the main stable userscript, with an explicitly supported version/tag workflow.
 - Documentation-only changes normally do not require a new release or runtime version bump.
 

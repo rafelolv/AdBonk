@@ -12,7 +12,11 @@ for (const browser of ['chromium', 'firefox']) {
         const directory = path.join(root, 'dist', browser);
         assert.deepEqual(fs.readFileSync(path.join(directory, 'blocker.js')), core);
         const manifest = JSON.parse(fs.readFileSync(path.join(directory, 'manifest.json')));
-        assert.equal(manifest.version, require('../extension/version.json').version);
+        assert.equal(manifest.version, require('../package.json').version);
+        assert.equal(manifest.version, core.toString().match(/^\/\/ @version\s+(\S+)/m)[1]);
+        const info = JSON.parse(fs.readFileSync(path.join(directory, 'build-info.json')));
+        assert.equal(info.version, manifest.version);
+        assert.equal(info.userscriptVersion, manifest.version);
         assert.deepEqual(manifest.host_permissions, ['*://*.twitch.tv/*']);
         assert.equal(manifest.permissions, undefined);
         assert.equal(manifest.background, undefined);
@@ -27,7 +31,7 @@ for (const browser of ['chromium', 'firefox']) {
         if (browser === 'firefox') assert.deepEqual(manifest.browser_specific_settings.gecko.data_collection_permissions.required, ['none']);
     });
     test(`${browser}: ZIP contains the complete extension with unchanged core`, () => {
-        const bytes = fs.readFileSync(path.join(root, 'dist', `adbonk-${browser}-${require('../extension/version.json').version}.zip`));
+        const bytes = fs.readFileSync(path.join(root, 'dist', `adbonk-${browser}-${require('../package.json').version}.zip`));
         const entries = new Map();
         let offset = 0;
         while (bytes.readUInt32LE(offset) === 0x04034b50) {
