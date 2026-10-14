@@ -1,4 +1,4 @@
-## Unreleased
+## v1.0.7 (2026-10-14)
 
 ### Changed
 - Unified the stable userscript, package, and both extension versions at `1.0.7`, above previous extension builds. `package.json` is now the single version source; removed the separate extension version file. Extension-only releases also advance userscript metadata, while behavior counters change only for runtime fixes. Historical releases keep their original versions.
