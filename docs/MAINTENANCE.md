@@ -80,6 +80,8 @@ The stable userscript remains the single blocking source. `npm run build:extensi
 
 Run `npm run check` after changes. When browsers are available, `npm run test:extension:browser` checks actual extension installation and integration on loopback fixtures. Follow [the extension guide](EXTENSION.md) for limitations, temporary installation, and store publication. Release automation attaches both ZIPs to tagged releases; it does not sign or submit extensions to browser stores.
 
+The current source builds extension `1.0.6` with userscript `1.0.2`. This update adds userscript icon metadata and smaller toolbar artwork; the stable script body and internal conflict counter are unchanged. The existing release and approved store versions are separate snapshots.
+
 ### Keep the userscript and extensions synchronized
 
 | Change | Required versions and packages |

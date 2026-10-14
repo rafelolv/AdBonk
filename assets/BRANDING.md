@@ -5,9 +5,11 @@ The mark is a mischievous purple creature bonking an AD tile with a golden malle
 - `adbonk-mascot.png`: full-resolution source artwork.
 - `adbonk-banner.svg`: accessible wordmark and embedded 256-pixel mascot export. The embedded image keeps the banner self-contained on GitHub.
 - `adbonk-icon.png`: transparent close-up of the same mascot with a mallet, designed for small extension icons. Keep the alpha channel when exporting; do not add a square background.
-- `../extension/icons/16.png`, `32.png`, `48.png`, and `128.png`: resampled exports of the transparent icon for browser toolbars, popup, and extension details. The full scene stays in the README.
+- `adbonk-icon-small.svg`: a hand-authored, transparent face-only variant with simpler eyes, flat color, and thicker features for small sizes. Export this native vector source at 16 and 32 pixels; do not shrink the detailed full composition into toolbar sizes.
+- `../extension/icons/16.png` and `32.png`: browser-rendered PNG exports of the small SVG for toolbars and the userscript's `@icon`.
+- `../extension/icons/48.png` and `128.png`: resampled exports of the original transparent mascot-and-mallet icon for the popup, extension details, and userscript's `@icon64`. The full scene stays in the README.
 
-Artwork generated with the built-in image generation tool on 2026-10-11. PNG exports are resampled from the saved source; no changes to blocking code are required. Increment the extension version and rebuild both browser packages when publishing new icon exports.
+Original artwork generated with the built-in image generation tool on 2026-10-11. The small vector variant was authored on 2026-10-14. Keep exports tied to their corresponding source; no changes to blocking code are required. Increment the extension version and rebuild both browser packages when publishing new icon exports. The userscript's icon URLs reference the same committed extension assets.
 
 ## Generation prompt
 

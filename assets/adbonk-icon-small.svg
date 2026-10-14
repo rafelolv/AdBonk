@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">AdBonk small mascot icon</title>
+  <desc id="desc">A simplified purple mascot face with two pointed ears, large white eyes, and a mischievous smile.</desc>
+  <path d="M26 36C27 20 41 8 53 7C57 7 57 12 55 19L53 32C70 29 85 34 96 45L107 28C113 18 120 21 119 34L116 63C124 83 116 105 96 115C76 125 44 123 25 112C7 102 4 83 9 65C12 52 18 43 26 36Z" fill="#a743ee" stroke="#210b32" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M28 54L58 74C53 89 43 95 32 87C22 80 21 67 28 54Z" fill="#fff"/>
+  <path d="M73 80L107 67C110 83 104 96 91 97C81 97 75 90 73 80Z" fill="#fff"/>
+  <path d="M42 65L55 74C53 84 49 88 43 86C35 83 35 72 42 65ZM89 75L103 70C106 80 103 91 95 92C87 93 85 83 89 75Z" fill="#210b32"/>
+  <path d="M25 52L59 75M72 80L109 66" fill="none" stroke="#210b32" stroke-width="7" stroke-linecap="round"/>
+  <path d="M35 96C51 108 74 111 91 103C83 118 51 121 35 96Z" fill="#210b32"/>
+</svg>

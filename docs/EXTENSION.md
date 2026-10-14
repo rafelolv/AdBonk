@@ -8,10 +8,10 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 
 | Browser | Package | Minimum version |
 | --- | --- | --- |
-| Chromium browsers | `adbonk-chromium-1.0.5.zip` | Chromium 111; real-browser checks used Chrome 154. |
-| Firefox desktop | `adbonk-firefox-1.0.5.zip` | Firefox 140; real-browser checks used Firefox 157. |
+| Chromium browsers | `adbonk-chromium-1.0.6.zip` | Chromium 111; real-browser checks used Chrome 154. |
+| Firefox desktop | `adbonk-firefox-1.0.6.zip` | Firefox 140; real-browser checks used Firefox 157. |
 
-Release `v1.0.1` includes these packages with stable userscript `1.0.1`. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
+Current source builds extension `1.0.6` with stable userscript `1.0.2`. The published `v1.0.1` release contains extension `1.0.5` with userscript `1.0.1`; build locally for the new icons until the next release. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
 
 **Firefox:** [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) for regular installation. The store may still show an older version until the maintainer submits the update and Mozilla approves it. The GitHub ZIP is unsigned and intended for temporary installation, even though the extension is stable.
 

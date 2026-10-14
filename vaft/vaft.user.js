@@ -1,8 +1,10 @@
 // ==UserScript==
 // @name         AdBonk (vaft)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.0.1
+// @version      1.0.2
 // @description  Bonk Twitch ads (vaft)
+// @icon         https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/32.png
+// @icon64       https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/128.png
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
 // @author       https://github.com/cleanlock/VideoAdBlockForTwitch#credits

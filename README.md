@@ -3,152 +3,168 @@
 </p>
 
 <p align="center">
-  <a href="https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js"><strong>Install AdBonk</strong></a>
+  <a href="https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js"><strong>Install userscript</strong></a>
   &nbsp; · &nbsp;
-  <a href="#getting-started">Getting started</a>
+  <a href="https://addons.mozilla.org/en-US/firefox/addon/adbonk/"><strong>Install for Firefox</strong></a>
+  &nbsp; · &nbsp;
+  <a href="#getting-started">Setup guide</a>
   &nbsp; · &nbsp;
   <a href="https://github.com/rafelolv/AdBonk/issues">Report a problem</a>
-  &nbsp; · &nbsp;
-  <a href="LICENSE">MIT license</a>
 </p>
 
-AdBonk is a userscript that blocks ads on Twitch live streams. It continues [pixeltris's TwitchAdSolutions](https://github.com/pixeltris/TwitchAdSolutions), starting from the updated [ryanbr fork](https://github.com/ryanbr/TwitchAdSolutions).
+AdBonk blocks ads on Twitch live streams. Use it as a userscript or a standalone browser extension — both use the same blocking code.
 
-**Thank you, pixeltris.** You started what I still consider the best Twitch ad blocker. The original project has been discontinued, but it continues to work well in my experience. AdBonk is my attempt to keep that work going.
+It continues [pixeltris's TwitchAdSolutions](https://github.com/pixeltris/TwitchAdSolutions), starting from the updated [ryanbr fork](https://github.com/ryanbr/TwitchAdSolutions). **Thank you, pixeltris.** You started what I still consider the best Twitch ad blocker. The original project has been discontinued, but it continues to work well in my experience.
 
 I'm [rafelolv](https://github.com/rafelolv), a DevOps/SRE. Coding isn't the main focus of my work, but I'll do my best to maintain this project. Fixes, commits, and pull requests are always welcome.
 
 ## Getting started
 
-You need a **userscript manager**: a browser extension that runs AdBonk on Twitch. You don't need to download this repository or run any commands.
+Choose **one** installation method. You don't need to clone this repository or run commands for either standard setup.
 
-1. Install [Tampermonkey](https://www.tampermonkey.net/) or [Violentmonkey](https://violentmonkey.github.io/).
-2. Disable any other Twitch ad-blocking scripts or extensions, including older versions of this script.
-3. Open **[Install AdBonk](https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js)**, choose **Install** in your manager, then reload a Twitch live stream.
+| Your browser | Recommended setup | What you need |
+| --- | --- | --- |
+| Firefox | [AdBonk extension](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) | Install directly from Mozilla Add-ons. No userscript manager needed. |
+| Chrome, Brave, or Edge | [AdBonk userscript](https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js) | Install Tampermonkey or Violentmonkey first. |
 
-> **Using Chrome with Tampermonkey?** For Chrome 138+ and Tampermonkey 5.3+, enable **Allow User Scripts** in the extension's details. Developer Mode is an alternative. [Permission setup →](https://www.tampermonkey.net/faq.php?q=Q209)
+### Firefox extension
 
-Use **one manager and one AdBonk variant** at a time. The install link above always points to the stable script on `main`.
+1. Open **[AdBonk on Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/adbonk/)** and add it to Firefox.
+2. Disable any older AdBonk userscript and other Twitch-specific ad blockers.
+3. Reload Twitch and open a live stream.
 
-> **Already installed an earlier AdBonk version?** AdBonk's own version sequence starts at **1.0.0**. If your manager shows an older release with a higher number, such as `68.5.7.5`, open the install link again and confirm replacement with the current version. If the manager refuses the lower version, back up any local edits, remove the old AdBonk script, and install again. Keep only one copy enabled. The update checker won't treat this version reset as an upgrade; future updates follow the new sequence.
+Click the AdBonk icon to check its status. **“Ready on this page”** means its hooks loaded; watch a stream to check actual blocking. Store updates are reviewed separately, so the listed version may lag behind GitHub.
 
-### What to expect
+### Userscript: Chrome, Brave, Edge, or Firefox
 
-During detected ad breaks, the player shows **“AdBonk is blocking ads”**. The script looks for an alternative stream without ads; when none is available, it may remove ad segments. This can cause pauses, buffering, or a temporary drop in quality.
+A userscript manager is a browser extension that runs AdBonk on Twitch.
 
-By default, a previous 360p fallback does not make the next ad break start with 360p again: AdBonk checks higher-quality alternatives first. The search can add some buffering time, and 360p remains available when better clean streams cannot be found.
+1. Install **[Tampermonkey](https://www.tampermonkey.net/)** or **[Violentmonkey](https://violentmonkey.github.io/)**.
+2. Open **[Install userscript](https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js)** and confirm installation in your manager.
+3. Disable other Twitch ad blockers, including the standalone AdBonk extension, then reload a live stream.
 
-To check that the script loaded, open the browser console (**F12**) and look for `[AD DEBUG]`. Technical details stay in the console.
+**Chrome + Tampermonkey:** if the script doesn't run, enable **Allow User Scripts** in Tampermonkey's extension details. Developer Mode is an alternative. [Permission setup](https://www.tampermonkey.net/faq.php?q=Q209).
 
-### Other script managers
+<details>
+<summary><strong>Other userscript managers</strong></summary>
 
 | Manager | Status |
 | --- | --- |
 | [Tampermonkey](https://www.tampermonkey.net/) | Standard option, listed by the original project. |
 | [Violentmonkey](https://violentmonkey.github.io/) | Standard alternative, listed by the original project. |
-| [ScriptCat](https://scriptcat.org/) | Available to try. Its execution mode fits the script's requirements; live Twitch compatibility still needs testing. |
-| [Greasemonkey](https://www.greasespot.net/) | Not supported by the main script yet. A compatibility adaptation is needed. |
+| [ScriptCat](https://scriptcat.org/) | Available to try; live Twitch compatibility still needs testing. |
+| [Greasemonkey](https://www.greasespot.net/) | Not supported by the main script yet; a compatibility adaptation is needed. |
 
-[Manager compatibility notes →](docs/USERSCRIPT-MANAGERS.md)
+[Manager compatibility notes](docs/USERSCRIPT-MANAGERS.md).
+
+</details>
+
+## What to expect
+
+During detected ad breaks, the player shows **“AdBonk is blocking ads”**. It looks for an alternative stream without ads and may remove ad segments when needed. You may notice buffering, pauses, or a temporary drop in quality.
+
+AdBonk checks higher-quality alternatives before repeating a previous 360p fallback. If better clean streams aren't available, it can still use 360p to keep playback going. Twitch changes can affect blocking.
+
+## Updates and other installation options
 
 <details>
-<summary><strong>Install manually or test local edits</strong></summary>
+<summary><strong>How do I update?</strong></summary>
 
-Open your manager's dashboard/editor and create a new script. Delete the example code, paste the complete contents of [`vaft/vaft.user.js`](vaft/vaft.user.js), and save. Keep the script enabled and reload the stream.
+- **Userscript:** use your manager's update checker. The install link follows the stable script on `main`; you don't need to reinstall for each release.
+- **Firefox store extension:** Firefox handles store updates after Mozilla approves them.
+- **Locally loaded extension:** replace its files with the new package, reload the extension, and reload Twitch. GitHub doesn't update local installations automatically.
 
-Use the `.user.js` file. Menu names vary by manager: see the [Tampermonkey instructions](https://www.tampermonkey.net/faq.php?q=Q102) or [Violentmonkey instructions](https://violentmonkey.github.io/guide/creating-a-userscript/).
-
-You can install a local copy without publishing it on GitHub. Save your edits and reload the stream to apply them. Back up local changes before updating, because an update can replace them.
+Keep one AdBonk installation enabled. Back up local script edits before updating, because updates can replace them.
 
 </details>
 
 <details>
-<summary><strong>Get updates</strong></summary>
+<summary><strong>Already using an older script with a higher version number?</strong></summary>
 
-Use your manager's update checker to get new versions. The script's `@updateURL` and `@downloadURL` point to this repository, so you don't need to reinstall it for each release.
+AdBonk restarted public versioning at `1.0.0`. If your manager still shows an inherited version such as `68.5.7.5`, open the install link and confirm replacement with the current version. If it refuses the lower version, back up local edits, remove the old script, and install again. This manual step is only needed once; automatic updates won't downgrade the inherited version.
 
 </details>
 
-## Prefer a standalone extension?
+<details>
+<summary><strong>Load the standalone extension locally</strong></summary>
 
-There is also an **AdBonk extension for Chromium and Firefox**. It bundles the same stable blocking script, so you can use it without a userscript manager.
+Download a browser package from **[GitHub Releases](https://github.com/rafelolv/AdBonk/releases)** and follow the **[extension installation guide](docs/EXTENSION.md)**.
 
-**Firefox:** [Install from Mozilla Add-ons](https://addons.mozilla.org/en-US/firefox/addon/adbonk/). Its store version may lag behind the latest GitHub release.
+Chromium packages can be loaded through Developer mode for free. The Firefox ZIP on GitHub is unsigned and intended for temporary installation; use Mozilla Add-ons for regular installation.
 
-**Chrome, Brave and Edge:** Keep using the userscript for the standard installation. AdBonk is not published on the Chrome Web Store. Google charges a [$5 one-time developer registration fee](https://developer.chrome.com/docs/webstore/register) to publish there. What a generous way to support people sharing free, useful tools. Embarrassing, Google.
+AdBonk is not published on the Chrome Web Store. Google charges a [$5 one-time developer registration fee](https://developer.chrome.com/docs/webstore/register) to publish there. What a generous way to support people sharing free, useful tools. Embarrassing, Google.
 
-You can also load the Chromium extension locally from a release ZIP through Developer mode, for free. The Firefox ZIP on GitHub is unsigned and intended for temporary installation; use Mozilla Add-ons for regular installation. Use one installation method at a time.
+</details>
 
-**[Download extension packages →](https://github.com/rafelolv/AdBonk/releases)** · [Installation guide](docs/EXTENSION.md)
+<details>
+<summary><strong>Install a local userscript or test your own edits</strong></summary>
+
+Open your manager's dashboard and create a new script. Delete the example code, paste the complete contents of [`vaft/vaft.user.js`](vaft/vaft.user.js), and save. Keep it enabled and reload Twitch.
+
+You can test local edits without publishing them on GitHub. Use the complete `.user.js` file, including its metadata header. [Tampermonkey instructions](https://www.tampermonkey.net/faq.php?q=Q102) · [Violentmonkey instructions](https://violentmonkey.github.io/guide/creating-a-userscript/).
+
+</details>
 
 ## Having trouble?
 
-Check that the script is enabled and that your manager has permission to run it. Reload the stream after changing settings.
+Check that AdBonk is enabled, has permission to run on Twitch, and is your only active Twitch ad blocker. Reload Twitch after changing settings.
 
 ### Extension conflicts
 
-Disable other Twitch-specific ad blockers such as TTV-AB and Purple AdBlock before testing. If playback problems persist, temporarily disable Twitch extensions such as 7TV or TwitchNoSub to isolate the cause.
+Disable other Twitch-specific ad blockers such as TTV-AB and Purple AdBlock. If problems persist, temporarily disable Twitch extensions such as 7TV or TwitchNoSub to help isolate the cause.
 
-Still stuck? **[Report a bug](https://github.com/rafelolv/AdBonk/issues/new?template=bug_report.yml)** with your browser, manager version, AdBonk version, and what happened. See the [upstream issue audit](docs/ISSUE-AUDIT.md) for known problems and what has been investigated.
+**[Report a userscript problem](https://github.com/rafelolv/AdBonk/issues/new?template=bug_report.yml)** or **[report an extension problem](https://github.com/rafelolv/AdBonk/issues/new?template=extension_bug.yml)**. Include your browser, AdBonk version, installation method, and what happened. For the userscript, include your manager's version too.
+
+For diagnostics, open the browser console (**F12**) and look for `[AD DEBUG]`. Remove private tokens and authentication headers before sharing logs. [Known issues and investigated reports](docs/ISSUE-AUDIT.md).
 
 ## Why uBlock Origin support was removed
 
-The old integration had recurring inconsistencies: the script could stop being applied without a known cause. The [original README](https://github.com/pixeltris/TwitchAdSolutions#applying-a-script-ublock-origin) documented this and recommended userscripts instead.
-
-I don't want to spend limited maintenance time chasing unexplained failures in a second integration. AdBonk focuses on the userscript, which has been the more stable option in the project's experience. This decision concerns the custom Twitch integration, not uBlock Origin's general ad-blocking capabilities.
+The old custom Twitch integration had recurring inconsistencies: it could stop being applied without a known cause. I don't want to spend limited maintenance time chasing those failures. AdBonk focuses on the userscript and extensions that bundle it; the userscript has been the more stable option in the project's experience. This concerns the custom integration, not uBlock Origin's general ad-blocking capabilities. [Original project notes](https://github.com/pixeltris/TwitchAdSolutions#applying-a-script-ublock-origin).
 
 <details>
 <summary><strong>Moving from the old uBlock Origin integration?</strong></summary>
 
-Remove the old `twitch.tv##+js(twitch-videoad)` filter and the upstream script URL from `userResourcesLocation` in uBlock Origin. If it was the only resource URL, restore `userResourcesLocation` to `unset`; otherwise keep your other resource URLs.
+Remove the old `twitch.tv##+js(twitch-videoad)` filter and the upstream script URL from `userResourcesLocation`. If it was the only resource URL, restore that setting to `unset`; otherwise keep your other resource URLs.
 
-Also remove any old Brave companion scriptlet filter and resource URL if installed. Restart the browser, then follow [Getting started](#getting-started).
+Remove any old Brave companion scriptlet filter and resource URL too. Restart the browser, then follow [Getting started](#getting-started).
 
 </details>
 
 ## Contributing
 
-Found a fix? Pull requests are welcome. For ideas or problems you haven't solved yet, open an issue so we can discuss them.
+Found a fix? Pull requests are welcome. Have an idea or an unresolved problem? Open an issue so we can discuss it.
 
-The maintained script is **[`vaft/vaft.user.js`](vaft/vaft.user.js)**. Experimental and legacy variants stay separate.
+The maintained script is **[`vaft/vaft.user.js`](vaft/vaft.user.js)**. Both extension packages use that same file. Experimental and legacy variants stay separate.
 
 <details>
-<summary><strong>Other variants</strong></summary>
+<summary><strong>Other script variants</strong></summary>
 
 | File | Purpose |
 | --- | --- |
-| [`vaft/vaft.user.js`](vaft/vaft.user.js) | Main stable script; use this for the standard setup. |
 | [`vaft/vaft_testing.user.js`](vaft/vaft_testing.user.js) | Experimental; test separately. |
 | [`video-swap-new/`](video-swap-new/) | Legacy alternative retained for comparison. |
-| [`strip/strip.user.js`](strip/strip.user.js) | Legacy ad segment removal strategy; not recommended for the standard setup. |
-| [`vaft/twitch-brave-fix.user.js`](vaft/twitch-brave-fix.user.js) | Optional Brave companion; excluded from the initial setup. |
+| [`strip/strip.user.js`](strip/strip.user.js) | Legacy strategy; not recommended for the standard setup. |
+| [`vaft/twitch-brave-fix.user.js`](vaft/twitch-brave-fix.user.js) | Optional Brave companion; excluded from the standard setup. |
 
 </details>
 
 <details>
 <summary><strong>Development and validation</strong></summary>
 
-Requires **Node.js 24**. No npm dependencies are needed:
+Requires **Node.js 24**, with no npm dependencies:
 
 ```bash
 npm run check
 ```
 
-This checks every JavaScript file's syntax and runs 84 inherited tests, 30 player regression tests, 15 network regression tests, 6 quality regression tests, and 13 extension tests. The inherited tests use copied functions; the regression tests extract functions from the shipped scripts. They check player recovery with mocked browser/player objects, plus backup selection, playlist failures, and response timeouts in isolated window/worker contexts.
+This checks JavaScript syntax and runs 148 tests: 84 inherited, 30 player, 15 network, 6 quality, and 13 extension checks. The inherited tests use copied functions; regression tests extract shipped functions and use simulated browser/player or network state. Passing them does not establish that ad blocking works on a live stream. Test real playback separately.
 
-Passing these tests does not establish that ad blocking works on a live stream. Test player behavior in the browser too. See the [issue audit](docs/ISSUE-AUDIT.md) for findings and remaining limitations.
+[Maintenance and publication](docs/MAINTENANCE.md) · [Extension development](docs/EXTENSION.md) · [Upstream issue audit](docs/ISSUE-AUDIT.md).
 
 </details>
 
-| Guide | What's inside |
-| --- | --- |
-| [Maintenance and publication](docs/MAINTENANCE.md) | Making changes, publishing, and updating the userscript. |
-| [Baseline comparison](docs/BASELINE.md) | Where the imported code came from. |
-| [Issue audit](docs/ISSUE-AUDIT.md) | Upstream reports, fixes, and remaining work. |
-| [Historical changelog](CHANGELOG.md) · [Debugging guide](DEBUG.md) | Technical references inherited from upstream. |
-
 ## Credits
 
-Credit goes to **pixeltris, ryanbr, cleanlock, and everyone who contributed** to TwitchAdSolutions. The original Git history and [MIT license](LICENSE) are preserved. The initial import kept script behavior unchanged; later AdBonk fixes are recorded in Git history and the issue audit.
+Credit goes to **pixeltris, ryanbr, cleanlock, and everyone who contributed** to TwitchAdSolutions. The original Git history and [MIT license](LICENSE) are preserved.
 
-The [ryanbr README](https://github.com/ryanbr/TwitchAdSolutions#readme) is also available as a historical reference.
+[Project baseline](docs/BASELINE.md) · [Changelog](CHANGELOG.md) · [Debugging guide](DEBUG.md) · [Historical ryanbr README](https://github.com/ryanbr/TwitchAdSolutions#readme).
