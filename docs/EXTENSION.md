@@ -11,7 +11,7 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 | Chromium browsers | `adbonk-chromium-1.0.8.zip` | Chromium 111; real-browser checks used Chrome 154. |
 | Firefox desktop | `adbonk-firefox-1.0.8.zip` | Firefox 140; real-browser checks used Firefox 157. |
 
-Current source builds the userscript and both extensions as `1.0.8`; the published `v1.0.7` release remains the previous snapshot. Build locally for the updated installation metadata until the next release. This shared sequence replaces independent extension versioning and stays above previous extension builds so updates remain possible. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
+Release `v1.0.8` includes the userscript and both extensions as `1.0.8`. All installation formats follow the same version sequence. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
 
 **Firefox:** [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) for regular installation. The store may still show an older version until the maintainer submits the update and Mozilla approves it. The GitHub ZIP is unsigned and intended for temporary installation, even though the extension is stable.
 

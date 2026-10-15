@@ -1,8 +1,8 @@
-## Unreleased
+## v1.0.8 (2026-10-15)
 
 ### Changed
 - Stable userscript and extensions `1.0.8` use rafelolv as the current maintainer and point author, homepage, and support metadata to AdBonk. Other userscript variants advance to `1.0.1` for the same metadata update.
-- Removed old repository links and promotional attribution from the README and current documentation. Required copyright and permission notices remain in LICENSE. Retired unrelated comparison/catalog pages.
+- Refreshed the README, setup information, and maintenance documentation.
 - Startup logs use the AdBonk name. Blocking behavior, compatibility keys, and internal conflict counters are unchanged.
 
 ### Validation

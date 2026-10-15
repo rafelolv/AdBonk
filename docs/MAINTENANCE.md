@@ -30,11 +30,11 @@ For every release request, follow [Creating an AdBonk release](RELEASING.md) and
 2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in the affected userscript. For any stable-script or extension change, align `package.json` and stable `@version` to the same new version and rebuild both extensions. No separate extension version file is used.
 3. Run `npm run check`, rebuild both extension packages, and follow the synchronization rules below. Test live streams separately with the userscript and each extension: preroll and midroll ads, channel switching, quality, mute, pause, background tabs, and broadcast end. Record any checks that could not be completed.
 4. Document results in CHANGELOG.md, commit, and push `main`.
-5. Write and commit `docs/releases/<tag>.md` before tagging. Push an annotated tag containing `v` followed by the exact stable version at the prepared commit. Use a new tag: `v1.0.0`, `v1.0.1`, and `v1.0.7` must not be reused. For a future shared `1.0.8` release, after updating and validating the appropriate files:
+5. Write and commit `docs/releases/<tag>.md` before tagging. Push an annotated tag containing `v` followed by the exact stable version at the prepared commit. Never reuse a published tag. For a future shared `1.0.9` release, after updating and validating the appropriate files:
 
 ```bash
-git tag -a v1.0.8 -m 'AdBonk 1.0.8'
-git push origin v1.0.8
+git tag -a v1.0.9 -m 'AdBonk 1.0.9'
+git push origin v1.0.9
 ```
 
 Automation validates files and tests, checks the tag version, requires nonempty English release notes at `docs/releases/<tag>.md`, and publishes the stable vaft userscript, both extension ZIPs, and the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions, release notes, attached assets, and hashes after publication.
@@ -49,7 +49,7 @@ The stable userscript remains the single blocking source. `npm run build:extensi
 
 Run `npm run check` after changes. When browsers are available, `npm run test:extension:browser` checks actual extension installation and integration on loopback fixtures. Follow [the extension guide](EXTENSION.md) for limitations, temporary installation, and store publication. Release automation attaches both ZIPs to tagged releases; it does not sign or submit extensions to browser stores.
 
-The current source builds both extensions and userscript as `1.0.8`. This shared baseline is higher than earlier independent extension versions, preserving the update path. This update adds userscript icon metadata and smaller toolbar artwork; the stable script body and internal conflict counter are unchanged. The existing release and approved store versions are separate snapshots.
+Release `v1.0.8` builds both extensions and userscript as `1.0.8`. This maintenance update changes installation metadata and startup labels while preserving blocking behavior and internal conflict counters. Approved store versions remain separate from GitHub publication.
 
 ### Keep the userscript and extensions synchronized
 
