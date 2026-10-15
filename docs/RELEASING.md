@@ -37,4 +37,4 @@ Link version-specific documentation through the release tag when possible. Use `
 4. Watch the Release workflow to completion. If it fails, investigate and report the actual state; a pushed tag alone is not a published release. Do not move the tag as a recovery shortcut.
 5. Check the published title, notes, tag, draft/prerelease status, expected assets, and asset hashes against the validated builds. Report the release URL, included versions, checks, and any material limitation.
 
-GitHub publication and browser-store submission are separate operations. Do not claim store availability, Mozilla signing, or automatic store updates based on a GitHub release.
+After GitHub publication, the [Firefox submission workflow](FIREFOX-PUBLISH.md) runs with configured repository secrets. Check its result and distinguish submitted from approved; missing credentials or a failed submission do not remove the already-published GitHub release. Other stores remain manual. Do not claim store availability or Mozilla approval based only on a successful GitHub release or API submission.

@@ -47,7 +47,7 @@ Review dependencies and playback impact before integrating external changes. Pre
 
 The stable userscript remains the single blocking source. `npm run build:extension` copies it verbatim into Chromium and Firefox packages under `dist/`; do not edit generated copies. Change adapters and popup files under `extension/` separately. The shared version is read from `package.json`; the build validates the stable userscript metadata against it. Interface or adapter changes advance the same version in package and userscript metadata, even when the blocking runtime is unchanged. Release `v1.0.1` bundles stable extension `1.0.5` with stable userscript `1.0.1`.
 
-Run `npm run check` after changes. When browsers are available, `npm run test:extension:browser` checks actual extension installation and integration on loopback fixtures. Follow [the extension guide](EXTENSION.md) for limitations, temporary installation, and store publication. Release automation attaches both ZIPs to tagged releases; it does not sign or submit extensions to browser stores.
+Run `npm run check` after changes. When browsers are available, `npm run test:extension:browser` checks actual extension installation and integration on loopback fixtures. Follow [the extension guide](EXTENSION.md) for limitations and installation. Release automation attaches both ZIPs, then submits Firefox through the [configured Mozilla workflow](FIREFOX-PUBLISH.md). No other store is automated.
 
 Release `v1.0.8` builds both extensions and userscript as `1.0.8`. This maintenance update changes installation metadata and startup labels while preserving blocking behavior and internal conflict counters. Approved store versions remain separate from GitHub publication.
 
@@ -64,7 +64,7 @@ For shared changes, run `npm run check` and `npm run test:extension:browser`. Th
 
 Before distributing a ZIP, verify its `build-info.json`: `userscriptVersion` must match the intended stable public version, and `coreSha256` must match the stable source. Record the userscript and extension versions together in the changelog. Never edit a generated core copy or reuse an extension version after changing its bundled code.
 
-Publishing to GitHub does not update store installations. Submit rebuilt packages through the existing Chrome and Firefox listings, using their new extension version, and track review/signing status separately. Keep the last approved store version distinct from the latest GitHub build until review completes.
+Firefox submission runs after a successful GitHub release once the required Actions secrets are configured. Check the Firefox job and Mozilla Developer Hub separately: submission does not mean approval or immediate installation updates. Keep the approved store version distinct from the GitHub build until review completes. Use [Publish Firefox](FIREFOX-PUBLISH.md) for controlled submission of an existing release; other stores remain manual.
 
 ## Architecture overview
 

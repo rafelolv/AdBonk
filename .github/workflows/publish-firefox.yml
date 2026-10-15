@@ -1,0 +1,98 @@
+name: Publish Firefox
+
+on:
+  workflow_call:
+    inputs:
+      release_tag:
+        required: true
+        type: string
+    secrets:
+      AMO_JWT_ISSUER:
+        required: true
+      AMO_JWT_SECRET:
+        required: true
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Existing stable GitHub release tag, for example v1.0.9
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firefox-store-publication
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    if: github.repository == 'rafelolv/AdBonk'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      RELEASE_TAG: ${{ inputs.release_tag }}
+    steps:
+      - name: Check release tag and credentials
+        env:
+          AMO_JWT_ISSUER: ${{ secrets.AMO_JWT_ISSUER }}
+          AMO_JWT_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: |
+          if [[ ! "$RELEASE_TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo '::error::A stable version tag such as v1.0.9 is required.'
+            exit 1
+          fi
+          if [[ -z "$AMO_JWT_ISSUER" || -z "$AMO_JWT_SECRET" ]]; then
+            echo '::error::Configure AMO_JWT_ISSUER and AMO_JWT_SECRET in repository Actions secrets.'
+            exit 1
+          fi
+          echo "VERSION=${RELEASE_TAG#v}" >> "$GITHUB_ENV"
+      - name: Check out automation
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Keep verifier for older release tags
+        run: cp tools/prepare-firefox-publish.js "$RUNNER_TEMP/prepare-firefox-publish.js"
+      - name: Check out release source
+        uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ inputs.release_tag }}
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Validate and rebuild release
+        run: npm run check
+      - name: Download and verify published package
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RELEASE_PREVIEW=$(gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json isDraft,isPrerelease --jq '(.isDraft or .isPrerelease)')
+          if [[ "$RELEASE_PREVIEW" != false ]]; then
+            echo '::error::Firefox submission requires a published stable GitHub release.'
+            exit 1
+          fi
+          mkdir -p "$RUNNER_TEMP/amo-release"
+          gh release download "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --pattern "adbonk-firefox-$VERSION.zip" --dir "$RUNNER_TEMP/amo-release"
+          node "$RUNNER_TEMP/prepare-firefox-publish.js" "$RELEASE_TAG" "$RUNNER_TEMP/amo-release/adbonk-firefox-$VERSION.zip" "$RUNNER_TEMP/amo-metadata.json"
+      - name: Install pinned Mozilla tooling
+        run: npm install --prefix "$RUNNER_TEMP/amo-tools" --ignore-scripts --no-audit --no-fund --save-exact web-ext@10.8.0
+      - name: Submit to existing Firefox listing
+        env:
+          WEB_EXT_API_KEY: ${{ secrets.AMO_JWT_ISSUER }}
+          WEB_EXT_API_SECRET: ${{ secrets.AMO_JWT_SECRET }}
+        run: |
+          "$RUNNER_TEMP/amo-tools/node_modules/.bin/web-ext" sign \
+            --source-dir dist/firefox \
+            --channel listed \
+            --approval-timeout 0 \
+            --timeout 300000 \
+            --amo-metadata "$RUNNER_TEMP/amo-metadata.json" \
+            --artifacts-dir "$RUNNER_TEMP/amo-artifacts" \
+            --no-config-discovery \
+            --no-input
+          {
+            echo "### Firefox $VERSION submitted"
+            echo 'The package was submitted to the existing AdBonk listing. Mozilla review and store availability are separate from submission.'
+            echo 'Check https://addons.mozilla.org/developers/addons for review status.'
+          } >> "$GITHUB_STEP_SUMMARY"

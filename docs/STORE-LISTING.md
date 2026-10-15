@@ -1,5 +1,7 @@
 # Firefox listing update
 
+New release versions can be [submitted automatically through GitHub Actions](FIREFOX-PUBLISH.md). Configure the repository secrets once. The workflow submits version files and notes; use the manual instructions below for listing text/icon changes or as a fallback. Do not manually upload a version that the workflow already submitted.
+
 Update the existing [AdBonk listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) through Mozilla's Developer Hub. Do not create a second add-on: keep `adbonk@rafelolv.github.io` and the existing update identity.
 
 1. Upload `dist/adbonk-firefox-1.0.8.zip` as a new version on the existing listing.

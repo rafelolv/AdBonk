@@ -1,3 +1,13 @@
+## Unreleased
+
+### Added
+- Firefox submission through GitHub Actions after successful tagged releases, plus a manual workflow for existing stable releases. Published packages must match the reproducible tagged build before submission to the existing listing.
+- Added six credential-free publication guard tests and setup instructions for repository Actions secrets. No extension runtime changes or store submission occur just by merging the automation.
+
+### Validation
+- All 154 tests pass; both workflows pass actionlint. The verifier accepted the existing public Firefox `1.0.8` ZIP against the local reproducible build without contacting Mozilla.
+- Mozilla web-ext `10.8.0` lint found no errors and one existing Android minimum-version compatibility warning in the desktop package. No authenticated store submission was run; repository secrets must be configured first.
+
 ## v1.0.8 (2026-10-15)
 
 ### Changed

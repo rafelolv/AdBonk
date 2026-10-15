@@ -84,6 +84,8 @@ Real Chrome 154 and Firefox 157 checks passed for early MAIN-world hooks, page s
 
 ## Store publication
 
+Firefox submission is [automated after successful releases](FIREFOX-PUBLISH.md) once the repository's Mozilla secrets are configured. The same workflow can submit an existing stable release manually. Successful submission is separate from Mozilla approval and store availability. Other browsers' stores are not automated.
+
 Store publication remains a separate step: supply store descriptions/screenshots, privacy disclosures, signing credentials, and pass browser/store review. The adapter does not fetch AdBonk code from GitHub at runtime; it bundles the core. The inherited core still reads and evaluates Twitch's own worker code as part of worker injection. This behavior requires explicit review during store submission; packaging does not establish store approval.
 
 For future changes, test real preroll and midroll ads, channel changes, VOD navigation, pause/mute, quality, background tabs, and PiP in both browsers. Report findings using the extension issue form. Stable status reflects the maintainer's release decision, not a guarantee against future Twitch changes.
