@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         AdBonk (vaft-testing)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.0.0
+// @version      1.0.1
 // @description  Bonk Twitch ads (vaft testing variant)
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft_testing.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft_testing.user.js
-// @author       https://github.com/cleanlock/VideoAdBlockForTwitch#credits
+// @author       rafelolv
+// @homepageURL  https://github.com/rafelolv/AdBonk
+// @supportURL   https://github.com/rafelolv/AdBonk/issues
 // @match        *://*.twitch.tv/*
 // @run-at       document-start
 // @grant        none
@@ -49,7 +51,7 @@
     }
     'use strict';
     const ourTwitchAdSolutionsVersion = 679;// Used to prevent conflicts with outdated versions of the scripts
-    console.log('[AD DEBUG] TwitchAdSolutions vaft-testing v' + ourTwitchAdSolutionsVersion + ' loading');
+    console.log('[AD DEBUG] AdBonk vaft-testing v' + ourTwitchAdSolutionsVersion + ' loading');
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] CONFLICT: vaft-testing v' + ourTwitchAdSolutionsVersion + ' skipped — another script already active (v' + window.twitchAdSolutionsVersion + '). Remove duplicate scripts.');
         return;
@@ -2610,7 +2612,7 @@
         }
         if (playerState.props?.content?.type !== 'live') return;
         const wasPaused = player.isPaused() || player.core?.paused;
-        // iOS/iPadOS anti-churn (restores the pixeltris-era "bail if paused" reload guard, scoped to
+        // iOS/iPadOS anti-churn (restores the previous "bail if paused" reload guard, scoped to
         // Apple touch): a reload re-instantiates the media element, which needs a user gesture to resume
         // on iOS — re-firing it while the player is already paused just re-creates the black-screen +
         // play-icon under the user's finger ("unable to hit play"). Leave the paused element standing so

@@ -1,9 +1,9 @@
 # AdBonk
 
-Independent continuation of TwitchAdSolutions. Read docs/BASELINE.md for provenance and docs/MAINTENANCE.md for the workflow.
+AdBonk is maintained by rafelolv. Read docs/MAINTENANCE.md for the workflow.
 
 - Use English for all project documentation, comments, user-facing text, metadata, and commit messages.
-- Preserve MIT license, author credits, and Git history.
+- Preserve the required copyright and permission notices in LICENSE and the Git history. Keep current presentation and installation metadata branded as AdBonk and maintained by rafelolv; do not restore promotional attribution or old repository links.
 - Main supported entry point: vaft/vaft.user.js. Keep stable and experimental variants separate.
 - Support userscript managers and the stable Chromium/Firefox extension packages. The maintainer promoted the extension after reported successful local use in Firefox and Chrome. Keep the stable userscript as the single blocking source; extension builds must copy it byte-for-byte. Do not restore uBlock Origin resources, scriptlets, installation options, or release artifacts.
 - Worker functions are serialized with `.toString()`. They must not capture window-scope variables. See CLAUDE.md for imported architectural notes.
@@ -14,7 +14,7 @@ Independent continuation of TwitchAdSolutions. Read docs/BASELINE.md for provena
 - The build must reject a mismatch between `package.json` and stable userscript `@version`. Both manifest versions and build-info version fields must equal that shared version. Never ship changed bundled core under an unchanged version.
 - Validate shared changes in both distribution formats: run `npm run check` (which rebuilds and verifies both packages), and run `npm run test:extension:browser` when changing the core or integration. Test real Twitch playback with the userscript and each extension separately; report unavailable checks rather than claiming compatibility. Extension-only changes must keep the stable runtime body unchanged; its version metadata advances with the shared release version.
 - Edit the stable core only in `vaft/vaft.user.js`, never in `dist/` or a browser-specific copy. Experimental/legacy script changes do not automatically enter the extension. GitHub publication does not update installed store extensions: submit the new packages to their existing store listings and track pending review separately.
-- The maintained branch is `main`. Installation/update URLs must point to rafelolv/AdBonk/main. Historical docs and author credits retain upstream links.
+- The maintained branch is `main`. Installation/update URLs must point to rafelolv/AdBonk/main. Author, homepage, support, installation, and update metadata must point to rafelolv and this project. Preserve legacy storage keys and duplicate-detection globals for compatibility.
 - Run npm run check after changes. Upstream tests copy functions; report their limits and validate player behavior in the browser.
 - Never claim current live ad-blocking works based only on unit tests.
 

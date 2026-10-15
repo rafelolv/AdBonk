@@ -1,4 +1,4 @@
-// Performance benchmark: ryanbr v51 vs pixeltris baseline
+// Performance benchmark: candidate v51 vs baseline baseline
 // Run: node tests/benchmark.js
 //
 // Measures CPU time and memory for the hot-path functions that run
@@ -85,10 +85,10 @@ const PARSE_ATTR_INPUT = 'BANDWIDTH=6000000,CODECS="avc1.64002A",RESOLUTION=1920
 const PARSE_ATTR_TAG = '#EXT-X-STREAM-INF:BANDWIDTH=6000000,CODECS="avc1.64002A",RESOLUTION=1920x1080,FRAME-RATE=60.000';
 
 // ============================================================
-// pixeltris functions (baseline)
+// baseline functions (baseline)
 // ============================================================
 
-const pixeltris = (() => {
+const baseline = (() => {
     const AdSignifier = 'stitched';
     const AdSegmentCache = new Map();
     let AllSegmentsAreAdSegments = false;
@@ -155,10 +155,10 @@ const pixeltris = (() => {
 })();
 
 // ============================================================
-// ryanbr v51 functions
+// candidate v51 functions
 // ============================================================
 
-const ryanbr = (() => {
+const candidate = (() => {
     const AdSignifiers = ['stitched', 'stitched-ad', 'maf-ad', 'X-TV-TWITCH-AD', 'EXT-X-CUE-OUT', 'EXT-X-DATERANGE:CLASS="twitch-stitched-ad"', 'EXT-X-DATERANGE:CLASS="twitch-stream-source"', 'EXT-X-DATERANGE:CLASS="twitch-trigger"', 'EXT-X-DATERANGE:CLASS="twitch-maf-ad"', 'EXT-X-DATERANGE:CLASS="twitch-ad-quartile"', 'SCTE35-OUT'];
     const AdSegmentURLPatterns = ['/adsquared/', '/_404/', '/processing'];
     const AdSegmentCache = new Map();
@@ -297,17 +297,17 @@ function bench(name, fn, iterations = 50000) {
     return { name, elapsed: elapsed.toFixed(2), opsPerSec, heapDelta, iterations };
 }
 
-function compare(label, pixeltrisFn, ryanbrFn, iterations) {
-    const p = bench('pixeltris', pixeltrisFn, iterations);
-    const r = bench('ryanbr', ryanbrFn, iterations);
+function compare(label, baselineFn, candidateFn, iterations) {
+    const p = bench('baseline', baselineFn, iterations);
+    const r = bench('candidate', candidateFn, iterations);
     const ratio = (p.elapsed / r.elapsed).toFixed(2);
-    const winner = ratio > 1 ? 'ryanbr' : ratio < 1 ? 'pixeltris' : 'tie';
+    const winner = ratio > 1 ? 'candidate' : ratio < 1 ? 'baseline' : 'tie';
     const speedup = ratio > 1 ? ratio + 'x faster' : (1/ratio).toFixed(2) + 'x slower';
 
     console.log(`\n--- ${label} (${p.iterations} iterations) ---`);
-    console.log(`  pixeltris:  ${p.elapsed}ms  (${p.opsPerSec} ops/s, heap delta: ${p.heapDelta} KB)`);
-    console.log(`  ryanbr:     ${r.elapsed}ms  (${r.opsPerSec} ops/s, heap delta: ${r.heapDelta} KB)`);
-    console.log(`  result:     ryanbr is ${speedup}`);
+    console.log(`  baseline:  ${p.elapsed}ms  (${p.opsPerSec} ops/s, heap delta: ${p.heapDelta} KB)`);
+    console.log(`  candidate:     ${r.elapsed}ms  (${r.opsPerSec} ops/s, heap delta: ${r.heapDelta} KB)`);
+    console.log(`  result:     candidate is ${speedup}`);
 }
 
 function makeStreamInfo() {
@@ -331,64 +331,64 @@ console.log(`GC exposed: ${typeof global.gc === 'function' ? 'yes' : 'no (run wi
 // 1. hasAdTags — clean playlist (common case, no ads)
 compare(
     'hasAdTags (clean playlist)',
-    () => pixeltris.hasAdTags(CLEAN_PLAYLIST),
-    () => ryanbr.hasAdTags(CLEAN_PLAYLIST),
+    () => baseline.hasAdTags(CLEAN_PLAYLIST),
+    () => candidate.hasAdTags(CLEAN_PLAYLIST),
     200000
 );
 
 // 2. hasAdTags — ad playlist (ads present)
 compare(
     'hasAdTags (ad playlist)',
-    () => pixeltris.hasAdTags(AD_PLAYLIST),
-    () => ryanbr.hasAdTags(AD_PLAYLIST),
+    () => baseline.hasAdTags(AD_PLAYLIST),
+    () => candidate.hasAdTags(AD_PLAYLIST),
     200000
 );
 
 // 3. stripAdSegments — clean playlist
 compare(
     'stripAdSegments (clean playlist)',
-    () => { pixeltris.reset(); pixeltris.stripAdSegments(CLEAN_PLAYLIST, false, makeStreamInfo()); },
-    () => { ryanbr.reset(); ryanbr.stripAdSegments(CLEAN_PLAYLIST, false, makeStreamInfo()); },
+    () => { baseline.reset(); baseline.stripAdSegments(CLEAN_PLAYLIST, false, makeStreamInfo()); },
+    () => { candidate.reset(); candidate.stripAdSegments(CLEAN_PLAYLIST, false, makeStreamInfo()); },
     50000
 );
 
 // 4. stripAdSegments — ad playlist (the hot path during ads)
 compare(
     'stripAdSegments (ad playlist)',
-    () => { pixeltris.reset(); pixeltris.stripAdSegments(AD_PLAYLIST, false, makeStreamInfo()); },
-    () => { ryanbr.reset(); ryanbr.stripAdSegments(AD_PLAYLIST, false, makeStreamInfo()); },
+    () => { baseline.reset(); baseline.stripAdSegments(AD_PLAYLIST, false, makeStreamInfo()); },
+    () => { candidate.reset(); candidate.stripAdSegments(AD_PLAYLIST, false, makeStreamInfo()); },
     50000
 );
 
-// 5. stripAdSegments — SCTE-35 playlist (ryanbr-only detection)
+// 5. stripAdSegments — SCTE-35 playlist (candidate-only detection)
 compare(
     'stripAdSegments (SCTE-35 playlist)',
-    () => { pixeltris.reset(); pixeltris.stripAdSegments(SCTE35_PLAYLIST, false, makeStreamInfo()); },
-    () => { ryanbr.reset(); ryanbr.stripAdSegments(SCTE35_PLAYLIST, false, makeStreamInfo()); },
+    () => { baseline.reset(); baseline.stripAdSegments(SCTE35_PLAYLIST, false, makeStreamInfo()); },
+    () => { candidate.reset(); candidate.stripAdSegments(SCTE35_PLAYLIST, false, makeStreamInfo()); },
     50000
 );
 
 // 6. parseAttributes — plain attribute string
 compare(
     'parseAttributes (attribute string)',
-    () => pixeltris.parseAttributes(PARSE_ATTR_INPUT),
-    () => ryanbr.parseAttributes(PARSE_ATTR_INPUT),
+    () => baseline.parseAttributes(PARSE_ATTR_INPUT),
+    () => candidate.parseAttributes(PARSE_ATTR_INPUT),
     100000
 );
 
-// 7. parseAttributes — full HLS tag line (ryanbr strips prefix)
+// 7. parseAttributes — full HLS tag line (candidate strips prefix)
 compare(
     'parseAttributes (full HLS tag)',
-    () => pixeltris.parseAttributes(PARSE_ATTR_TAG),
-    () => ryanbr.parseAttributes(PARSE_ATTR_TAG),
+    () => baseline.parseAttributes(PARSE_ATTR_TAG),
+    () => candidate.parseAttributes(PARSE_ATTR_TAG),
     100000
 );
 
-// 8. parseAttributes — null/empty input (ryanbr guards, pixeltris crashes)
+// 8. parseAttributes — null/empty input (candidate guards, baseline crashes)
 compare(
     'parseAttributes (null input)',
-    () => { try { pixeltris.parseAttributes(null); } catch {} },
-    () => ryanbr.parseAttributes(null),
+    () => { try { baseline.parseAttributes(null); } catch {} },
+    () => candidate.parseAttributes(null),
     200000
 );
 
@@ -396,15 +396,15 @@ compare(
 compare(
     'full ad cycle (hasAdTags + stripAdSegments)',
     () => {
-        pixeltris.reset();
-        if (pixeltris.hasAdTags(AD_PLAYLIST)) {
-            pixeltris.stripAdSegments(AD_PLAYLIST, false, makeStreamInfo());
+        baseline.reset();
+        if (baseline.hasAdTags(AD_PLAYLIST)) {
+            baseline.stripAdSegments(AD_PLAYLIST, false, makeStreamInfo());
         }
     },
     () => {
-        ryanbr.reset();
-        if (ryanbr.hasAdTags(AD_PLAYLIST)) {
-            ryanbr.stripAdSegments(AD_PLAYLIST, false, makeStreamInfo());
+        candidate.reset();
+        if (candidate.hasAdTags(AD_PLAYLIST)) {
+            candidate.stripAdSegments(AD_PLAYLIST, false, makeStreamInfo());
         }
     },
     50000

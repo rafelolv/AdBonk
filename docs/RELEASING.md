@@ -25,7 +25,7 @@ Include:
 - Installation and update instructions appropriate to the shipped files. Distinguish the release snapshot from the main-branch userscript installation link.
 - Migration requirements only when applicable. Never imply GitHub ZIPs automatically update unpacked extensions or store installations.
 - Validation actually performed and material untested scenarios. Attribute maintainer/user reports separately from automated checks; do not turn one successful session into a broad compatibility claim.
-- A link to report problems. Preserve upstream credits and the license; include provenance in the first release and when relevant, rather than repeating the entire origin story every time.
+- A link to report problems. Preserve the required copyright and permission notices in LICENSE. Keep presentation focused on AdBonk and its current maintainer; do not add old repository links or promotional attribution.
 
 Link version-specific documentation through the release tag when possible. Use `docs/releases/v1.0.0.md` as a completed example. Remove every template placeholder before committing.
 

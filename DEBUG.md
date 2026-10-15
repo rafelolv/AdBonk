@@ -1,4 +1,4 @@
-# Debugging TwitchAdSolutions
+# Debugging AdBonk
 
 ## Opening the Browser Console
 
@@ -25,7 +25,7 @@
 ### Startup (should appear on every page load)
 
 ```
-[AD DEBUG] TwitchAdSolutions vaft v44 loading
+[AD DEBUG] AdBonk vaft v44 loading
 [AD DEBUG] Config: ReloadPlayerAfterAd = true, ForceAccessTokenPlayerType = popout, PinBackupPlayerType = true
 [AD DEBUG] Window fetch hook installed
 [AD DEBUG] GQL headers captured — DeviceId: yes, Auth: yes, Integrity: no

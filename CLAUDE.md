@@ -1,6 +1,6 @@
-# TwitchAdSolutions
+# AdBonk
 
-AdBonk continuation. Remotes: `origin` = rafelolv/AdBonk (`main`), `pixeltris` = archived original, `ryanbr` = maintenance fork. See AGENTS.md and docs/BASELINE.md. Historical version details below refer to the imported baseline.
+Maintained by rafelolv. Origin: rafelolv/AdBonk (`main`). Follow AGENTS.md and docs/MAINTENANCE.md.
 
 ## Worker Blob Serialization (CRITICAL)
 

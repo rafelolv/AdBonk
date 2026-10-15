@@ -1,13 +1,15 @@
 // ==UserScript==
 // @name         AdBonk (vaft)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.0.7
+// @version      1.0.8
 // @description  Bonk Twitch ads (vaft)
 // @icon         https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/32.png
 // @icon64       https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/128.png
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js
-// @author       https://github.com/cleanlock/VideoAdBlockForTwitch#credits
+// @author       rafelolv
+// @homepageURL  https://github.com/rafelolv/AdBonk
+// @supportURL   https://github.com/rafelolv/AdBonk/issues
 // @match        *://*.twitch.tv/*
 // @run-at       document-start
 // @grant        none
@@ -50,7 +52,7 @@
     }
     'use strict';
     const ourTwitchAdSolutionsVersion = 96;// Used to prevent conflicts with outdated versions of the scripts
-    console.log('[AD DEBUG] TwitchAdSolutions vaft v' + ourTwitchAdSolutionsVersion + ' loading');
+    console.log('[AD DEBUG] AdBonk vaft v' + ourTwitchAdSolutionsVersion + ' loading');
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] CONFLICT: vaft v' + ourTwitchAdSolutionsVersion + ' skipped — another script already active (v' + window.twitchAdSolutionsVersion + '). Remove duplicate scripts.');
         return;
@@ -1392,7 +1394,7 @@
             }
             // Try pinned backup player type first if available
             // When PreferLowQualityBackup is enabled, append 'autoplay' (360p) as a last-resort
-            // fallback — mirrors pixeltris's original behavior. Source backups are tried first;
+            // fallback — mirrors the earlier fallback behavior. Source backups are tried first;
             // autoplay only kicks in when they're all ad-laden. Keeps Source quality when
             // available while guaranteeing a clean backup for heavy SSAI breaks.
             const playerTypesToTry = PreferLowQualityBackup ? [...BackupPlayerTypes, 'autoplay'] : [...BackupPlayerTypes];

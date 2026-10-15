@@ -8,10 +8,10 @@ Install AdBonk directly as a browser extension, without a userscript manager. Th
 
 | Browser | Package | Minimum version |
 | --- | --- | --- |
-| Chromium browsers | `adbonk-chromium-1.0.7.zip` | Chromium 111; real-browser checks used Chrome 154. |
-| Firefox desktop | `adbonk-firefox-1.0.7.zip` | Firefox 140; real-browser checks used Firefox 157. |
+| Chromium browsers | `adbonk-chromium-1.0.8.zip` | Chromium 111; real-browser checks used Chrome 154. |
+| Firefox desktop | `adbonk-firefox-1.0.8.zip` | Firefox 140; real-browser checks used Firefox 157. |
 
-Release `v1.0.7` includes the userscript and both extensions as version `1.0.7`. This shared sequence replaces independent extension versioning and stays above previous extension builds so updates remain possible. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
+Current source builds the userscript and both extensions as `1.0.8`; the published `v1.0.7` release remains the previous snapshot. Build locally for the updated installation metadata until the next release. This shared sequence replaces independent extension versioning and stays above previous extension builds so updates remain possible. The maintainer promoted the extension to stable after reporting successful local use in Firefox and Chrome. Chromium variants such as Brave and Edge have not been tested individually.
 
 **Firefox:** [Mozilla Add-ons listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) for regular installation. The store may still show an older version until the maintainer submits the update and Mozilla approves it. The GitHub ZIP is unsigned and intended for temporary installation, even though the extension is stable.
 
@@ -51,7 +51,7 @@ The temporary add-on is removed when Firefox restarts. Regular persistent instal
 ## What the popup means
 
 - **Ready on this page:** the expected main-page fetch and Worker hooks initialized. This is not proof that an ad was blocked or that a live stream works.
-- **Another script is running:** an equal/newer TwitchAdSolutions conflict counter was present before the extension ran. Disable the duplicate and reload the page.
+- **Another script is running:** an equal/newer legacy blocker conflict counter was present before the extension ran. Disable the duplicate and reload the page.
 - **Not loaded on this page:** check site permissions and reload. Clips and auxiliary frames are intentionally skipped by the unchanged core.
 - **Open a Twitch live stream:** the active tab has no reachable extension status bridge. Open Twitch or reload an existing Twitch tab after installation.
 

@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         AdBonk (video-swap-new)
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.0.0
+// @version      1.0.1
 // @updateURL    https://raw.githubusercontent.com/rafelolv/AdBonk/main/video-swap-new/video-swap-new.user.js
 // @downloadURL  https://raw.githubusercontent.com/rafelolv/AdBonk/main/video-swap-new/video-swap-new.user.js
 // @description  Bonk Twitch ads (video-swap-new)
-// @author       pixeltris (original), ryanbr (fork)
+// @author       rafelolv
+// @homepageURL  https://github.com/rafelolv/AdBonk
+// @supportURL   https://github.com/rafelolv/AdBonk/issues
 // @match        *://*.twitch.tv/*
 // @run-at       document-start
 // @grant        none
@@ -48,7 +50,7 @@
     }
     'use strict';
     const ourTwitchAdSolutionsVersion = 56;// Used to prevent conflicts with outdated versions of the scripts
-    console.log('[AD DEBUG] TwitchAdSolutions video-swap-new v' + ourTwitchAdSolutionsVersion + ' loading');
+    console.log('[AD DEBUG] AdBonk video-swap-new v' + ourTwitchAdSolutionsVersion + ' loading');
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] CONFLICT: video-swap-new v' + ourTwitchAdSolutionsVersion + ' skipped — another script already active (v' + window.twitchAdSolutionsVersion + '). Remove duplicate scripts.');
         return;

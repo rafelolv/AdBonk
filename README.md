@@ -14,8 +14,6 @@
 
 AdBonk blocks ads on Twitch live streams. Use it as a userscript or a standalone browser extension — both use the same blocking code.
 
-It continues [pixeltris's TwitchAdSolutions](https://github.com/pixeltris/TwitchAdSolutions), starting from the updated [ryanbr fork](https://github.com/ryanbr/TwitchAdSolutions). **Thank you, pixeltris.** You started what I still consider the best Twitch ad blocker. The original project has been discontinued, but it continues to work well in my experience.
-
 I'm [rafelolv](https://github.com/rafelolv), a DevOps/SRE. Coding isn't the main focus of my work, but I'll do my best to maintain this project. Fixes, commits, and pull requests are always welcome.
 
 ## Getting started
@@ -119,7 +117,7 @@ For diagnostics, open the browser console (**F12**) and look for `[AD DEBUG]`. R
 
 ## Why uBlock Origin support was removed
 
-The old custom Twitch integration had recurring inconsistencies: it could stop being applied without a known cause. I don't want to spend limited maintenance time chasing those failures. AdBonk focuses on the userscript and extensions that bundle it; the userscript has been the more stable option in the project's experience. This concerns the custom integration, not uBlock Origin's general ad-blocking capabilities. [Original project notes](https://github.com/pixeltris/TwitchAdSolutions#applying-a-script-ublock-origin).
+The old custom Twitch integration had recurring inconsistencies: it could stop being applied without a known cause. I don't want to spend limited maintenance time chasing those failures. AdBonk focuses on the userscript and extensions that bundle it; the userscript has been the more stable option in the project's experience. This concerns the custom integration, not uBlock Origin's general ad-blocking capabilities.
 
 <details>
 <summary><strong>Moving from the old uBlock Origin integration?</strong></summary>
@@ -163,8 +161,8 @@ This checks JavaScript syntax and runs 148 tests: 84 inherited, 30 player, 15 ne
 
 </details>
 
-## Credits
+## License
 
-Credit goes to **pixeltris, ryanbr, cleanlock, and everyone who contributed** to TwitchAdSolutions. The original Git history and [MIT license](LICENSE) are preserved.
+[MIT licensed](LICENSE).
 
-[Project baseline](docs/BASELINE.md) · [Changelog](CHANGELOG.md) · [Debugging guide](DEBUG.md) · [Historical ryanbr README](https://github.com/ryanbr/TwitchAdSolutions#readme).
+[Changelog](CHANGELOG.md) · [Debugging guide](DEBUG.md).

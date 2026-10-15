@@ -1,8 +1,8 @@
 {
   "name": "adbonk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": true,
-  "description": "Bonk Twitch ads. Independent continuation of TwitchAdSolutions.",
+  "description": "Bonk Twitch ads.",
   "license": "MIT",
   "engines": {
     "node": ">=24"

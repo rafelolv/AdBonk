@@ -1,34 +1,10 @@
 # Maintenance and publication
 
-## Local layout
+## Repository
 
-The parent directory contains three complete checkouts:
+The maintained project is [rafelolv/AdBonk](https://github.com/rafelolv/AdBonk), on branch `main`. The origin remote is `git@github.com:rafelolv/AdBonk.git`.
 
-- `upstream-pixeltris/`: the archived original, retained for reference.
-- `upstream-ryanbr/`: the inspected maintenance fork, retained for reference.
-- `AdBonk/`: the project to maintain; make changes here.
-
-AdBonk preserves Git history and uses the `main` branch. Remotes: `origin` points to `git@github.com:rafelolv/AdBonk.git`; `ryanbr` and `pixeltris` point to the public source repositories. Configuring a remote does not create a GitHub repository.
-
-## GitHub repository
-
-The repository is published at [rafelolv/AdBonk](https://github.com/rafelolv/AdBonk). Its default branch is `main`. The initial GitHub README commit was merged with the imported project history during the branch migration. The instructions below are retained for creating a new copy.
-
-The SSH key authenticated as `rafelolv`. SSH authorizes Git operations, but repository creation requires the authenticated API or GitHub website. Neither `gh` nor API authentication was configured in the initial environment.
-
-For an independent repository, open [GitHub — new repository](https://github.com/new), choose owner `rafelolv`, name `AdBonk`, and public visibility. **Do not initialize a README, license, or .gitignore**: these already exist in local history. This creates an independent project with the source history and credits.
-
-If you prefer GitHub to identify it as a fork, use [Fork ryanbr's repository](https://github.com/ryanbr/TwitchAdSolutions/fork), choose owner `rafelolv`, and name it `AdBonk`. The local baseline already derives from that fork. Then push the local branch normally.
-
-Once the repository exists, run inside `AdBonk/`:
-
-```bash
-git push -u origin main
-```
-
-Do not push all inherited tags during the initial publication. The installation URL will be:
-
-`https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js`
+Install/update URL: `https://raw.githubusercontent.com/rafelolv/AdBonk/main/vaft/vaft.user.js`.
 
 ## Migrating an existing installation
 
@@ -63,16 +39,9 @@ git push origin v1.0.8
 
 Automation validates files and tests, checks the tag version, requires nonempty English release notes at `docs/releases/<tag>.md`, and publishes the stable vaft userscript, both extension ZIPs, and the license. It does not create automatic commits or rewrite links to third-party repositories. Check GitHub Actions, release notes, attached assets, and hashes after publication.
 
-## Incorporate upstream changes
+## Review external patches
 
-```bash
-git fetch ryanbr
-git fetch pixeltris
-git log --oneline main..ryanbr/master
-git diff main...ryanbr/master -- vaft/vaft.user.js
-```
-
-Review commits and integrate them on a working branch. Fixes may depend on other commits; check dependencies before cherry-picking. Merges can reintroduce upstream namespaces, URLs, workflows, and documentation: preserve AdBonk's identity and author credits. Do not automatically promote experimental scripts to stable or reintroduce the removed uBlock Origin integration.
+Review dependencies and playback impact before integrating external changes. Preserve AdBonk metadata, required license notices, and compatibility keys. Do not automatically promote experimental features or restore the removed integration.
 
 ## Extension builds
 
@@ -80,7 +49,7 @@ The stable userscript remains the single blocking source. `npm run build:extensi
 
 Run `npm run check` after changes. When browsers are available, `npm run test:extension:browser` checks actual extension installation and integration on loopback fixtures. Follow [the extension guide](EXTENSION.md) for limitations, temporary installation, and store publication. Release automation attaches both ZIPs to tagged releases; it does not sign or submit extensions to browser stores.
 
-The current source builds both extensions and userscript as `1.0.7`. This shared baseline is higher than earlier independent extension versions, preserving the update path. This update adds userscript icon metadata and smaller toolbar artwork; the stable script body and internal conflict counter are unchanged. The existing release and approved store versions are separate snapshots.
+The current source builds both extensions and userscript as `1.0.8`. This shared baseline is higher than earlier independent extension versions, preserving the update path. This update adds userscript icon metadata and smaller toolbar artwork; the stable script body and internal conflict counter are unchanged. The existing release and approved store versions are separate snapshots.
 
 ### Keep the userscript and extensions synchronized
 
@@ -101,4 +70,4 @@ Publishing to GitHub does not update store installations. Submit rebuilt package
 
 The userscript starts at `document-start`, hooks `fetch` and Worker, and injects serialized functions into the player worker. These analyze M3U8 playlists, identify ads, and try to obtain tokens/playlists for other player types. The page layer receives worker messages, monitors buffering, and handles recovery, reloads, and overlays.
 
-Functions transferred with `.toString()` must be self-contained: a variable available in page scope may not exist inside the worker. Inherited settings use `twitchAdSolutions_*` localStorage keys, retained for compatibility. Logs still use `[AD DEBUG] TwitchAdSolutions` and the upstream internal version, while the userscript manager dashboard shows AdBonk and the public script version.
+Functions transferred with `.toString()` must be self-contained: a variable available in page scope may not exist inside the worker. Inherited settings use `twitchAdSolutions_*` localStorage keys, retained for compatibility. Logs use `[AD DEBUG] AdBonk` and the internal conflict version, while the userscript manager dashboard shows AdBonk and the public script version.

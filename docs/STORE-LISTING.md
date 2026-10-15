@@ -2,7 +2,7 @@
 
 Update the existing [AdBonk listing](https://addons.mozilla.org/en-US/firefox/addon/adbonk/) through Mozilla's Developer Hub. Do not create a second add-on: keep `adbonk@rafelolv.github.io` and the existing update identity.
 
-1. Upload `dist/adbonk-firefox-1.0.7.zip` as a new version on the existing listing.
+1. Upload `dist/adbonk-firefox-1.0.8.zip` as a new version on the existing listing.
 2. Set the displayed name to **AdBonk**, and remove the listing's experimental flag if it is still selected.
 3. Upload `extension/icons/128.png` as the listing icon. It has a real transparent background.
 4. Use the English summary and description below and retain the MIT license and repository homepage.
@@ -20,10 +20,10 @@ It looks for alternative streams without ads, tries higher-quality alternatives 
 
 Use either the extension or the userscript, with one Twitch ad blocker enabled at a time. Reload Twitch after installation or an update.
 
-AdBonk continues pixeltris's TwitchAdSolutions with updates from ryanbr's fork. The project preserves the upstream credits and MIT license. Its maintainer works primarily in DevOps/SRE; fixes, issues, and pull requests are welcome.
+AdBonk is maintained by rafelolv, who works primarily in DevOps/SRE. Fixes, issues, and pull requests are welcome. License: MIT.
 
 Source, setup, and issues: https://github.com/rafelolv/AdBonk
 
 ## Version notes
 
-The extension and stable userscript now share version 1.0.7, keeping both installation formats on the same release sequence. This update simplifies small toolbar icons and includes the userscript's new icon metadata. The blocking runtime is unchanged from the previous version.
+The extension and stable userscript now share version 1.0.8, keeping both installation formats on the same release sequence. This update points author, homepage, and support metadata to rafelolv and AdBonk. The blocking runtime is unchanged from the previous version.

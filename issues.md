@@ -13,7 +13,7 @@ If you're using Chrome with a Manifest V3 based userscript manager (e.g. Tamperm
 
 ## Streams sometimes appear offline when ads occur
 
-This needs to be fixed but currently the exact cause is unknown. https://github.com/pixeltris/TwitchAdSolutions/issues/477
+This needs to be fixed but currently the exact cause is unknown.
 
 ## The player shows a loading wheel for a long time
 
@@ -21,7 +21,7 @@ If the player displays `AdBonk is blocking ads` while playback pauses, the scrip
 
 ## The script don't work on mobile (m.twitch.tv)
 
-There are no plans of implementing the scripts on m.twitch.tv but there are other solutions which blocking ads on Twitch for mobile. See https://github.com/pixeltris/TwitchAdSolutions/blob/master/full-list.md
+Mobile-site compatibility has not been established. See the supported installation options in [README.md](README.md).
 
 ## Long black screen during ads
 
@@ -37,7 +37,7 @@ This happens because the script forces the player to consume multiple different 
 
 The script is configured to do this automatically for you:
 
-https://github.com/pixeltris/TwitchAdSolutions/blob/9cae451c04a9a94859da7de19c367b58afdd95bc/vaft/vaft.user.js#L49-L54
+
 
 - If it triggers but it still freezes try setting `PlayerBufferingDoPlayerReload` to `true`. Player reloads generally have less problems.
 - If you're having issues with it triggering when the player is genuinely buffering then adjust `PlayerBufferingDelay` / `PlayerBufferingSameStateCount`.
