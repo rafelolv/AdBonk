@@ -1,5 +1,8 @@
 ## Unreleased
 
+### Changed
+- Removed the vaft label from stable and experimental userscript display names and stable console messages. Stable userscript and extensions advance together to `1.0.10`; experimental userscript metadata advances to `1.0.2`. Blocking behavior and internal conflict counters are unchanged. Existing installation and update URLs are preserved.
+
 ## v1.0.9 (2026-10-15)
 
 ### Added

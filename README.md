@@ -97,7 +97,7 @@ AdBonk is not published on the Chrome Web Store. Google charges a [$5 one-time d
 <details>
 <summary><strong>Install a local userscript or test your own edits</strong></summary>
 
-Open your manager's dashboard and create a new script. Delete the example code, paste the complete contents of [`vaft/vaft.user.js`](vaft/vaft.user.js), and save. Keep it enabled and reload Twitch.
+Open your manager's dashboard and create a new script. Delete the example code, paste the complete contents of [AdBonk userscript](vaft/vaft.user.js), and save. Keep it enabled and reload Twitch.
 
 You can test local edits without publishing them on GitHub. Use the complete `.user.js` file, including its metadata header. [Tampermonkey instructions](https://www.tampermonkey.net/faq.php?q=Q102) · [Violentmonkey instructions](https://violentmonkey.github.io/guide/creating-a-userscript/).
 
@@ -132,14 +132,14 @@ Remove any old Brave companion scriptlet filter and resource URL too. Restart th
 
 Found a fix? Pull requests are welcome. Have an idea or an unresolved problem? Open an issue so we can discuss it.
 
-The maintained script is **[`vaft/vaft.user.js`](vaft/vaft.user.js)**. Both extension packages use that same file. Experimental and legacy variants stay separate.
+The maintained script is **[AdBonk userscript](vaft/vaft.user.js)**. Both extension packages use that same file. Experimental and legacy variants stay separate.
 
 <details>
 <summary><strong>Other script variants</strong></summary>
 
 | File | Purpose |
 | --- | --- |
-| [`vaft/vaft_testing.user.js`](vaft/vaft_testing.user.js) | Experimental; test separately. |
+| [AdBonk experimental userscript](vaft/vaft_testing.user.js) | Experimental; test separately. |
 | [`video-swap-new/`](video-swap-new/) | Legacy alternative retained for comparison. |
 | [`strip/strip.user.js`](strip/strip.user.js) | Legacy strategy; not recommended for the standard setup. |
 | [`vaft/twitch-brave-fix.user.js`](vaft/twitch-brave-fix.user.js) | Optional Brave companion; excluded from the standard setup. |

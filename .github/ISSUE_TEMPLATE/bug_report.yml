@@ -16,7 +16,7 @@ body:
     attributes:
       label: Which script are you using?
       options:
-        - vaft (userscript)
+        - AdBonk (userscript)
         - video-swap-new (userscript)
         - strip (userscript)
     validations:
@@ -27,7 +27,7 @@ body:
     attributes:
       label: Script version
       description: "Check your userscript manager for the public AdBonk version. You can also include the internal counter from the browser console (F12); it is separate from the public version."
-      placeholder: "e.g. AdBonk (vaft) 1.0.0; internal counter 95"
+      placeholder: "e.g. AdBonk 1.0.10; internal counter 96"
     validations:
       required: true
 
