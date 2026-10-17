@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v1.0.11 (2026-10-16)
+
 ### Fixed
 - Recovery now resolves the current live player's video instead of selecting an auxiliary or ad video by DOM order. Delayed reload callbacks are scoped to the same player state and channel route, and skip VODs and deliberate pauses. Media events from unrelated videos cannot trigger audio restoration. Addresses #1.
 - Drift correction tracks the element it accelerated and restores its previous playback speed on completion, replacement, cancellation, ad start, timeout, or failure. Stale callbacks cannot stop a newer correction, and external speed changes are preserved. Addresses #2.
