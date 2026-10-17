@@ -1,10 +1,19 @@
 ## Unreleased
 
+### Changed
+- Stable userscript and both extensions `1.0.12` (internal `98`) restore the pinned original blocking engine. Original ad detection, regular `embed → popout → autoplay` backup order, `embed` fallback, quality matching, and ad-end reload decisions replace the fork's added selection and recovery layers. The original short post-reload window may start at autoplay.
+- Removed fork-only catch-up acceleration, backup pinning, synthetic recovery playlists, extra ad markers, separate-video ad hiding, and early-reload/decoder heuristics from stable. Experimental and legacy variants are unchanged. Fork-only stored options are retained but ignored by stable.
+- Preserved AdBonk identity, byte-identical userscript/extension packaging, live-only/player-owned recovery, standard PiP protection, frame guards, one monitor timer, scoped delayed settings restoration, GQL timeouts, and error propagation. See docs/BASELINE.md for exact differences.
+
+### Validation
+- All 100 current tests pass, including pinned baseline hashes, original playlist-selection scenarios, network and recovery guards, and execution of the actual generated worker. The 84 historical copied-function assertions are retained under `npm run test:legacy`, outside stable validation; removed-behavior tests are replaced with baseline tests rather than presented as current coverage.
+- Chromium and Firefox extension fixture checks pass. Mozilla lint reports zero errors and one existing Android minimum-version warning. No live Twitch ad-break comparison or native Firefox PiP session was performed by the agent; maintainer testing is required.
+
 ### Documentation
 - Standardized Mozilla publication rules across agent, maintenance, and release instructions, including store-note and archive limits, local lint, identity/version checks, source/privacy review, and safe retry handling. Automated and manual checks are explicitly distinguished.
 
 ### Fixed
-- Limit Firefox store release notes to 3,000 characters, linking to the full GitHub release when shortening is needed. This fixes Mozilla rejection of longer release notes without changing published packages. All 179 tests pass, including three new release-note boundary cases.
+- Limit Firefox store release notes to 3,000 characters, linking to the full GitHub release when shortening is needed. This fixes Mozilla rejection of longer release notes without changing published packages. The automation change passed the then-current 179 tests, including three new release-note boundary cases.
 
 ## v1.0.11 (2026-10-16)
 

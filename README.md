@@ -61,7 +61,7 @@ A userscript manager is a browser extension that runs AdBonk on Twitch.
 
 During detected ad breaks, the player shows **“AdBonk is blocking ads”**. It looks for an alternative stream without ads and may remove ad segments when needed. You may notice buffering, pauses, or a temporary drop in quality.
 
-AdBonk checks higher-quality alternatives before repeating a previous 360p fallback. If better clean streams aren't available, it can still use 360p to keep playback going. Twitch changes can affect blocking.
+AdBonk uses a simpler blocking strategy: it normally tries full-quality alternatives before a 360p fallback. Briefly after a player reload, it can use that fallback directly. Twitch changes can affect blocking.
 
 ## Updates and other installation options
 
@@ -155,7 +155,9 @@ Requires **Node.js 24**, with no npm dependencies:
 npm run check
 ```
 
-This checks JavaScript syntax and runs 179 tests: 84 inherited, 30 player, 22 recovery-target, 15 network, 6 quality, 13 extension, and 9 Firefox publication checks. The inherited tests use copied functions; regression tests extract shipped functions and use simulated browser/player or network state. Passing them does not establish that ad blocking works on a live stream. Test real playback separately.
+This checks JavaScript syntax and runs 100 tests against the current code: 30 player, 20 baseline/playlist, 15 network, 12 recovery-target, 13 extension, 9 Firefox publication, and 1 generated-worker bootstrap case. Tests pin the blocking baseline and exercise shipped functions with simulated browser/player or network state. Passing them does not establish that ad blocking works on a live stream. Test real playback separately.
+
+Historical copied-function checks for the previous engine are available separately with `npm run test:legacy`; they do not validate the current stable blocker.
 
 [Maintenance and publication](docs/MAINTENANCE.md) · [Extension development](docs/EXTENSION.md) · [Upstream issue audit](docs/ISSUE-AUDIT.md).
 

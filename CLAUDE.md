@@ -2,106 +2,35 @@
 
 Maintained by rafelolv. Origin: rafelolv/AdBonk (`main`). Follow AGENTS.md and docs/MAINTENANCE.md.
 
-## Worker Blob Serialization (CRITICAL)
+## Stable blocking baseline
 
-Functions serialized via `.toString()` into the Web Worker blob CANNOT reference outer-scope variables. This includes: `processM3U8`, `stripAdSegments`, `hookWorkerFetch`, `getAccessToken`, `gqlRequest`, `hasAdTags`, `getMatchedAdSignifiers`, `notifyAdComplete`, `getStreamUrlForResolution`, `parseAttributes`, `getServerTimeFromM3u8`, `replaceServerTimeInM3u8`, `pruneStreamInfos`, `createStreamInfo`, `getWasmWorkerJs`, `videoCodecFamily`.
+Stable `1.0.12` / internal conflict counter `98` restores the original blocking engine documented in [docs/BASELINE.md](docs/BASELINE.md). Stable userscript and both extensions share the package version and exact stable source.
 
-- Declare variables in `declareOptions()` (also serialized) or in the inline blob template literal
-- To pass window-scope values to the worker, inject after `declareOptions(self)`: e.g. `ReloadPlayerAfterAd = ${ReloadPlayerAfterAd};`
-- Regex hoisting or referencing outer-scope variables from these functions causes `ReferenceError`
+- `vaft/vaft.user.js` is the single stable source. Experimental `vaft/vaft_testing.user.js` and legacy/companion scripts are separate and retain their previous logic.
+- Detection uses the original `AdSignifier = 'stitched'`.
+- Normal backup order is `embed`, `popout`, then `autoplay` (360p). The fallback is `embed`; native token requests use `popout`.
+- The original 1,500ms post-reload request window can start at `autoplay`. Do not describe source-first behavior as unconditional.
+- Preserve original playlist parsing, segment substitution, quality matching, HEVC handling, token requests, and ad-end reload/pause-play policy.
+- Fork-specific flags such as `FastAutoplayFirstTry`, `PreferLowQualityBackup`, `BackupSwapFirst`, and `PinBackupPlayerType` are not read by stable. Existing stored settings are left intact for other variants.
+- Stable has no catch-up acceleration, early-reload cascades, synthetic recovery playlists, separate-video ad hiding, or post-break frame monitor. Do not port those back implicitly.
 
-## Files
+## Retained integration adaptations
 
-Supported userscripts:
-- `vaft/vaft.user.js` (stable)
-- `vaft/vaft_testing.user.js` (experimental)
-- `video-swap-new/video-swap-new.user.js` (legacy alternative)
-- `strip/strip.user.js` (standalone)
-- `vaft/twitch-brave-fix.user.js` (optional Brave companion)
+- AdBonk metadata, simple blocking notice, frame/clip guards, and monotonic duplicate counter.
+- Live-only recovery and tab-focus resume use the player-owned video; focus does not resume a VOD or a replacement element. Real document visibility is preserved for other extensions.
+- One monitor timer and fresh player lookup retain the original stall predicate and timings.
+- Standard PiP recovery uses pause/play instead of replacing the media instance. Native Firefox PiP is not established as fixed.
+- Delayed settings restoration checks the same player state and route and skips paused/non-live content.
+- GQL request timeouts and propagated asynchronous failures prevent requests remaining pending; these are transport guards, not new backup-selection rules.
 
-Only userscript managers are supported.
+## Worker serialization
 
-## Naming Differences
+The generated worker serializes `stripAdSegments`, `getStreamUrlForResolution`, `processM3U8`, `hookWorkerFetch`, `declareOptions`, `getAccessToken`, `gqlRequest`, `parseAttributes`, `getWasmWorkerJs`, `getServerTimeFromM3u8`, and `replaceServerTimeInM3u8` using `.toString()`.
 
-| | vaft | video-swap-new | strip |
-|---|---|---|---|
-| Signifiers | `AdSignifiers` | `AD_SIGNIFIERS` | N/A |
-| URL patterns | `AdSegmentURLPatterns` | `AD_SEGMENT_URL_PATTERNS` | N/A |
-| Player type | `ForceAccessTokenPlayerType` | `OPT_FORCE_ACCESS_TOKEN_PLAYER_TYPE` | `ForceAccessTokenPlayerType` (default `site`) |
-| Reload after ad | `ReloadPlayerAfterAd` | `ReloadPlayerAfterAd` | `ReloadPlayerAfterAds` |
+These functions cannot capture page-scope variables. Put shared settings in `declareOptions` or explicitly inject them in the worker bootstrap. The generated-worker regression test runs the actual blob in isolation to detect missing dependencies.
 
-## Versions
+## Validation and publishing
 
-Bump `@version` (userscript header) and `ourTwitchAdSolutionsVersion` together for functional changes. Current AdBonk: vaft 68.5.7.4/94, video-swap-new 1.87.4/56, strip 1.10.3/27. Experimental vaft: 678.0.0.4/679.
+Run `npm run check` and, for core/integration changes, `npm run test:extension:browser`. The stable suite tests pinned baseline equality, simulated playlist decisions, recovery, network failures, worker bootstrap, packages, and Firefox submission guards. `npm run test:legacy` is historical coverage of copied fork functions only.
 
-## localStorage Config
-
-All read at init, injected into worker blob:
-- `twitchAdSolutions_reloadPlayerAfterAd` — `true`/`false`, default `true`
-- `twitchAdSolutions_playerType` — string, default `popout`
-- `twitchAdSolutions_pinBackupPlayerType` — `true`/`false`, default `false` (vaft default `true`)
-- `twitchAdSolutions_hideAdOverlay` — `true` to hide the internal `.tas-adblock-overlay` banner (SDA wrapper hide always runs), default not set
-- `twitchAdSolutions_reloadCooldownSeconds` — number, default `30` (0 to disable)
-- `twitchAdSolutions_disableReloadCap` — `true` to revert to unlimited reloads
-- `twitchAdSolutions_driftCorrectionRate` — number, default `1.1` (0 to disable)
-- `twitchAdSolutions_earlyReloadPollThreshold` — number, default `3` (0 to disable; thin cache overrides to 1)
-- `twitchAdSolutions_preferLowQualityBackup` — hybrid mode (sticky escape hatch + autoplay last-resort backup), default `true`; set to `false` to disable (vaft only)
-- `twitchAdSolutions_backupSwapFirst` — on ad detect, immediately swap to backup player-type m3u8 (TTV-AB-style) instead of sticky CSAI strip. Default `true` as of v63.0.0; set to `false` for legacy strip-first path (vaft only)
-- `twitchAdSolutions_fastAutoplayFirstTry` — opt-out (default `true` as of v67.1.0). Prepend autoplay (360p) to position 0 of the iteration when the prior break committed autoplay via PreferLowQualityBackup escape hatch. Saves ~1.5-2s of probe-loop buffering. Auto-resets when a Source-tier type wins (channel recovered) so quality returns to full automatically. Set to `'false'` to force full Source-tier probe on every break (vaft only)
-- `twitchAdSolutions_recoverFromSilentMute` — opt-out (default `true`). On hard reload, if the element is already muted but vaft has successfully unmuted at any point earlier this session, recover via the 5500ms backstop (Twitch's silent re-mute pattern — issue #200). Disable via `'false'` if you deliberately mute mid-session and want that preserved across reloads. Users muted from session start are always respected (vaftEverUnmuted=false short-circuits the recovery check). vaft only.
-- `twitchAdSolutions_disableAdSpoofing` — opt-in via `'false'` (default `'true'` — spoofing is OFF). When enabled, on ad detect vaft fires the GQL ad-tracking beacons (`video_ad_impression`, `video_ad_quartile_complete` × 4, `video_ad_pod_complete`) that Twitch's player would have sent if the ad had played normally. Originally intended to mimic the ad-completion signal Twitch expects and may reduce detection escalation — but the always-100%-watched + audible + visible beacon pattern may itself fingerprint as anomalous (silently, without GQL rejection) and trigger detection escalation in the other direction (observed correlation with CSAI ads reaching committed backups + TTV-AB maintainer hypothesis). Default flipped from on→off after v68.2.0. Set to `'false'` to re-enable (for A/B testing whether spoofing affects ad break duration / CSAI escalation on your channels). Failures swallowed (never blocks ad-block flow). vaft only.
-- `twitchAdSolutions_disableInAdGapSeek` — opt-out via `'true'` (default off = feature on). Disables the in-ad frozen-buffer-gap seek (v660, TTV-AB #33 mirror) for A/B isolation of mid-break pause/loading-circle reports. vaft testing only.
-- `twitchAdSolutions_disableInAdFreezeReload` — opt-out via `'true'` (default off = feature on). Disables the in-ad frozen-playhead reload escalation (v662, audio-gap CSAI backstop) for A/B isolation. vaft testing only.
-- `twitchAdSolutions_disablePostBreakWedge` — opt-out via `'true'` (default off = feature on). Disables the post-break video-wedge recovery (v667/v68.5.0, TTV-AB _checkPostBreakWedge mirror) for A/B isolation.
-- `twitchAdSolutions_disableBackgroundResume` — opt-out via `'true'` (default off = feature on). Disables the hidden-tab resume guard (v672, issue #255): a Twitch-initiated pause while the tab is hidden is resumed with a retry chain (strike-capped so a deliberate media-key pause is respected) instead of staying paused until tab focus. vaft testing only.
-
-## CSAI vs SSAI
-
-- **SSAI** (Server-Side Ad Insertion) — ads embedded in m3u8 segments. Blockable by stripping.
-- **CSAI** (Client-Side Ad Insertion) — ads delivered via `edge.ads.twitch.tv`, outside m3u8. Not blockable at m3u8 level. Detected via fetch/XHR hooks for logging only.
-- When `hadStrippedSegments === false` (CSAI-only), skip reload entirely to prevent cascade.
-
-## Key Architecture (vaft)
-
-- **Buffer monitor** (`monitorPlayerBuffering`) — polls player state every 1-3s (visibility-aware). Detects stalls, fires pause/play or reload.
-- **Reload cooldown** — 30s default, auto-escalates to 90s if 3+ reloads in 5 minutes.
-- **Reload cap** — buffer monitor reloads at most once per recovery window (`recoveryReloadUsed`).
-- **Grace periods** — 15s after reload, 10s after backup switch. Buffer monitor skips fixes during these.
-- **Drift correction** — `startDriftCorrection(videoElement)` shared function. 1.1× playback rate, 30s safety timeout. Restarts fresh on re-entry (clears stale timers). Used by post-reload drift and buffer gap seek.
-- **Reload routing** — worker → main `ReloadPlayer` messages carry a `kind` field. `doTwitchPlayerTask(isPausePlay, isReload, reloadKind)` picks `setSrc` params: `kind === 'early'` → hard reload (`isNewMediaPlayerInstance: true, refreshAccessToken: true`, new session); otherwise soft reload. The two flags are **not** coupled: on Apple touch devices `iosSoftReload` downgrades `isNewMediaPlayerInstance` to false while `refreshAccessToken` stays true (v68.5.5 — not yet validated on a device). Early reload sites (both sticky + normal paths) send `kind: 'early'`; post-ad reload sites send `'post-ad'` when `SoftReloadNoStrip` is on and the break stripped nothing (v68.5.0), `'early'` otherwise. HEVC force reload stays soft (codec change, no strip involved). Hard reload flushes the MediaSource buffer — required after strip activity (BLANK_MP4 injection, recovery replay) to avoid audio/video desync from accumulated timestamp drift.
-- **Early reload** — fires during prolonged all-stripped freeze. Threshold: 3 polls (~6s), or 1 poll when recovery cache <3 segments (thin-cache fast path). Budget: `max(1, PodLength)` or `max(2, PodLength)` when thin. `EarlyReloadTriggered` resets on "still ads" (both sticky + normal paths) to allow budget-based re-fire. Override via `twitchAdSolutions_earlyReloadPollThreshold`.
-- **Sticky CSAI fast path** — once a break enters CSAI fast path (all segments live), stays on it for the whole break. Has its own early-reload trigger + `EarlyReloadAwaitingResult` check (normal-path check unreachable due to early return).
-- **Latency-aware reload health check** — measures `seekable.end - currentTime` before skipping post-ad reload. If >7s behind live or seekable unavailable/garbage, proceeds with reload. Guards against 2^30 sentinel values via `Number.isFinite` + 3600s cap.
-- **User pause intent** — tracks video pause/play events to distinguish user vs script pauses. `weJustPaused` only resets when player wasn't paused (guards against clearing intent during stall recovery).
-- **Stale player ref** — `playerForMonitoringBuffering = null` on reload to force re-acquisition.
-- **StreamInfo factory** — `createStreamInfo()` declares all fields up-front (46 fields vaft, 31 fields video-swap-new). Serialized into worker blob.
-
-## Debug Logging
-
-All logs use `[AD DEBUG]` prefix. Logs in `.toString()` functions must use `console.log` directly. Some logs are deduped (once per ad break or once per page load) to prevent console spam.
-
-## Validation
-
-`npm run check` validates every JavaScript file and runs the inherited unit tests. GitHub Actions validates on push/PR.
-
-## Testing
-
-Testing files include experimental features (ad completion spoofing, lower thresholds, removed pruneStreamInfos). Don't apply to main scripts without explicit request. Testing-script-only changes commit directly to main; PRs are for release scripts.
-
-## Backup Player Types
-
-- **vaft**: `embed`, `site`, `popout`, `mobile_web` (autoplay removed — gets stuck in loading circle on transition back)
-- **video-swap-new**: `embed`, `popout`, `mobile_web` (autoplay + picture-by-picture removed)
-
-## Ad Overlay Hiding
-
-`hideTwitchAdOverlays()` hides one overlay type during ad blocking:
-- **Stream display ads (SDA)** — via exact `[data-test-selector="sda-wrapper"]` selector, no parent walking
-
-Called on every buffer monitor tick. Guards via `dataset.tasHidden` to skip already-hidden elements.
-
-**Previously removed:**
-- Turbo promo / "allow ads" overlay hide (PR #143) — used `.player-overlay-background` which is Twitch's generic modal scrim (also used for content gates, error dialogs, subscription warnings). Too broad to use safely.
-- Ad-break-card text match (PR #141) — scanned `span/p/h1/h2/h3` text for "taking an ad break" phrases then walked up via fuzzy `[class*="overlay"]` + `parentElement` fallback. Could hide player controls on false matches. TTV-AB doesn't attempt this either.
-
-Only keep overlay hides that use exact attribute selectors with no parent walking.
+Follow docs/RELEASING.md and docs/FIREFOX-PUBLISH.md for releases. Keep credentials only in Actions secrets, preserve the Firefox ID, and distinguish successful submission from Mozilla approval. Tests and store acceptance do not prove live Twitch ad-blocking performance.

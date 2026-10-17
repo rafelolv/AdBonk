@@ -1,3 +1,5 @@
+// Historical copied-function tests for the previous fork-based engine.
+// Run separately with npm run test:legacy; these do not validate the stable baseline.
 // Unit tests for TwitchAdSolutions
 // Run: node tests/test.js
 

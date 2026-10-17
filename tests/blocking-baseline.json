@@ -1,0 +1,18 @@
+{
+  "commit": "f8f86706daf90daa534b26bce5b2f01238667d5f",
+  "sha256": "06861594a5e6e984ec3da73a4f25d84bea6a816b97ab7cbf4c80fa205583b3ee",
+  "version": "37.0.0",
+  "functions": {
+    "declareOptions": "7963a9b1ddb0c5752588bdfa374c38652c3b6b4deff53c879fa01478ab0def74",
+    "stripAdSegments": "d33eaddec45f126d882d1edef47fac48ab242fbf0d3d67081d55b56da206ddeb",
+    "getStreamUrlForResolution": "c9f5604f86960dbd9362e5e8443503fa3a9ac3e3f4431d808878b013ddf6c2ae",
+    "processM3U8": "9d2bf1298739c1fba5b42a20cd4ef7cb236caab9b533979c04a6714da1f24f6e",
+    "parseAttributes": "772482b64a5b80d880a67b8eeed7c6d009efcccb32dbe38b54d4ef3ff2eec97d",
+    "getAccessToken": "304996e8407c4be25e2493d1ade839a337d634716d40f6f1b0d38ae198435212",
+    "getServerTimeFromM3u8": "fce2718ed73a3f2375e67deba755344adc65ae4e0692b7e5c72f41f5f75ead3c",
+    "replaceServerTimeInM3u8": "513a93017c0623a1a62a5f54f6adf25f36bb9a064cabf812f7bc55a94b92e1fe",
+    "hookFetch": "2f71ef58e67e2e95eedb5d1231ef601af876ef70edfcb4a4ac9e0a725c33429f",
+    "getWasmWorkerJs": "c587e3da8a23b6a3a8df1c2923853d20b4ebcefde91e77b4ecf349b27d34cdc4"
+  },
+  "workerFetchHash": "2a3545cf3b53f4df592e3eea9ac29b71e046158219cbf8c625e5857baca9530c"
+}

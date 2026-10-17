@@ -76,7 +76,7 @@ npm run check
 npm run test:extension:browser
 ```
 
-The first command runs the inherited and regression suites, plus 13 extension tests for packaged core equality, manifest scope, ZIP contents, status messages, cleanup, and popup states.
+The first command runs the current baseline and regression suites, including 13 extension tests for packaged core equality, manifest scope, ZIP contents, status messages, cleanup, and popup states.
 
 The optional browser command requires current Chrome and Firefox binaries. Set `ADBONK_CHROME` or `ADBONK_FIREFOX` to override their paths. It creates temporary profiles and installs fixture copies of the packages; only those copies gain loopback-page access. Firefox's fixture also has a test-only background script to open the popup. Production packages retain Twitch-only permissions and no background script.
 

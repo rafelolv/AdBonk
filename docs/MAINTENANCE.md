@@ -71,3 +71,7 @@ Firefox submission runs after a successful GitHub release once the required Acti
 The userscript starts at `document-start`, hooks `fetch` and Worker, and injects serialized functions into the player worker. These analyze M3U8 playlists, identify ads, and try to obtain tokens/playlists for other player types. The page layer receives worker messages, monitors buffering, and handles recovery, reloads, and overlays.
 
 Functions transferred with `.toString()` must be self-contained: a variable available in page scope may not exist inside the worker. Inherited settings use `twitchAdSolutions_*` localStorage keys, retained for compatibility. Logs use `[AD DEBUG] AdBonk` and the internal conflict version, while the userscript manager dashboard shows AdBonk and the public script version.
+
+## Restored stable engine
+
+Stable `1.0.12` / internal `98` uses the pinned original strategy in [BASELINE.md](BASELINE.md). That document records exact function parity and retained integration differences. Do not restore fork-only settings or recovery layers automatically. `npm run check` validates the current engine; `npm run test:legacy` only exercises historical copied functions. Test live playback separately before promoting further behavior changes.

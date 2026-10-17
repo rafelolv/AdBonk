@@ -1,6 +1,6 @@
 {
   "name": "adbonk",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "private": true,
   "description": "Bonk Twitch ads.",
   "license": "MIT",
@@ -9,9 +9,10 @@
   },
   "scripts": {
     "validate": "node tools/validate.js",
-    "test": "node tests/test.js && node tests/regressions.test.js && node tests/network.test.js && node tests/quality.test.js && node tests/extension.test.js && node tests/firefox-publish.test.js && node tests/recovery-target.test.js",
+    "test": "node tests/regressions.test.js && node tests/network.test.js && node tests/quality.test.js && node tests/extension.test.js && node tests/firefox-publish.test.js && node tests/recovery-target.test.js && node tests/worker-bootstrap.test.js",
     "check": "npm run validate && npm test",
     "build:extension": "node tools/build-extension.js",
-    "test:extension:browser": "npm run build:extension && node tools/smoke-extension.js"
+    "test:extension:browser": "npm run build:extension && node tools/smoke-extension.js",
+    "test:legacy": "node tests/test.js"
   }
 }

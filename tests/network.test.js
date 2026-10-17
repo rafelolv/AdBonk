@@ -97,9 +97,12 @@ test('stable worker fetch passes unrelated requests through', async () => {
     assert.equal(await settles(context.fetch('https://example.test/content')), response);
 });
 
-test('stable worker fetch still substitutes cached ad segments without a network call', async () => {
+test('stable worker fetch substitutes cached ads with the original blank media payload', async () => {
     const adUrl = 'https://example.test/ad.mp4';
-    const context = workerHarness(() => { throw new Error('Unexpected network request'); }, {
+    const context = workerHarness((url, options) => {
+        assert.ok(url.startsWith('data:video/mp4;base64,'));
+        return fetch(url, options);
+    }, {
         AdSegmentCache: new Map([[adUrl, Date.now()]])
     });
     const response = await settles(context.fetch(adUrl));
