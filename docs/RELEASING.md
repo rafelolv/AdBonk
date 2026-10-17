@@ -27,12 +27,14 @@ Include:
 - Validation actually performed and material untested scenarios. Attribute maintainer/user reports separately from automated checks; do not turn one successful session into a broad compatibility claim.
 - A link to report problems. Preserve the required copyright and permission notices in LICENSE. Keep presentation focused on AdBonk and its current maintainer; do not add old repository links or promotional attribution.
 
+Firefox version notes are limited to 3,000 characters per locale, including any link. The publication verifier shortens long English notes and links the full GitHub release; put essential fixes first. Full GitHub notes can remain longer. Follow [Mozilla publication rules](FIREFOX-PUBLISH.md#publication-rules).
+
 Link version-specific documentation through the release tag when possible. Use `docs/releases/v1.0.0.md` as a completed example. Remove every template placeholder before committing.
 
 ## Validate and publish
 
 1. Run `npm run check` and build both extension packages with `npm run build:extension`. Run browser integration checks when the core or integration changed. Follow the live-playback checks in the maintenance guide and explicitly record unavailable checks.
-2. Verify each package's manifest version, `build-info.json`, and bundled core against the intended stable source. Use only the current version's ZIPs; never attach old archives left in a local `dist/` directory. Include `vaft.user.js`, both browser ZIPs, and `LICENSE` for a combined release.
+2. Follow the [Firefox publication rules](FIREFOX-PUBLISH.md#publication-rules): check the upload-size cap, increasing store version, identity, and any relevant listing/privacy/source requirements. For changed extension packages, run the pinned `web-ext lint`, resolve errors, and review warnings. Verify each package's manifest version, `build-info.json`, and bundled core against the intended stable source. Use only the current version's ZIPs; never attach old archives left in a local `dist/` directory. Include `vaft.user.js`, both browser ZIPs, and `LICENSE` for a combined release.
 3. Check the notes, changelog, links, versions, and Git diff. Commit and push the prepared changes to `main` using the configured maintainer identity. Tag that exact commit with an annotated, unused release tag, then push the tag.
 4. Watch the Release workflow to completion. If it fails, investigate and report the actual state; a pushed tag alone is not a published release. Do not move the tag as a recovery shortcut.
 5. Check the published title, notes, tag, draft/prerelease status, expected assets, and asset hashes against the validated builds. Report the release URL, included versions, checks, and any material limitation.

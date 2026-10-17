@@ -19,6 +19,13 @@ AdBonk is maintained by rafelolv. Read docs/MAINTENANCE.md for the workflow.
 - Never claim current live ad-blocking works based only on unit tests.
 - Firefox submission is automated after successful tagged releases through the reusable Publish Firefox workflow; see docs/FIREFOX-PUBLISH.md. Keep Mozilla credentials only in Actions repository secrets `AMO_JWT_ISSUER` and `AMO_JWT_SECRET`. Never put credential values in files, logs, commands, release assets, or local environment files. Verify the published ZIP against the reproducible build before using Mozilla credentials, preserve the existing add-on ID, and distinguish submitted from approved. No other store is automated.
 
+## Mozilla publication rules
+
+- Follow [Firefox publication rules](docs/FIREFOX-PUBLISH.md#publication-rules) for every Firefox release and retry. Recheck the linked official sources when tooling, permissions, privacy declarations, or packaging change; do not invent limits for unverified listing fields.
+- AMO version notes must fit 3,000 characters per locale, including any appended link. Keep the existing tested shortening behavior for English store notes; preserve full GitHub notes. Check the 200 MB archive cap and valid increasing versions; do not confuse those manual checks with existing automated guards.
+- Run pinned `web-ext lint` for changed extension packages, resolve errors, and review warnings. Preserve the add-on ID, minimal permissions, reviewable bundled code, and accurate data declarations; reassess source uploads when build transformations change.
+- Diagnose the API response before retrying. Confirm whether an ambiguous attempt already created the version. Metadata-only submission fixes may retry an unchanged tagged package from `main`; package changes require a new version. Never move published tags, replace packages, expose secrets, or report submitted as approved.
+
 ## Release requests
 
 When the user asks to create a release, follow [docs/RELEASING.md](docs/RELEASING.md) and use [docs/RELEASE-TEMPLATE.md](docs/RELEASE-TEMPLATE.md). Prepare, validate, publish, and verify the release when authorized; do not stop at creating a tag. Write concise English notes for users, with artifact versions and support status, relevant changes, installation/update instructions, and actual validation results and limits. Extensions are stable; experimental userscript variants remain experimental. Store availability and signing are separate from release stability. Never reuse a published tag or silently replace published packages. Report the final release URL and attached files.

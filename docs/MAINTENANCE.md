@@ -24,7 +24,7 @@ Use `package.json` as the canonical shared version for the stable userscript and
 
 ## Updates and releases
 
-For every release request, follow [Creating an AdBonk release](RELEASING.md) and the [release notes template](RELEASE-TEMPLATE.md).
+For every release request, follow [Creating an AdBonk release](RELEASING.md), the [release notes template](RELEASE-TEMPLATE.md), and [Mozilla publication rules](FIREFOX-PUBLISH.md#publication-rules). Store metadata limits apply separately from GitHub notes; keep the tested 3,000-character Firefox note cap and check which requirements are automated versus manual.
 
 1. Update the stable userscript when changing behavior. Keep experimental variants separate.
 2. Increment the userscript `@version`; for behavior changes, also increment the internal conflict version in the affected userscript. For any stable-script or extension change, align `package.json` and stable `@version` to the same new version and rebuild both extensions. No separate extension version file is used.

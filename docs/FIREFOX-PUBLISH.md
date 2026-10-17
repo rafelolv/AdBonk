@@ -4,6 +4,38 @@ The Release workflow publishes the GitHub release, then calls **Publish Firefox*
 
 Submission does not bypass Mozilla review or guarantee immediate store availability. This automation does not change the public listing description, icon, or other browsers' stores.
 
+## Publication rules
+
+Last checked against Mozilla documentation on 2026-10-16. Recheck the linked sources before changing submission tooling, manifest permissions, data handling, listing fields, or package generation. A successful earlier upload does not guarantee a later version meets current requirements. These rules apply to Firefox submission; other stores have their own limits.
+
+| Item | Mozilla requirement or AdBonk rule | Current enforcement |
+| --- | --- | --- |
+| Version notes | AMO accepts at most **3,000 characters per locale**. Keep English notes concise and lead with fixes; installation details can stay on GitHub. GitHub notes do not have this project-imposed limit. | The verifier conservatively caps the English text, including ellipsis and full-release link, without splitting Unicode surrogate pairs. Boundary, long-text, and Unicode tests run in `npm run check`. |
+| Archive | Mozilla accepts `.zip`, `.xpi`, or `.crx`, with a maximum upload size of **200 MB**. AdBonk submits its Firefox ZIP. | Package contents, versions, hashes, and exact published ZIP equality are tested. The 200 MB upload cap is a manual release check, not a dedicated local automated guard. |
+| Version format | Mozilla accepts one to four numeric components, up to nine digits per component, without leading zeroes on nonzero components. AdBonk uses the stricter shared three-part release sequence, such as `1.0.11`, without preview suffixes. Choose a new increasing version; never reuse a submitted version. | Shared version equality and stable tag shape are checked locally. Mozilla version history must be checked before retries; the local tag regex is not a complete store-version validator. |
+| Add-on identity | Updates must identify the existing add-on. Preserve `adbonk@rafelolv.github.io` and submit to the existing `listed` channel. | The verifier rejects another add-on ID; the workflow explicitly selects `listed`. |
+| Listing metadata | Existing name, summary, categories, and version license must satisfy AMO's requirements. The API can inherit the previous version's license. | This workflow updates version notes and packages, not listing text, icons, categories, or privacy-policy content. Check those in Developer Hub when relevant. |
+
+The 3,000-character note limit was confirmed by the AMO API rejecting the first `1.0.11` submission. [The failed run](https://github.com/rafelolv/AdBonk/actions/runs/38993004212) returned `version.release_notes: Ensure this field has no more than 3000 characters.` The corrected submission succeeded without changing the published tag or package.
+
+### Source, permissions, and privacy
+
+Follow [Mozilla Add-on Policies](https://extensionworkshop.com/documentation/publish/add-on-policies/): request only necessary permissions, keep packaged extension logic self-contained, avoid remote executable code and obfuscation, and do not weaken page security headers. Preserve reviewable source and reproducible build instructions; if adding minification, transpilation, or other build transformations, reassess source-submission requirements and supply the required sources rather than assuming a GitHub URL is sufficient.
+
+Keep listing descriptions and manifest data declarations accurate. Reassess Twitch-bound requests as well as any new endpoint, telemetry, or diagnostics transmission against Mozilla's disclosure and consent requirements; do not infer compliance simply because data is not sent to AdBonk's own server. Recheck the current `data_collection_permissions` declaration whenever data handling changes. Policy compliance and disclosure are manual reviews, not proven by passing tests.
+
+Before submitting a changed package, run the pinned Mozilla tool's `web-ext lint --source-dir dist/firefox --no-config-discovery`. Resolve errors and review warnings; record a justified warning rather than silently ignoring it. The current workflow's remote upload validation remains separate from this local lint check. Do not advertise Android support based only on successful desktop validation. Provide reviewer testing instructions and a suitable test account through Mozilla's reviewer-only fields if required; never include credentials in public release notes or the repository.
+
+### Failures and retries
+
+- Keep GitHub release creation, Mozilla submission, signing, review, and public availability distinct. A `web-ext sign` success with `--approval-timeout 0` confirms submission, not approval or a downloaded signed package. GitHub ZIPs remain unsigned.
+- Read the API response before retrying. A `400` can be invalid metadata; `401`/`403` require checking authentication or authorization. For a `429`, honor the service's retry guidance. Do not add blind or unlimited retries.
+- After a timeout or ambiguous response, check Developer Hub for an existing submission of the same version before another upload. Do not delete a pending version or move a Git tag as a recovery shortcut.
+- If only submission metadata or automation needs correction, fix it on `main` and run **Publish Firefox** there with the existing release tag. The retained verifier supports older tags. If package contents need correction, create a new shared version and release.
+- Never enable verbose credential/configuration dumps while diagnosing a failure. Report the relevant redacted response and actual submission state.
+
+Sources: [submission formats and size](https://extensionworkshop.com/documentation/publish/submitting-an-add-on/), [manifest version format](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/version), [add-on identity](https://extensionworkshop.com/documentation/develop/extensions-and-the-add-on-id/), [AMO API metadata and license inheritance](https://mozilla.github.io/addons-server/topics/api/addons), and [web-ext signing and lint options](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/).
+
 ## One-time setup
 
 1. Generate Mozilla API credentials in [API key management](https://addons.mozilla.org/developers/addon/api/key/). Revoke and replace credentials that were shared in chat, logs, or other exposed locations.

@@ -2,6 +2,8 @@
 
 Copy the content below into `docs/releases/<tag>.md`. Replace placeholders and remove instructions and sections that do not apply. The GitHub title is `AdBonk v<version>`; the body does not need to repeat it as a heading.
 
+Firefox store notes have a 3,000-character limit per locale. Lead with the relevant fixes; the publication verifier shortens long notes and links the full GitHub release. Follow [Mozilla publication rules](FIREFOX-PUBLISH.md#publication-rules) before submission. Full GitHub notes may remain longer.
+
 ---
 
 AdBonk — Bonk Twitch ads.

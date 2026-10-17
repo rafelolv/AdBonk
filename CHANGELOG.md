@@ -1,5 +1,8 @@
 ## Unreleased
 
+### Documentation
+- Standardized Mozilla publication rules across agent, maintenance, and release instructions, including store-note and archive limits, local lint, identity/version checks, source/privacy review, and safe retry handling. Automated and manual checks are explicitly distinguished.
+
 ### Fixed
 - Limit Firefox store release notes to 3,000 characters, linking to the full GitHub release when shortening is needed. This fixes Mozilla rejection of longer release notes without changing published packages. All 179 tests pass, including three new release-note boundary cases.
 
