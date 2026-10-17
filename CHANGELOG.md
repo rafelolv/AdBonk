@@ -1,25 +1,22 @@
 ## Unreleased
 
-### Changed
-- Stable userscript and extensions `1.0.13` (internal `99`) restore the pinned original `onContentLoaded` and `doTwitchPlayerTask` functions byte-for-byte. Removed the added live/VOD, video-target and route checks, scoped delayed settings restoration, and PiP reload diversion. The original buffer-monitor live check and paused-player check remain. Experimental and legacy variants are unchanged.
-
-### Validation
-- All 89 current tests pass, including two additional reference-function hashes and eight original focus/recovery scenarios. Tests for removed stable-only guards no longer apply; their experimental/legacy coverage is retained. Chromium and Firefox extension fixture checks pass. Mozilla lint reports zero errors and one existing Android minimum-version warning. Real Twitch playback was not tested by the agent.
+## v1.0.13 (2026-10-17)
 
 ### Changed
-- Stable userscript and both extensions `1.0.12` (internal `98`) restore the pinned original blocking engine. Original ad detection, regular `embed → popout → autoplay` backup order, `embed` fallback, quality matching, and ad-end reload decisions replace the fork's added selection and recovery layers. The original short post-reload window may start at autoplay.
-- Removed fork-only catch-up acceleration, backup pinning, synthetic recovery playlists, extra ad markers, separate-video ad hiding, and early-reload/decoder heuristics from stable. Experimental and legacy variants are unchanged. Fork-only stored options are retained but ignored by stable.
-- Preserved AdBonk identity, byte-identical userscript/extension packaging, live-only/player-owned recovery, standard PiP protection, frame guards, one monitor timer, scoped delayed settings restoration, GQL timeouts, and error propagation. See docs/BASELINE.md for exact differences.
-
-### Validation
-- The initial `1.0.12` restoration passed 100 tests, including pinned baseline hashes, original playlist-selection scenarios, network and recovery guards, and execution of the actual generated worker. The 84 historical copied-function assertions are retained under `npm run test:legacy`, outside stable validation; removed-behavior tests are replaced with baseline tests rather than presented as current coverage.
-- Chromium and Firefox extension fixture checks pass. Mozilla lint reports zero errors and one existing Android minimum-version warning. No live Twitch ad-break comparison or native Firefox PiP session was performed by the agent; maintainer testing is required.
-
-### Documentation
-- Standardized Mozilla publication rules across agent, maintenance, and release instructions, including store-note and archive limits, local lint, identity/version checks, source/privacy review, and safe retry handling. Automated and manual checks are explicitly distinguished.
+- Restored the pinned original blocking strategy: ad detection, normal `embed → popout → autoplay` backup order, `embed` fallback, resolution matching, token requests, and ad-end reload decisions. The original 1,500ms post-reload window can start directly at autoplay.
+- Restored original focus and player-task routines byte-for-byte. Removed the added VOD/video-target/route guards, scoped delayed settings restoration, and PiP reload diversion. The original buffer-monitor live check and paused-player check remain.
+- Removed fork-only acceleration, backup pinning, synthetic recovery playlists, additional ad markers, separate-video ad hiding, and early-reload/decoder heuristics from stable. Related stored settings are retained but ignored. Experimental and legacy variants are unchanged.
+- Stable userscript and both extensions share `1.0.13`, with internal conflict counter `99`. AdBonk metadata, frame/clip guards, one monitor timer, GQL timeouts, asynchronous error propagation, and packaging remain. See docs/BASELINE.md for exact differences.
 
 ### Fixed
-- Limit Firefox store release notes to 3,000 characters, linking to the full GitHub release when shortening is needed. This fixes Mozilla rejection of longer release notes without changing published packages. The automation change passed the then-current 179 tests, including three new release-note boundary cases.
+- Firefox store notes fit the 3,000-character limit, linking the complete GitHub notes when shortened. Published packages are not changed to correct submission metadata.
+
+### Documentation
+- Standardized Mozilla publication requirements and retry handling across agent, maintenance, and release instructions.
+
+### Validation
+- All 89 current tests pass: baseline function hashes and playlist scenarios, network and original focus/recovery checks, experimental/legacy player regressions, extension packages, Firefox publication guards, and generated-worker execution. Historical copied-function checks remain separately available through `npm run test:legacy`; removed-behavior tests are no longer counted as current coverage.
+- Chromium and Firefox extension fixture checks pass for the shipped runtime. Mozilla lint reports zero errors and one existing Android minimum-version warning; Android support is not established. Live Twitch comparison, native PiP, and third-party extension interactions were not tested by the agent.
 
 ## v1.0.11 (2026-10-16)
 
