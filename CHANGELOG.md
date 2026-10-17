@@ -1,12 +1,18 @@
 ## Unreleased
 
 ### Changed
+- Stable userscript and extensions `1.0.13` (internal `99`) restore the pinned original `onContentLoaded` and `doTwitchPlayerTask` functions byte-for-byte. Removed the added live/VOD, video-target and route checks, scoped delayed settings restoration, and PiP reload diversion. The original buffer-monitor live check and paused-player check remain. Experimental and legacy variants are unchanged.
+
+### Validation
+- All 89 current tests pass, including two additional reference-function hashes and eight original focus/recovery scenarios. Tests for removed stable-only guards no longer apply; their experimental/legacy coverage is retained. Chromium and Firefox extension fixture checks pass. Mozilla lint reports zero errors and one existing Android minimum-version warning. Real Twitch playback was not tested by the agent.
+
+### Changed
 - Stable userscript and both extensions `1.0.12` (internal `98`) restore the pinned original blocking engine. Original ad detection, regular `embed → popout → autoplay` backup order, `embed` fallback, quality matching, and ad-end reload decisions replace the fork's added selection and recovery layers. The original short post-reload window may start at autoplay.
 - Removed fork-only catch-up acceleration, backup pinning, synthetic recovery playlists, extra ad markers, separate-video ad hiding, and early-reload/decoder heuristics from stable. Experimental and legacy variants are unchanged. Fork-only stored options are retained but ignored by stable.
 - Preserved AdBonk identity, byte-identical userscript/extension packaging, live-only/player-owned recovery, standard PiP protection, frame guards, one monitor timer, scoped delayed settings restoration, GQL timeouts, and error propagation. See docs/BASELINE.md for exact differences.
 
 ### Validation
-- All 100 current tests pass, including pinned baseline hashes, original playlist-selection scenarios, network and recovery guards, and execution of the actual generated worker. The 84 historical copied-function assertions are retained under `npm run test:legacy`, outside stable validation; removed-behavior tests are replaced with baseline tests rather than presented as current coverage.
+- The initial `1.0.12` restoration passed 100 tests, including pinned baseline hashes, original playlist-selection scenarios, network and recovery guards, and execution of the actual generated worker. The 84 historical copied-function assertions are retained under `npm run test:legacy`, outside stable validation; removed-behavior tests are replaced with baseline tests rather than presented as current coverage.
 - Chromium and Firefox extension fixture checks pass. Mozilla lint reports zero errors and one existing Android minimum-version warning. No live Twitch ad-break comparison or native Firefox PiP session was performed by the agent; maintainer testing is required.
 
 ### Documentation

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.0.12
+// @version      1.0.13
 // @description  Bonk Twitch ads
 // @icon         https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/32.png
 // @icon64       https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/128.png
@@ -52,7 +52,7 @@
         }
     }
     'use strict';
-    const ourTwitchAdSolutionsVersion = 98;// Used to prevent conflicts with outdated versions of the scripts
+    const ourTwitchAdSolutionsVersion = 99;// Used to prevent conflicts with outdated versions of the scripts
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] AdBonk skipped — another blocker is already active');
         return;
@@ -109,10 +109,6 @@
         'besuper/',// TwitchNoSub (0.9)
         '${patch_url}'// TwitchNoSub (0.9.1)
     ];
-    function maskAsNative(fn, name) {
-        fn.toString = () => 'function ' + name + '() { [native code] }';
-        return fn;
-    }
     function getCleanWorker(worker) {
         let root = null;
         let parent = null;
@@ -901,15 +897,6 @@
             state: playerState
         };
     }
-    function getPlayerVideoElement() {
-        try {
-            const current = getPlayerAndState();
-            if (current?.state?.props?.content?.type !== 'live') return null;
-            const video = current.player?.getHTMLVideoElement?.();
-            if (!video || video.isConnected === false || video.dataset?.tasAdHidden) return null;
-            return video;
-        } catch { return null; }
-    }
     function doTwitchPlayerTask(isPausePlay, isReload) {
         const playerAndState = getPlayerAndState();
         if (!playerAndState) {
@@ -926,7 +913,6 @@
             console.log('Could not find player state');
             return;
         }
-        if (playerState.props?.content?.type !== 'live') return;
         if (player.isPaused() || player.core?.paused) {
             return;
         }
@@ -934,12 +920,7 @@
         playerBufferState.numSame = 0;
         if (isPausePlay) {
             player.pause();
-            player.play()?.catch?.(() => {});
-            return;
-        }
-        if (isReload && document.pictureInPictureElement) {
-            player.pause();
-            player.play()?.catch?.(() => {});
+            player.play();
             return;
         }
         if (isReload) {
@@ -961,18 +942,13 @@
                     localStorage.setItem(lsKeyQuality, JSON.stringify({default:player.core.state.quality.group}));
                 }
             } catch {}
-            const reloadPath = document.location?.pathname;
-            console.log('[AD DEBUG] Reloading Twitch player');
+            console.log('Reloading Twitch player');
             playerState.setSrc({ isNewMediaPlayerInstance: true, refreshAccessToken: true });
             postTwitchWorkerMessage('TriggeredPlayerReload');
-            player.play()?.catch?.(() => {});
+            player.play();
             if (localStorageHookFailed && (currentQualityLS || currentMutedLS || currentVolumeLS)) {
                 setTimeout(() => {
                     try {
-                        const active = getPlayerAndState();
-                        const video = getPlayerVideoElement();
-                        if (document.location?.pathname !== reloadPath || active?.state !== playerState
-                            || !video || video.paused || video.ended) return;
                         if (currentQualityLS) {
                             localStorage.setItem(lsKeyQuality, currentQualityLS);
                         }
@@ -1092,43 +1068,67 @@
         };
     }
     function onContentLoaded() {
-        if (document.getElementById('seventv-extension')) {
-            console.log('[AD DEBUG] Warning: 7TV extension detected — may cause black screen or buffering issues. If you experience problems, try disabling 7TV.');
-        }
-        // Resume the player on tab focus if Twitch paused it during an ad on a hidden tab.
-        // Previously also spoofed document.hidden / visibilityState / hasFocus and swallowed
-        // the events on the capture phase. That broke other extensions that key off real
-        // visibility (e.g. BetterTTV "Mute Invisible Player"). Resume-on-focus alone is
-        // enough to keep playback alive across hidden→visible transitions during ads.
-        // Sync'd with TTV-AB v6.5.0.
-        let wasVideoPlaying = false;
-        let hiddenVideo = null;
-        const visibilityChange = () => {
-            const playerAndState = getPlayerAndState();
-            const isLive = playerAndState?.state?.props?.content?.type === 'live';
-            const video = isLive ? playerAndState.player?.getHTMLVideoElement?.() : null;
-            if (!video) {
-                wasVideoPlaying = false;
-                hiddenVideo = null;
-                return;
-            }
-            if (document.hidden) {
-                hiddenVideo = video;
-                wasVideoPlaying = !video.paused && !video.ended;
-                return;
-            }
-            // Never transfer resume permission to a VOD, a replacement video, or an ad element.
-            const shouldResume = wasVideoPlaying && video === hiddenVideo;
-            wasVideoPlaying = false;
-            hiddenVideo = null;
-            if (!playerBufferState.hasStreamStarted) {
-                playerBufferState.hasStreamStarted = true;
-            }
-            if (shouldResume && !video.ended && video.paused) {
-                video.play()?.catch?.(() => {});
-            }
+        // This stops Twitch from pausing the player when in another tab and an ad shows.
+        // Taken from https://github.com/saucettv/VideoAdBlockForTwitch/blob/cefce9d2b565769c77e3666ac8234c3acfe20d83/chrome/content.js#L30
+        try {
+            Object.defineProperty(document, 'visibilityState', {
+                get() {
+                    return 'visible';
+                }
+            });
+        }catch{}
+        let hidden = document.__lookupGetter__('hidden');
+        let webkitHidden = document.__lookupGetter__('webkitHidden');
+        try {
+            Object.defineProperty(document, 'hidden', {
+                get() {
+                    return false;
+                }
+            });
+        }catch{}
+        const block = e => {
+            e.preventDefault();
+            e.stopPropagation();
+            e.stopImmediatePropagation();
         };
-        document.addEventListener('visibilitychange', visibilityChange);
+        let wasVideoPlaying = true;
+        const visibilityChange = e => {
+            const isChrome = typeof chrome !== 'undefined';
+            const videos = document.getElementsByTagName('video');
+            if (videos.length > 0) {
+                if (hidden.apply(document) === true || (webkitHidden && webkitHidden.apply(document) === true)) {
+                    wasVideoPlaying = !videos[0].paused && !videos[0].ended;
+                } else {
+                    if (!playerBufferState.hasStreamStarted) {
+                        //console.log('Tab focused. Stream should be active');
+                        playerBufferState.hasStreamStarted = true;
+                    }
+                    if (isChrome && wasVideoPlaying && !videos[0].ended && videos[0].paused && videos[0].muted) {
+                        videos[0].play();
+                    }
+                }
+            }
+            block(e);
+        };
+        document.addEventListener('visibilitychange', visibilityChange, true);
+        document.addEventListener('webkitvisibilitychange', visibilityChange, true);
+        document.addEventListener('mozvisibilitychange', visibilityChange, true);
+        document.addEventListener('hasFocus', block, true);
+        try {
+            if (/Firefox/.test(navigator.userAgent)) {
+                Object.defineProperty(document, 'mozHidden', {
+                    get() {
+                        return false;
+                    }
+                });
+            } else {
+                Object.defineProperty(document, 'webkitHidden', {
+                    get() {
+                        return false;
+                    }
+                });
+            }
+        }catch{}
         // Hooks for preserving volume / resolution
         try {
             const keysToCache = [
@@ -1143,20 +1143,20 @@
                 cachedValues.set(keysToCache[i], localStorage.getItem(keysToCache[i]));
             }
             const realSetItem = localStorage.setItem;
-            localStorage.setItem = maskAsNative(function(key, value) {
+            localStorage.setItem = function(key, value) {
                 if (cachedValues.has(key)) {
                     cachedValues.set(key, value);
                 }
                 realSetItem.apply(this, arguments);
-            }, 'setItem');
+            };
             const realGetItem = localStorage.getItem;
-            localStorage.getItem = maskAsNative(function(key) {
+            localStorage.getItem = function(key) {
                 if (cachedValues.has(key)) {
                     return cachedValues.get(key);
                 }
                 return realGetItem.apply(this, arguments);
-            }, 'getItem');
-            if (localStorage.getItem === realGetItem) {
+            };
+            if (!localStorage.getItem.toString().includes(Object.keys({cachedValues})[0])) {
                 // These hooks are useful to preserve player state on player reload
                 // Firefox doesn't allow hooking of localStorage functions but chrome does
                 localStorageHookFailed = true;

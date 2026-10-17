@@ -75,3 +75,5 @@ Functions transferred with `.toString()` must be self-contained: a variable avai
 ## Restored stable engine
 
 Stable `1.0.12` / internal `98` uses the pinned original strategy in [BASELINE.md](BASELINE.md). That document records exact function parity and retained integration differences. Do not restore fork-only settings or recovery layers automatically. `npm run check` validates the current engine; `npm run test:legacy` only exercises historical copied functions. Test live playback separately before promoting further behavior changes.
+
+Stable `1.0.13` / internal `99` also restores the original focus and player-task functions byte-for-byte. The extra VOD, video-target, route, and PiP guards from the earlier integration are intentionally removed; preserve this explicit behavior choice when maintaining the baseline.

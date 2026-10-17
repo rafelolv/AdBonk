@@ -12,7 +12,9 @@
     "getServerTimeFromM3u8": "fce2718ed73a3f2375e67deba755344adc65ae4e0692b7e5c72f41f5f75ead3c",
     "replaceServerTimeInM3u8": "513a93017c0623a1a62a5f54f6adf25f36bb9a064cabf812f7bc55a94b92e1fe",
     "hookFetch": "2f71ef58e67e2e95eedb5d1231ef601af876ef70edfcb4a4ac9e0a725c33429f",
-    "getWasmWorkerJs": "c587e3da8a23b6a3a8df1c2923853d20b4ebcefde91e77b4ecf349b27d34cdc4"
+    "getWasmWorkerJs": "c587e3da8a23b6a3a8df1c2923853d20b4ebcefde91e77b4ecf349b27d34cdc4",
+    "doTwitchPlayerTask": "d274cd7db9d6ee08c21d5bcec97fccb748800b84245d052b5ea06b10897836d3",
+    "onContentLoaded": "6dbfa4180f8cd6eb58b65c473240d076966b905f114982cb5c28642164211e15"
   },
   "workerFetchHash": "2a3545cf3b53f4df592e3eea9ac29b71e046158219cbf8c625e5857baca9530c"
 }

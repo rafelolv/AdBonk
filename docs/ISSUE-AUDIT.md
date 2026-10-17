@@ -1,6 +1,6 @@
 # Upstream issue audit
 
-Historical audit of the previous fork-based engine. Stable `1.0.12` restores the original strategy; consult [BASELINE.md](BASELINE.md) for current behavior and retained guards. Previous fixes below are historical: catch-up acceleration and fork-specific recovery/ad-hiding layers are no longer in stable.
+Historical audit of the previous fork-based engine. Stable `1.0.12` restores the original strategy; consult [BASELINE.md](BASELINE.md) for current behavior and retained guards. Stable `1.0.13` additionally restores the original focus and player-task routines; the added VOD/target/route and PiP guards are no longer present in stable. Previous fixes below are historical: catch-up acceleration and fork-specific recovery/ad-hiding layers are no longer in stable.
 
 Reviewed on 2026-10-11 against the 18 open issues returned by the GitHub API: 13 in report set A and 5 in report set B. The review covers issue descriptions, text comments, and the current AdBonk code. This is an audit of open reports, not a review of every closed issue or pull request.
 

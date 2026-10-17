@@ -155,7 +155,7 @@ Requires **Node.js 24**, with no npm dependencies:
 npm run check
 ```
 
-This checks JavaScript syntax and runs 100 tests against the current code: 30 player, 20 baseline/playlist, 15 network, 12 recovery-target, 13 extension, 9 Firefox publication, and 1 generated-worker bootstrap case. Tests pin the blocking baseline and exercise shipped functions with simulated browser/player or network state. Passing them does not establish that ad blocking works on a live stream. Test real playback separately.
+This checks JavaScript syntax and runs 89 tests against the current code: 21 variant/shared-timer, 22 baseline/playlist, 15 network, 8 original focus/recovery, 13 extension, 9 Firefox publication, and 1 generated-worker bootstrap case. Tests pin the blocking baseline and exercise shipped functions with simulated browser/player or network state. Passing them does not establish that ad blocking works on a live stream. Test real playback separately.
 
 Historical copied-function checks for the previous engine are available separately with `npm run test:legacy`; they do not validate the current stable blocker.
 

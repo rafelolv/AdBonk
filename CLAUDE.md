@@ -4,7 +4,7 @@ Maintained by rafelolv. Origin: rafelolv/AdBonk (`main`). Follow AGENTS.md and d
 
 ## Stable blocking baseline
 
-Stable `1.0.12` / internal conflict counter `98` restores the original blocking engine documented in [docs/BASELINE.md](docs/BASELINE.md). Stable userscript and both extensions share the package version and exact stable source.
+Stable `1.0.13` / internal conflict counter `99` restores the original blocking engine documented in [docs/BASELINE.md](docs/BASELINE.md). Stable userscript and both extensions share the package version and exact stable source.
 
 - `vaft/vaft.user.js` is the single stable source. Experimental `vaft/vaft_testing.user.js` and legacy/companion scripts are separate and retain their previous logic.
 - Detection uses the original `AdSignifier = 'stitched'`.
@@ -17,10 +17,9 @@ Stable `1.0.12` / internal conflict counter `98` restores the original blocking 
 ## Retained integration adaptations
 
 - AdBonk metadata, simple blocking notice, frame/clip guards, and monotonic duplicate counter.
-- Live-only recovery and tab-focus resume use the player-owned video; focus does not resume a VOD or a replacement element. Real document visibility is preserved for other extensions.
+- Focus and player-task routines match the pinned original byte-for-byte. The maintainer explicitly removed the added VOD/target/route guards, player-owned video helper, and PiP reload diversion in 1.0.13. Do not reintroduce them implicitly.
 - One monitor timer and fresh player lookup retain the original stall predicate and timings.
-- Standard PiP recovery uses pause/play instead of replacing the media instance. Native Firefox PiP is not established as fixed.
-- Delayed settings restoration checks the same player state and route and skips paused/non-live content.
+- The original focus routine overrides visibility and uses DOM video order. The original player task skips paused playback, but has no live-only or PiP guard; its delayed storage restore is unscoped. The buffer monitor retains its original live-only predicate.
 - GQL request timeouts and propagated asynchronous failures prevent requests remaining pending; these are transport guards, not new backup-selection rules.
 
 ## Worker serialization

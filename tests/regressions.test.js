@@ -58,7 +58,8 @@ function visibilityHarness(file, type = 'live') {
     };
 }
 
-for (const file of scripts) {
+// Stable uses the original focus/recovery routines; these guards apply to the other variants only.
+for (const file of scripts.slice(1)) {
     test(`${file}: focus never resumes a VOD`, () => {
         const h = visibilityHarness(file, 'vod');
         h.visibility(true);

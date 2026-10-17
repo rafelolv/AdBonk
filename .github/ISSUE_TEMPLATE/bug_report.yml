@@ -27,7 +27,7 @@ body:
     attributes:
       label: Script version
       description: "Check your userscript manager for the public AdBonk version. You can also include the internal counter from the browser console (F12); it is separate from the public version."
-      placeholder: "e.g. AdBonk 1.0.12; internal counter 98"
+      placeholder: "e.g. AdBonk 1.0.13; internal counter 99"
     validations:
       required: true
 
