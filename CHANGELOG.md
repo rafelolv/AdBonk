@@ -1,7 +1,16 @@
 ## Unreleased
 
+### Fixed
+- Recovery now resolves the current live player's video instead of selecting an auxiliary or ad video by DOM order. Delayed reload callbacks are scoped to the same player state and channel route, and skip VODs and deliberate pauses. Media events from unrelated videos cannot trigger audio restoration. Addresses #1.
+- Drift correction tracks the element it accelerated and restores its previous playback speed on completion, replacement, cancellation, ad start, timeout, or failure. Stale callbacks cannot stop a newer correction, and external speed changes are preserved. Addresses #2.
+
 ### Changed
-- Removed the vaft label from stable and experimental userscript display names and stable console messages. Stable userscript and extensions advance together to `1.0.10`; experimental userscript metadata advances to `1.0.2`. Blocking behavior and internal conflict counters are unchanged. Existing installation and update URLs are preserved.
+- Stable userscript and both extensions advance together to `1.0.11`, with stable internal conflict counter `97`. Playlist processing, backup selection, and quality priorities are unchanged.
+- Removed the vaft label from stable and experimental userscript display names and stable console messages. Experimental userscript metadata advances to `1.0.2`; its runtime remains unchanged. Existing installation and update URLs are preserved.
+
+### Validation
+- All 176 tests pass, including 22 new recovery regression cases extracted from the shipped stable functions. Against the previous stable implementation, 21 of those 22 cases fail.
+- Chromium and Firefox extension fixture checks pass; both packages bundle the stable userscript byte-for-byte. Live Twitch ad breaks, native Firefox PiP, and third-party extension interactions have not been retested.
 
 ## v1.0.9 (2026-10-15)
 

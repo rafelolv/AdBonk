@@ -155,7 +155,7 @@ Requires **Node.js 24**, with no npm dependencies:
 npm run check
 ```
 
-This checks JavaScript syntax and runs 154 tests: 84 inherited, 30 player, 15 network, 6 quality, 13 extension, and 6 Firefox publication checks. The inherited tests use copied functions; regression tests extract shipped functions and use simulated browser/player or network state. Passing them does not establish that ad blocking works on a live stream. Test real playback separately.
+This checks JavaScript syntax and runs 176 tests: 84 inherited, 30 player, 22 recovery-target, 15 network, 6 quality, 13 extension, and 6 Firefox publication checks. The inherited tests use copied functions; regression tests extract shipped functions and use simulated browser/player or network state. Passing them does not establish that ad blocking works on a live stream. Test real playback separately.
 
 [Maintenance and publication](docs/MAINTENANCE.md) · [Extension development](docs/EXTENSION.md) · [Upstream issue audit](docs/ISSUE-AUDIT.md).
 

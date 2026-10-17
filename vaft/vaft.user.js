@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.0.10
+// @version      1.0.11
 // @description  Bonk Twitch ads
 // @icon         https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/32.png
 // @icon64       https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/128.png
@@ -51,7 +51,7 @@
         }
     }
     'use strict';
-    const ourTwitchAdSolutionsVersion = 96;// Used to prevent conflicts with outdated versions of the scripts
+    const ourTwitchAdSolutionsVersion = 97;// Used to prevent conflicts with outdated versions of the scripts
     console.log('[AD DEBUG] AdBonk v' + ourTwitchAdSolutionsVersion + ' loading');
     if (typeof window.twitchAdSolutionsVersion !== 'undefined' && window.twitchAdSolutionsVersion >= ourTwitchAdSolutionsVersion) {
         console.log('[AD DEBUG] CONFLICT: AdBonk v' + ourTwitchAdSolutionsVersion + ' skipped — another script already active (v' + window.twitchAdSolutionsVersion + '). Remove duplicate scripts.');
@@ -495,11 +495,7 @@
                         }
                         playerBufferState.inAdBreak = !!e.data.hasAds;
                         // Clear drift catch-up when ads start — don't run 1.1x during ad handling
-                        if (e.data.hasAds && (driftCatchUpInterval || driftCatchUpTimeout)) {
-                            if (driftCatchUpInterval) { clearInterval(driftCatchUpInterval); driftCatchUpInterval = null; }
-                            if (driftCatchUpTimeout) { clearTimeout(driftCatchUpTimeout); driftCatchUpTimeout = null; }
-                            try { getPlayerVideoElement().playbackRate = 1.0; } catch {}
-                        }
+                        if (e.data.hasAds) stopDriftCorrection();
                     } else if (e.data.key == 'PauseResumePlayer') {
                         doTwitchPlayerTask(true, false);
                     } else if (e.data.key == 'ReloadPlayer') {
@@ -1965,30 +1961,56 @@
     let playerForMonitoringBuffering = null;
     let driftCatchUpInterval = null;
     let driftCatchUpTimeout = null;
+    let driftCatchUpTarget = null;
+    // Cleanup owns the element we accelerated, even after it leaves the current player.
+    function stopDriftCorrection() {
+        if (driftCatchUpInterval !== null) clearInterval(driftCatchUpInterval);
+        if (driftCatchUpTimeout !== null) clearTimeout(driftCatchUpTimeout);
+        driftCatchUpInterval = null;
+        driftCatchUpTimeout = null;
+        const target = driftCatchUpTarget;
+        driftCatchUpTarget = null;
+        try {
+            // Do not overwrite a speed change made by the user or another player control.
+            if (target && target.video.playbackRate === target.rate) {
+                target.video.playbackRate = target.previousRate;
+            }
+        } catch {}
+    }
     function startDriftCorrection(videoElement) {
-        if (DriftCorrectionRate <= 1) return;
-        if (driftCatchUpInterval) { clearInterval(driftCatchUpInterval); driftCatchUpInterval = null; }
-        if (driftCatchUpTimeout) { clearTimeout(driftCatchUpTimeout); driftCatchUpTimeout = null; }
-        videoElement.playbackRate = DriftCorrectionRate;
-        console.log('[AD DEBUG] Drift correction: catching up at ' + DriftCorrectionRate + 'x');
-        driftCatchUpInterval = setInterval(() => {
-            try {
-                const vid = getPlayerVideoElement();
-                if (vid && vid.buffered.length > 0) {
-                    if (vid.buffered.end(vid.buffered.length - 1) - vid.currentTime <= 1) {
-                        vid.playbackRate = 1.0;
-                        console.log('[AD DEBUG] Drift correction complete — resumed normal playback speed');
-                        clearInterval(driftCatchUpInterval); driftCatchUpInterval = null;
-                        if (driftCatchUpTimeout) { clearTimeout(driftCatchUpTimeout); driftCatchUpTimeout = null; }
+        stopDriftCorrection();
+        if (!Number.isFinite(DriftCorrectionRate) || DriftCorrectionRate <= 1 || !videoElement
+            || videoElement !== getPlayerVideoElement() || videoElement.paused || videoElement.ended
+            || playerBufferState.userPauseIntent || playerBufferState.inAdBreak) return;
+        const previousRate = videoElement.playbackRate;
+        if (!Number.isFinite(previousRate) || previousRate <= 0) return;
+        const target = { video: videoElement, previousRate, rate: DriftCorrectionRate,
+            path: document.location?.pathname };
+        driftCatchUpTarget = target;
+        try {
+            videoElement.playbackRate = target.rate;
+            console.log('[AD DEBUG] Drift correction: catching up at ' + target.rate + 'x');
+            driftCatchUpInterval = setInterval(() => {
+                // A callback already queued before cancellation must not touch a newer operation.
+                if (driftCatchUpTarget !== target) return;
+                try {
+                    if (document.location?.pathname !== target.path || getPlayerVideoElement() !== videoElement
+                        || videoElement.paused || videoElement.ended || playerBufferState.userPauseIntent
+                        || playerBufferState.inAdBreak || videoElement.playbackRate !== target.rate) {
+                        stopDriftCorrection();
+                        return;
                     }
-                }
-            } catch { clearInterval(driftCatchUpInterval); driftCatchUpInterval = null; }
-        }, 500);
-        driftCatchUpTimeout = setTimeout(() => {
-            try { videoElement.playbackRate = 1.0; } catch {}
-            if (driftCatchUpInterval) { clearInterval(driftCatchUpInterval); driftCatchUpInterval = null; }
-            driftCatchUpTimeout = null;
-        }, 30000);
+                    if (videoElement.buffered.length > 0
+                        && videoElement.buffered.end(videoElement.buffered.length - 1) - videoElement.currentTime <= 1) {
+                        stopDriftCorrection();
+                        console.log('[AD DEBUG] Drift correction complete — restored previous playback speed');
+                    }
+                } catch { stopDriftCorrection(); }
+            }, 500);
+            driftCatchUpTimeout = setTimeout(() => {
+                if (driftCatchUpTarget === target) stopDriftCorrection();
+            }, 30000);
+        } catch { stopDriftCorrection(); }
     }
     const playerBufferState = {
         channelName: null,
@@ -2357,14 +2379,16 @@
     }
     // document.querySelector('video') returns the first <video> in the DOM, which since
     // July 2026 can be a separate Twitch ad element beside the player or in chat (#249).
-    // Skip anything the guard below has marked, so mute/playbackRate work always lands on
-    // the real player instead of being aimed at — or skipped because of — an ad element.
+    // Recovery must target the live player's own video, never an auxiliary/ad video.
+    // Missing player state is a reason to skip recovery, not to guess by DOM order.
     function getPlayerVideoElement() {
-        const videos = document.getElementsByTagName('video');
-        for (let i = 0; i < videos.length; i++) {
-            if (!videos[i].dataset.tasAdHidden) { return videos[i]; }
-        }
-        return null;
+        try {
+            const current = getPlayerAndState();
+            if (current?.state?.props?.content?.type !== 'live') return null;
+            const video = current.player?.getHTMLVideoElement?.();
+            if (!video || video.isConnected === false || video.dataset?.tasAdHidden) return null;
+            return video;
+        } catch { return null; }
     }
     // Hide Twitch's ad break / Turbo promo / stream display ad overlays when we're already blocking ads
     function hideTwitchAdOverlays() {
@@ -2680,6 +2704,13 @@
                 console.log('[AD DEBUG] iOS/iPadOS: downgrading hard reload to soft — keeps media element user-gesture-blessed (avoids black-screen + play-icon stall); access-token refresh is retained, so Source quality can still be restored. Opt-out: twitchAdSolutions_iosSoftReload=false');
             }
             console.log('[AD DEBUG] Reloading Twitch player' + (hardReload ? ' (hard)' : ' (soft)'));
+            const reloadPath = document.location?.pathname;
+            const getReloadVideo = () => {
+                const current = getPlayerAndState();
+                if (document.location?.pathname !== reloadPath || current?.state !== playerState
+                    || playerBufferState.userPauseIntent) return null;
+                return getPlayerVideoElement();
+            };
             // Pre-mute through hard reload to hide the MediaSource-teardown audio click.
             // New MSE initialization crosses a discontinuity boundary that produces an
             // audible pop on first frames. Restored on `canplay` (audio decodable) with a
@@ -2687,7 +2718,7 @@
             // Existing 3000ms LS-restore timer below acts as ultimate backstop.
             if (hardReload) {
                 try {
-                    const v = getPlayerVideoElement();
+                    const v = getReloadVideo();
                     const wasInitiallyUnmuted = v && !v.muted;
                     // Issue #200 fix: also set up restore+backstop when the element is already
                     // muted IF vaft has successfully unmuted at any point earlier this session.
@@ -2718,27 +2749,15 @@
                             document.removeEventListener('playing', listener, true);
                             document.removeEventListener('loadeddata', listener, true);
                             try {
-                                const cur = getPlayerVideoElement();
+                                const cur = getReloadVideo();
                                 if (cur) {
                                     cur.muted = false;
                                     playerBufferState.vaftEverUnmuted = true;
                                 }
-                                // Undo OUR pre-mute if it landed on a different element than `cur`.
-                                // `cur` is whichever <video> is first in the DOM — not necessarily the one
-                                // we muted, now that Twitch renders extra <video> elements for side/chat
-                                // ads (#249), and Firefox's PiP is browser-native so the
-                                // document.pictureInPictureElement reload guard never fires there (#248).
-                                // Gated on wasInitiallyUnmuted so it only ever clears a mute we set —
-                                // it can never unmute an ad video. No-op on a normal hard reload, where
-                                // the old element is disconnected.
-                                if (v && v !== cur && v.isConnected && v.muted && wasInitiallyUnmuted) {
-                                    v.muted = false;
-                                    console.log('[AD DEBUG] Restore — cleared leaked pre-mute on the original element (cur resolved to a different <video>) — issue #248');
-                                }
                             } catch {}
                         };
                         const listener = (e) => {
-                            if (e.target && e.target.tagName === 'VIDEO') restore();
+                            if (e.target && e.target === getReloadVideo()) restore();
                         };
                         document.addEventListener('canplay', listener, true);
                         document.addEventListener('playing', listener, true);
@@ -2753,7 +2772,7 @@
                         // — pause+mute are conceptually correlated by Twitch's player code).
                         setTimeout(() => {
                             try {
-                                const cur = getPlayerVideoElement();
+                                const cur = getReloadVideo();
                                 if (cur && cur.muted) {
                                     if (playerBufferState.userPauseIntent) {
                                         console.log('[AD DEBUG] Hard reload backstop SKIPPED — element muted at 5500ms but userPauseIntent set (likely false-positive pause event during MSE teardown — issue #200 follow-up)');
@@ -2762,12 +2781,6 @@
                                         playerBufferState.vaftEverUnmuted = true;
                                         console.log('[AD DEBUG] Hard reload backstop unmute fired — element was still muted at 5500ms (initial: ' + (wasInitiallyUnmuted ? 'unmuted, we pre-muted' : 'already-muted on entry — recovering from silent Twitch re-mute') + ')');
                                     }
-                                }
-                                // Same leaked-pre-mute catch as in restore(), at the backstop — see #248.
-                                if (v && v !== cur && v.isConnected && v.muted && wasInitiallyUnmuted
-                                    && !playerBufferState.userPauseIntent) {
-                                    v.muted = false;
-                                    console.log('[AD DEBUG] Backstop — cleared leaked pre-mute on the original element (cur resolved to a different <video>) — issue #248');
                                 }
                             } catch {}
                         }, 5500);
@@ -2796,6 +2809,8 @@
             {
                 setTimeout(() => {
                     try {
+                        const video = getReloadVideo();
+                        if (!video || video.paused || video.ended) return;
                         if (currentQualityLS) {
                             localStorage.setItem(lsKeyQuality, currentQualityLS);
                         }
@@ -2811,28 +2826,27 @@
                         if (currentPersistenceLS !== null) {
                             localStorage.setItem(lsKeyPersistence, currentPersistenceLS);
                         }
-                        const videos = document.getElementsByTagName('video');
                         // Respect user's mute intent: only force-unmute if LS didn't say mute.
                         // Twitch writes video-muted as '{"default":true}' when user muted via UI;
                         // Chrome autoplay policy can mute even if user didn't (no LS signal).
                         const userIntendedMute = currentMutedLS && currentMutedLS.includes('"default":true');
-                        if (videos.length > 0 && videos[0].muted && !userIntendedMute) {
-                            videos[0].muted = false;
+                        if (video.muted && !userIntendedMute) {
+                            video.muted = false;
                         }
                         // Correct live drift after reload.
                         // For hard reload with large drift (>5s), hard-seek to live edge to flush
                         // any A/V timestamp desync from strip+BLANK_MP4+recovery activity. Drift
                         // correction at 1.1x would take minutes to catch up 30-60s of drift.
                         // For soft reload or small drift, use existing gradual catch-up.
-                        if (videos.length > 0 && videos[0].buffered.length > 0 && videos[0].readyState >= 3) {
-                            const liveEdge = videos[0].buffered.end(videos[0].buffered.length - 1);
-                            const drift = liveEdge - videos[0].currentTime;
+                        if (video.buffered.length > 0 && video.readyState >= 3) {
+                            const liveEdge = video.buffered.end(video.buffered.length - 1);
+                            const drift = liveEdge - video.currentTime;
                             if (hardReload && drift > 5 && Number.isFinite(liveEdge) && liveEdge < 3600) {
                                 console.log('[AD DEBUG] Post-hard-reload seek to live — ' + drift.toFixed(1) + 's behind, jumping to live edge to flush A/V drift');
-                                videos[0].currentTime = liveEdge;
+                                video.currentTime = liveEdge;
                             } else if (drift > 2) {
                                 console.log('[AD DEBUG] Post-reload live drift correction: ' + drift.toFixed(1) + 's behind');
-                                startDriftCorrection(videos[0]);
+                                startDriftCorrection(video);
                             }
                         }
                     } catch {}

@@ -52,3 +52,12 @@ Versions: stable vaft `68.5.7.3` / internal `94`, experimental vaft `678.0.0.3` 
 ## Browser follow-up
 
 Use the stable userscript only. Confirm preroll and midroll handling, deliberate pause/mute, live-to-VOD navigation without reloading the page, repeated tab switching, standard and Firefox-native PiP, and FFZ enabled/disabled. For unresolved cases, record browser version, userscript version, channel, relevant `[AD DEBUG]` output, and failing request status; remove authentication headers and private tokens before sharing logs.
+
+## Recovery follow-up (2026-10-16)
+
+AdBonk `1.0.11` / stable internal `97` addresses two scoped follow-ups:
+
+- [AdBonk #1](https://github.com/rafelolv/AdBonk/issues/1): recovery selects the video owned by the current live player. Pending reload callbacks verify the original player state and channel route, skip VODs and deliberate pauses, and ignore media events from auxiliary videos.
+- [AdBonk #2](https://github.com/rafelolv/AdBonk/issues/2): drift correction owns a specific video and its previous speed. Every cleanup path restores that target if its rate is still the temporary catch-up rate; unrelated speed changes are preserved. Ad-start cancellation uses the same cleanup, and stale callbacks cannot affect a newer operation.
+
+All 176 automated tests pass. The 22 new cases extract the shipped recovery functions; 21 fail against the previous stable implementation. Chromium and Firefox extension fixture checks pass. Playlist-processing and backup-selection functions are unchanged. These fixes do not establish that all historical freezing, PiP, or FFZ reports are resolved. Live Twitch ad breaks, native Firefox PiP, and third-party extension interactions still require manual validation.
