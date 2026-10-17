@@ -1,5 +1,8 @@
 ## Unreleased
 
+### Fixed
+- Limit Firefox store release notes to 3,000 characters, linking to the full GitHub release when shortening is needed. This fixes Mozilla rejection of longer release notes without changing published packages. All 179 tests pass, including three new release-note boundary cases.
+
 ## v1.0.11 (2026-10-16)
 
 ### Fixed

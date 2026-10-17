@@ -27,7 +27,7 @@ Follow [the release guide](RELEASING.md): update the shared version, test, write
 
 Before submission, the job checks the stable tag, rebuilds the tagged source, downloads the Firefox ZIP attached to that release, and requires an exact byte match. It also checks the shared version, add-on ID, bundled blocker hash, license, and release notes. Missing or different packages stop the job before the Mozilla API is used.
 
-The tool submits through the `listed` channel and includes the committed English release notes. It does not wait for review. A successful step means **submitted**, not **approved**; track the actual version in [Mozilla Developer Hub](https://addons.mozilla.org/developers/addons).
+The tool submits through the `listed` channel and includes the committed English release notes. Notes over Mozilla's 3,000-character limit are shortened at a paragraph boundary where possible, with a link to the complete GitHub release; the original notes and packages are unchanged. It does not wait for review. A successful step means **submitted**, not **approved**; track the actual version in [Mozilla Developer Hub](https://addons.mozilla.org/developers/addons).
 
 ## Existing releases and retries
 

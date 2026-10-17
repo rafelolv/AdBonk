@@ -73,3 +73,30 @@ test('publication rejects a changed blocker or an empty release note', t => {
     assert.throws(f.prepare, /Release notes are required/);
     assert.equal(fs.existsSync(f.args.metadata), false);
 });
+
+test('publication preserves release notes at the Mozilla character limit', t => {
+    const f = fixture(t);
+    const notes = 'a'.repeat(3000);
+    f.write('docs/releases/v1.0.9.md', notes); f.prepare();
+    assert.equal(JSON.parse(fs.readFileSync(f.args.metadata)).version.release_notes['en-US'], notes);
+});
+
+test('publication shortens long notes at a paragraph boundary and links the full release', t => {
+    const f = fixture(t);
+    const notes = 'Player recovery fixes.\n\n' + 'More details. '.repeat(300);
+    f.write('docs/releases/v1.0.9.md', notes); f.prepare();
+    const result = JSON.parse(fs.readFileSync(f.args.metadata)).version.release_notes['en-US'];
+    assert.ok(result.length <= 3000);
+    assert.ok(result.startsWith('Player recovery fixes.'));
+    assert.ok(result.endsWith('https://github.com/rafelolv/AdBonk/releases/tag/v1.0.9'));
+    assert.equal(fs.readFileSync(path.join(f.root, 'docs/releases/v1.0.9.md'), 'utf8'), notes);
+});
+
+test('publication caps a long unbroken Unicode paragraph without splitting surrogate pairs', t => {
+    const f = fixture(t);
+    f.write('docs/releases/v1.0.9.md', '🦊'.repeat(2000)); f.prepare();
+    const result = JSON.parse(fs.readFileSync(f.args.metadata)).version.release_notes['en-US'];
+    assert.ok(result.length <= 3000);
+    assert.ok(result.includes('🦊'));
+    assert.ok(result.isWellFormed());
+});

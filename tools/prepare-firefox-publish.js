@@ -26,8 +26,22 @@ function prepareFirefoxPublish({ root, tag, archive, metadata }) {
     }
     const notes = read(`docs/releases/${tag}.md`).toString().trim();
     if (!notes) throw new Error('Release notes are required');
+    // AMO rejects release notes longer than 3000 characters. Keep the full notes on GitHub.
+    let storeNotes = notes;
+    if (storeNotes.length > 3000) {
+        const footer = `\n\nFull release notes: https://github.com/rafelolv/AdBonk/releases/tag/${tag}`;
+        const budget = 3000 - footer.length - 1;
+        let prefix = '';
+        for (const character of notes) {
+            if (prefix.length + character.length > budget) break;
+            prefix += character;
+        }
+        const boundary = prefix.lastIndexOf('\n\n');
+        if (boundary > 0) prefix = prefix.slice(0, boundary);
+        storeNotes = prefix.trimEnd() + '…' + footer;
+    }
     // Existing listing metadata and license are retained; update only version notes.
-    fs.writeFileSync(metadata, JSON.stringify({ version: { release_notes: { 'en-US': notes } } }, null, 2) + '\n');
+    fs.writeFileSync(metadata, JSON.stringify({ version: { release_notes: { 'en-US': storeNotes } } }, null, 2) + '\n');
     return { version, addonId };
 }
 
