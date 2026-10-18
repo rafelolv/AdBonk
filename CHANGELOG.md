@@ -1,5 +1,7 @@
 ## Unreleased
 
+## v1.0.15 (2026-10-18)
+
 ### Changed
 - Removed the redundant “This tab” label and decorative footer stroke, and tightened popup spacing. Stable userscript and extensions share `1.0.15`; blocking runtime and internal counter `99` are unchanged.
 
