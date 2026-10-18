@@ -135,14 +135,14 @@ test('isolated bridge times out once and refuses messages from other extensions'
     assert.equal(h.timers.size, 0);
 });
 
-for (const [name, response, title] of [
-    ['loaded', { initialized: true }, 'Ready on this page'],
-    ['conflict', { conflict: true }, 'Another script is running'],
-    ['uninitialized', { initialized: false }, 'Not loaded on this page'],
-    ['outside Twitch', null, 'Open a Twitch live stream']
+for (const [name, response, title, state] of [
+    ['loaded', { initialized: true }, 'Ready to bonk', 'ready'],
+    ['conflict', { conflict: true }, 'One blocker at a time', 'conflict'],
+    ['uninitialized', { initialized: false }, 'Give it a reload', 'unloaded'],
+    ['outside Twitch', null, 'See you on Twitch', 'outside']
 ]) {
     test(`popup: ${name}`, async () => {
-        const nodes = new Map(['status', 'detail', 'version'].map(id => [id, {}]));
+        const nodes = new Map(['status', 'detail', 'version', 'tab-status'].map(id => [id, { dataset: {} }]));
         const api = { runtime: { getManifest: () => ({ version: '1.0.0' }) }, tabs: {
             query: async () => [{ id: 1 }],
             sendMessage: async (id, request, options) => {
@@ -154,6 +154,7 @@ for (const [name, response, title] of [
         } };
         await vm.runInNewContext(fs.readFileSync(path.join(root, 'extension/popup/popup.js'), 'utf8'), { browser: api, document: { getElementById: id => nodes.get(id) } });
         assert.equal(nodes.get('status').textContent, title);
+        assert.equal(nodes.get('tab-status').dataset.state, state);
         assert.equal(nodes.get('version').textContent, '1.0.0');
     });
 }

@@ -1,25 +1,39 @@
-:root { color-scheme: dark; font: 14px/1.5 system-ui, sans-serif; background: #17151c; color: #eeedf2; }
+:root {
+  color-scheme: dark;
+  font: 14px/1.5 system-ui, sans-serif;
+  background: #19161e;
+  color: #f4f0e9;
+}
 * { box-sizing: border-box; }
-body { width: 354px; margin: 0; padding: 22px; }
-header, .brand { display: flex; align-items: center; }
-header { justify-content: space-between; gap: 12px; }
-.brand { gap: 10px; }
-.brand img { flex-shrink: 0; }
-h1 { margin: 0; font-size: 23px; line-height: 1.2; letter-spacing: -.6px; }
-.brand p { margin: 3px 0 0; font-size: 12px; color: #aaa4b6; }
-.version { text-align: right; font-size: 11px; color: #d2cbdc; }
-main { padding: 22px 0; margin: 22px 0 18px; border-top: 1px solid #34303d; border-bottom: 1px solid #34303d; }
-.eyebrow { color: #aaa4b6; font-size: 12px; }
-h2 { margin: 7px 0; font-size: 18px; line-height: 1.4; letter-spacing: -.3px; }
-main p { margin: 0; color: #bbb5c7; font-size: 13px; }
+body { width: 354px; margin: 0; padding: 26px 24px 0; }
+header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 25px; }
+.wordmark { padding: 6px 0 0; }
+h1 { margin: 0; font-size: 34px; line-height: 1.1; font-weight: 800; letter-spacing: -1.5px; }
+h1 span { color: #ffd15b; }
+.wordmark p { display: inline-block; margin: 10px 0 0; font-size: 13px; color: #c3b9ce; }
+.mascot { display: block; flex: 0 0 auto; width: 96px; height: 96px; transform: rotate(-5deg); }
+main { --signal: #b6a0cf; position: relative; padding: 18px 19px 20px; border: 1px solid #44394f; border-radius: 12px; background: #25202d; }
+main[data-state="ready"] { --signal: #b5d69d; }
+main[data-state="conflict"], main[data-state="unloaded"] { --signal: #ffd15b; }
+main[data-state="outside"] { --signal: #b7afc0; }
+.status-label { display: flex; align-items: center; gap: 7px; color: #c3b9ce; font-size: 11px; }
+.status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); }
+h2 { margin: 10px 0 6px; font-size: 22px; line-height: 1.25; font-weight: 650; letter-spacing: -.6px; }
+main p { margin: 0; color: #c8bfd0; font-size: 13px; line-height: 1.6; }
+.install-note { margin: 13px 0 22px; padding: 0 2px; color: #b8aec2; font-size: 11px; }
 a { color: inherit; text-decoration: none; }
-.github { display: flex; align-items: center; gap: 12px; padding: 12px; background: #25212e; border: 1px solid #443951; border-radius: 8px; }
-.github svg { flex-shrink: 0; color: #d0b0ff; }
-.github strong { display: block; font-size: 13px; font-weight: 600; }
-.github small { display: block; color: #aaa4b6; font-size: 11px; margin-top: 2px; }
-.arrow { margin-left: auto; color: #aaa4b6; }
-.github:hover { background: #302938; border-color: #9a78bd; }
-nav { display: flex; gap: 20px; margin-top: 18px; font-size: 12px; color: #c6a8ed; }
-nav a:hover { text-decoration: underline; text-underline-offset: 3px; }
-footer { margin-top: 18px; color: #aaa4b6; font-size: 11px; }
-a:focus-visible { outline: 2px solid #c6a8ed; outline-offset: 4px; }
+nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 0 22px; }
+nav a { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; color: #d3c9dd; font-size: 12px; white-space: nowrap; }
+nav svg { flex-shrink: 0; color: #a99bb9; }
+nav a:hover { color: #ffd15b; }
+nav a:hover svg { color: inherit; }
+footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 0 18px; border-top: 1px solid #37303f; color: #b8aec2; font-size: 11px; }
+footer p { margin: 0; }
+footer a { color: #e0d6e9; text-decoration: underline; text-decoration-color: #655472; text-underline-offset: 3px; }
+footer a:hover { color: #ffd15b; text-decoration-color: currentColor; }
+.version { font: 10px/1.5 ui-monospace, monospace; color: #b8aec2; }
+a:focus-visible { outline: 2px solid #ffd15b; outline-offset: 5px; border-radius: 2px; }
+@media (forced-colors: active) {
+  .status-dot { background: CanvasText; }
+  main { border-color: CanvasText; }
+}

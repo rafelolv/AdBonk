@@ -1,5 +1,12 @@
 ## Unreleased
 
+### Changed
+- Redesigned the extension popup with a larger mascot, warmer colors, simpler status copy, subtle GitHub/help links, and a linked “Made by rafaelolv” credit. Status styling distinguishes ready, conflict, unloaded, and other-page states without claiming that ads are currently blocked.
+- Stable userscript and extensions share `1.0.14`. Only stable version metadata changes; the original blocking runtime and internal conflict counter `99` are unchanged.
+
+### Validation
+- All 89 tests and Chromium/Firefox extension fixture checks pass. Reviewed all four settled popup states in Chromium, including the actual packaged popup. Stable source differs only in version metadata; baseline behavior and counter remain unchanged.
+
 ## v1.0.13 (2026-10-17)
 
 ### Changed
