@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         AdBonk
 // @namespace    https://github.com/rafelolv/AdBonk
-// @version      1.0.14
+// @version      1.0.15
 // @description  Bonk Twitch ads
 // @icon         https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/32.png
 // @icon64       https://raw.githubusercontent.com/rafelolv/AdBonk/main/extension/icons/128.png
