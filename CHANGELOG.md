@@ -1,7 +1,9 @@
 ## Unreleased
 
+## v1.0.14 (2026-10-18)
+
 ### Changed
-- Redesigned the extension popup with a larger mascot, warmer colors, simpler status copy, subtle GitHub/help links, and a linked “Made by rafaelolv” credit. Status styling distinguishes ready, conflict, unloaded, and other-page states without claiming that ads are currently blocked.
+- Redesigned the extension popup with a larger mascot, dark background, unboxed status, simpler status copy, subtle GitHub/help links, and a linked “Made by rafaelolv” credit. Status styling distinguishes ready, conflict, unloaded, and other-page states without claiming that ads are currently blocked.
 - Stable userscript and extensions share `1.0.14`. Only stable version metadata changes; the original blocking runtime and internal conflict counter `99` are unchanged.
 
 ### Validation

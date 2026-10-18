@@ -5,35 +5,35 @@
   color: #f4f0e9;
 }
 * { box-sizing: border-box; }
-body { width: 354px; margin: 0; padding: 26px 24px 0; }
-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 25px; }
-.wordmark { padding: 6px 0 0; }
-h1 { margin: 0; font-size: 34px; line-height: 1.1; font-weight: 800; letter-spacing: -1.5px; }
-h1 span { color: #ffd15b; }
-.wordmark p { display: inline-block; margin: 10px 0 0; font-size: 13px; color: #c3b9ce; }
-.mascot { display: block; flex: 0 0 auto; width: 96px; height: 96px; transform: rotate(-5deg); }
-main { --signal: #b6a0cf; position: relative; padding: 18px 19px 20px; border: 1px solid #44394f; border-radius: 12px; background: #25202d; }
+body { width: 354px; margin: 0; padding: 26px 26px 0; }
+header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+h1 { margin: 0; font-size: 27px; line-height: 1; font-weight: 800; letter-spacing: -1.2px; }
+h1 span { color: #bd89e5; }
+.wordmark p { margin: 8px 0 0; font-size: 12px; color: #bcb0c7; }
+.version { margin-top: 7px; font: 10px/1.5 ui-monospace, monospace; color: #b8aec2; }
+main { --signal: #b6a0cf; }
 main[data-state="ready"] { --signal: #b5d69d; }
 main[data-state="conflict"], main[data-state="unloaded"] { --signal: #ffd15b; }
 main[data-state="outside"] { --signal: #b7afc0; }
+.hero { position: relative; min-height: 195px; padding-top: 36px; }
 .status-label { display: flex; align-items: center; gap: 7px; color: #c3b9ce; font-size: 11px; }
 .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--signal); }
-h2 { margin: 10px 0 6px; font-size: 22px; line-height: 1.25; font-weight: 650; letter-spacing: -.6px; }
-main p { margin: 0; color: #c8bfd0; font-size: 13px; line-height: 1.6; }
-.install-note { margin: 13px 0 22px; padding: 0 2px; color: #b8aec2; font-size: 11px; }
+h2 { position: relative; z-index: 1; width: 166px; margin: 13px 0 0; font-size: 40px; line-height: 1.04; font-weight: 780; letter-spacing: -1.6px; }
+.mascot { position: absolute; right: -6px; top: 34px; width: 142px; height: 142px; transform: rotate(-6deg); }
+main:not([data-state="ready"]) h2 { max-width: 177px; font-size: 27px; line-height: 1.12; letter-spacing: -.8px; }
+main:not([data-state="ready"]) .mascot { top: 53px; width: 110px; height: 110px; }
+main p { margin: 5px 0 0; color: #c8bfd0; font-size: 13px; line-height: 1.6; }
+.install-note { margin: 22px 0 24px; color: #b8aec2; font-size: 11px; }
 a { color: inherit; text-decoration: none; }
-nav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 0 22px; }
-nav a { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; color: #d3c9dd; font-size: 12px; white-space: nowrap; }
+nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 17px; border-top: 1px solid #39303f; }
+nav a { display: inline-flex; align-items: center; gap: 5px; min-height: 28px; color: #d3c9dd; font-size: 11px; white-space: nowrap; }
 nav svg { flex-shrink: 0; color: #a99bb9; }
 nav a:hover { color: #ffd15b; }
 nav a:hover svg { color: inherit; }
-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 0 18px; border-top: 1px solid #37303f; color: #b8aec2; font-size: 11px; }
+footer { margin-top: 25px; padding-bottom: 22px; color: #b8aec2; font-size: 11px; }
+footer::before { content: ""; display: block; width: 24px; height: 3px; margin-bottom: 13px; background: #e0aa38; transform: rotate(-5deg); }
 footer p { margin: 0; }
 footer a { color: #e0d6e9; text-decoration: underline; text-decoration-color: #655472; text-underline-offset: 3px; }
 footer a:hover { color: #ffd15b; text-decoration-color: currentColor; }
-.version { font: 10px/1.5 ui-monospace, monospace; color: #b8aec2; }
 a:focus-visible { outline: 2px solid #ffd15b; outline-offset: 5px; border-radius: 2px; }
-@media (forced-colors: active) {
-  .status-dot { background: CanvasText; }
-  main { border-color: CanvasText; }
-}
+@media (forced-colors: active) { .status-dot, footer::before { background: CanvasText; } }
